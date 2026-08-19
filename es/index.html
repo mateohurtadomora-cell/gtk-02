@@ -209,7 +209,7 @@ body{padding-top:calc(70px + env(safe-area-inset-top));padding-bottom:calc(64px 
 @keyframes halo{0%,100%{transform:scale(1)}50%{transform:scale(1.16)}}
 
 /* Marker dot -> title underline "flight" */
-.net-fly{position:fixed;z-index:60;background:var(--accent-ink);pointer-events:none;transition:left .65s cubic-bezier(.22,1,.36,1),top .65s cubic-bezier(.22,1,.36,1),width .65s cubic-bezier(.22,1,.36,1),height .65s cubic-bezier(.22,1,.36,1),border-radius .65s cubic-bezier(.22,1,.36,1)}
+.net-fly{position:absolute;z-index:60;background:var(--accent-ink);pointer-events:none;transition:left .65s cubic-bezier(.22,1,.36,1),top .65s cubic-bezier(.22,1,.36,1),width .65s cubic-bezier(.22,1,.36,1),height .65s cubic-bezier(.22,1,.36,1),border-radius .65s cubic-bezier(.22,1,.36,1)}
 
 /* ---------- Data band ---------- */
 .databand{padding:0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface)}
@@ -901,11 +901,19 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
     var titleSpan = h2 && h2.querySelector('[data-i18n]');
     if(!marker || !h2 || !titleSpan){ revealTitleMark(sectionId); return; }
 
+    /* Anchor to document coordinates (not viewport ones): the flight can
+       take a few hundred ms, and if the user is still mid-scroll the page
+       keeps moving under a fixed-position element, making it land in the
+       wrong spot and then "jump" once revealTitleMark corrects it. An
+       absolutely-positioned element scrolls with the page like normal
+       content, so it stays glued to its target regardless of scroll. */
+    var pageX = window.pageXOffset || document.documentElement.scrollLeft || 0;
+    var pageY = window.pageYOffset || document.documentElement.scrollTop || 0;
     var markerRect = marker.getBoundingClientRect();
     var lineRect = lastLineRect(titleSpan);
     var size = Math.max(markerRect.width, markerRect.height, 6);
-    var targetLeft = lineRect.left;
-    var targetTop = lineRect.bottom + 8;
+    var targetLeft = lineRect.left + pageX;
+    var targetTop = lineRect.bottom + pageY + 8;
     var targetWidth = lineRect.width;
 
     marker.classList.add('is-spent');
@@ -914,8 +922,8 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
 
     var fly = document.createElement('div');
     fly.className = 'net-fly';
-    fly.style.left = (markerRect.left + markerRect.width / 2 - size / 2) + 'px';
-    fly.style.top = (markerRect.top + markerRect.height / 2 - size / 2) + 'px';
+    fly.style.left = (markerRect.left + pageX + markerRect.width / 2 - size / 2) + 'px';
+    fly.style.top = (markerRect.top + pageY + markerRect.height / 2 - size / 2) + 'px';
     fly.style.width = size + 'px';
     fly.style.height = size + 'px';
     fly.style.borderRadius = '50%';
