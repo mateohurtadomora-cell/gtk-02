@@ -179,7 +179,10 @@ body{padding-top:calc(70px + env(safe-area-inset-top));padding-bottom:calc(64px 
 
 /* ---------- Network background (fixed, whole page) ---------- */
 .net-bg{position:fixed;inset:0;z-index:-1;overflow:hidden;display:flex;align-items:center;justify-content:center;pointer-events:none}
-.net-bg svg{width:min(1500px,180%);height:auto;transform:translate3d(0,0,0) rotate(0deg) scale(1);will-change:transform}
+/* Sized to the viewport's diagonal (with margin) so the rotation in the
+   scroll animation never exposes a corner of the (square) SVG canvas --
+   a plain vw/%-based size only covers the viewport head-on, not rotated. */
+.net-bg svg{flex-shrink:0;max-width:none;width:min(3200px,180vmax);height:auto;transform:translate3d(0,0,0) rotate(0deg) scale(1);will-change:transform}
 .net-bg .edges,.net-bg .nodes{opacity:.16}
 .net-bg .markers{opacity:.85}
 
@@ -879,18 +882,35 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
     return rects.length ? rects[rects.length - 1] : el.getBoundingClientRect();
   }
 
+  /* Underlines every visible line of the (possibly wrapped) title, not
+     just the last one -- one bar per line, each sized to that line's own
+     width, so a 3-line heading gets fully underlined, not just its tail. */
   function revealTitleMark(sectionId){
     var section = document.getElementById(sectionId);
     var h2 = section && section.querySelector('h2');
     var titleSpan = h2 && h2.querySelector('[data-i18n]');
-    var mark = h2 && h2.querySelector('.h2mark');
-    if(!h2 || !titleSpan || !mark) return;
-    var lineRect = lastLineRect(titleSpan);
+    if(!h2 || !titleSpan) return;
+
+    var old = h2.querySelectorAll('.h2mark');
+    for(var oi=0; oi<old.length; oi++){ old[oi].parentNode.removeChild(old[oi]); }
+
+    var rects = titleSpan.getClientRects();
+    if(!rects.length) return;
     var h2Rect = h2.getBoundingClientRect();
-    mark.style.left = (lineRect.left - h2Rect.left) + 'px';
-    mark.style.top = (lineRect.bottom - h2Rect.top + 8) + 'px';
-    mark.style.width = lineRect.width + 'px';
-    mark.style.opacity = '1';
+    var marks = [];
+    for(var i=0;i<rects.length;i++){
+      var r = rects[i];
+      var mark = document.createElement('span');
+      mark.className = 'h2mark';
+      mark.setAttribute('aria-hidden', 'true');
+      mark.style.left = (r.left - h2Rect.left) + 'px';
+      mark.style.top = (r.bottom - h2Rect.top + 8) + 'px';
+      mark.style.width = r.width + 'px';
+      h2.appendChild(mark);
+      marks.push(mark);
+    }
+    marks[0].getBoundingClientRect(); /* force layout so opacity transitions */
+    for(var j=0;j<marks.length;j++){ marks[j].style.opacity = '1'; }
   }
 
   function flySectionDot(sectionId){
