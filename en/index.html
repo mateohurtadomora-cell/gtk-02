@@ -117,7 +117,8 @@ input,textarea{font:inherit;color:inherit}
 
 h1,h2{font-weight:800;letter-spacing:-.026em}
 h1{font-size:clamp(38px,6vw,72px);line-height:1.04}
-h2{font-size:clamp(28px,3.4vw,44px);line-height:1.1;margin-bottom:.7em}
+h2{position:relative;font-size:clamp(28px,3.4vw,44px);line-height:1.1;margin-bottom:.7em}
+.h2mark{position:absolute;left:2px;bottom:-14px;width:0;height:3px;border-radius:3px;background:var(--accent);opacity:0;transition:opacity .3s ease}
 
 .wrap{width:min(1140px,100% - 40px);margin-inline:auto}
 section{padding:clamp(52px,6.5vw,96px) 0}
@@ -176,29 +177,36 @@ body{padding-top:calc(70px + env(safe-area-inset-top));padding-bottom:calc(64px 
   section[id]{scroll-margin-top:20px}
 }
 
+/* ---------- Network background (fixed, whole page) ---------- */
+.net-bg{position:fixed;inset:0;z-index:-1;overflow:hidden;display:flex;align-items:center;justify-content:center;pointer-events:none}
+.net-bg svg{width:min(1500px,180%);height:auto;opacity:.16;transform:translate3d(0,0,0) rotate(0deg) scale(1);will-change:transform}
+
 /* ---------- Hero ---------- */
-.hero{position:relative;overflow:hidden;min-height:clamp(460px,72vh,680px);display:flex;align-items:center;padding-top:calc(70px + env(safe-area-inset-top))}
+.hero{position:relative;min-height:clamp(460px,72vh,680px);display:flex;align-items:center;padding-top:calc(70px + env(safe-area-inset-top))}
 .hero__grid{position:relative;z-index:1;width:100%}
 .hero__copy{position:relative;max-width:720px}
 .hero__copy::before{content:"";position:absolute;inset:-56px -60px;background:radial-gradient(closest-side,var(--bg) 52%,transparent 100%);z-index:-1;pointer-events:none}
 .hero h1{margin:20px 0 22px}
 .hero__accent{color:var(--navy)}
 .hero__lead{max-width:46ch;color:var(--text-2);font-size:19px}
-.hero__art{position:absolute;inset:0;z-index:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
-.hero__art svg{width:min(1200px,150%);height:auto;opacity:.55}
 
 @media (min-width:1024px){
   .hero{padding-top:0}
 }
 
-.node{fill:var(--navy)}
-.node--hub{fill:var(--accent)}
-.node__halo{fill:var(--accent);opacity:.14;animation:halo 4.5s ease-in-out infinite;animation-delay:var(--d,0s)}
-.edge{stroke:var(--navy);stroke-opacity:.12;fill:none;animation:edge 9s ease-in-out infinite;animation-delay:var(--d,0s)}
-.node--anim{animation:float var(--t,9s) ease-in-out infinite;animation-delay:var(--d,0s)}
+.net-bg .node{fill:var(--navy)}
+.net-bg .node--hub{fill:var(--accent)}
+.net-bg .node--marker{fill:var(--accent)}
+.net-bg .node__halo{fill:var(--accent);opacity:.14;animation:halo 4.5s ease-in-out infinite;animation-delay:var(--d,0s)}
+.net-bg .node__halo--marker{opacity:.24;animation-duration:3.6s}
+.net-bg .edge{stroke:var(--navy);stroke-opacity:.12;fill:none;animation:edge 9s ease-in-out infinite;animation-delay:var(--d,0s)}
+.net-bg .node--anim{animation:float var(--t,9s) ease-in-out infinite;animation-delay:var(--d,0s)}
 @keyframes edge{0%,100%{stroke-opacity:.12}50%{stroke-opacity:.34}}
 @keyframes float{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(0,-7px,0)}}
 @keyframes halo{0%,100%{transform:scale(1)}50%{transform:scale(1.16)}}
+
+/* Marker dot -> title underline "flight" */
+.net-fly{position:fixed;z-index:60;background:var(--accent);pointer-events:none;transition:left .65s cubic-bezier(.22,1,.36,1),top .65s cubic-bezier(.22,1,.36,1),width .65s cubic-bezier(.22,1,.36,1),height .65s cubic-bezier(.22,1,.36,1),border-radius .65s cubic-bezier(.22,1,.36,1)}
 
 /* ---------- Data band ---------- */
 .databand{padding:0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface)}
@@ -304,11 +312,18 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
   html{scroll-behavior:auto}
   .edge,.node--anim,.node__halo,.ribbon__track,.map__pulse{animation:none!important}
   html.js .rv{opacity:1!important;transform:none!important;transition:none!important}
+  .net-bg svg{transform:none!important}
+  .net-fly{display:none!important}
+  .h2mark{transition:none!important}
 }
 </style>
 </head>
 <body>
 <a class="skip-link" href="#main" data-i18n="skip_link">Skip to content</a>
+
+<div class="net-bg" id="netBg" aria-hidden="true">
+  <svg viewBox="0 0 560 560" role="img" aria-labelledby="heroSvgTitle"><title id="heroSvgTitle" data-i18n="hero_svg_title">GTK's connected knowledge and institutions network</title><defs><radialGradient id="heroGrad" cx="50%" cy="50%" r="65%"><stop offset="0%" stop-color="var(--accent)" stop-opacity=".18"/><stop offset="100%" stop-color="var(--accent)" stop-opacity="0"/></radialGradient></defs><rect x="0" y="0" width="560" height="560" fill="url(#heroGrad)"/><g class="edges"><line class="edge" style="--d:0.0s" x1="360.7" y1="107.6" x2="288.4" y2="57.0"/><line class="edge" style="--d:0.3s" x1="360.7" y1="107.6" x2="434.1" y2="41.9"/><line class="edge" style="--d:0.6s" x1="360.7" y1="107.6" x2="282.7" y2="193.7"/><line class="edge" style="--d:1.0s" x1="100.2" y1="290.9" x2="187.9" y2="319.9"/><line class="edge" style="--d:1.3s" x1="100.2" y1="290.9" x2="61.2" y2="381.4"/><line class="edge" style="--d:1.6s" x1="100.2" y1="290.9" x2="123.4" y2="405.4"/><line class="edge" style="--d:1.9s" x1="120.8" y1="166.0" x2="53.0" y2="145.5"/><line class="edge" style="--d:2.2s" x1="120.8" y1="166.0" x2="222.9" y2="164.9"/><line class="edge" style="--d:2.6s" x1="120.8" y1="166.0" x2="129.5" y2="59.9"/><line class="edge" style="--d:0.0s" x1="387.7" y1="286.2" x2="399.2" y2="224.6"/><line class="edge" style="--d:0.3s" x1="387.7" y1="286.2" x2="407.8" y2="362.6"/><line class="edge" style="--d:0.6s" x1="387.7" y1="286.2" x2="250.8" y2="286.5"/><line class="edge" style="--d:1.0s" x1="123.4" y1="405.4" x2="61.2" y2="381.4"/><line class="edge" style="--d:1.3s" x1="123.4" y1="405.4" x2="110.9" y2="475.0"/><line class="edge" style="--d:1.6s" x1="123.4" y1="405.4" x2="200.0" y2="412.5"/><line class="edge" style="--d:1.9s" x1="282.7" y1="193.7" x2="222.9" y2="164.9"/><line class="edge" style="--d:2.2s" x1="282.7" y1="193.7" x2="250.8" y2="286.5"/><line class="edge" style="--d:2.6s" x1="222.9" y1="164.9" x2="250.8" y2="286.5"/><line class="edge" style="--d:0.0s" x1="222.9" y1="164.9" x2="288.4" y2="57.0"/><line class="edge" style="--d:0.3s" x1="282.7" y1="193.7" x2="288.4" y2="57.0"/><line class="edge" style="--d:0.6s" x1="61.2" y1="381.4" x2="49.3" y2="463.2"/><line class="edge" style="--d:1.0s" x1="110.9" y1="475.0" x2="49.3" y2="463.2"/><line class="edge" style="--d:1.3s" x1="110.9" y1="475.0" x2="182.7" y2="475.5"/><line class="edge" style="--d:1.6s" x1="129.5" y1="59.9" x2="41.5" y2="70.6"/><line class="edge" style="--d:1.9s" x1="129.5" y1="59.9" x2="53.0" y2="145.5"/><line class="edge" style="--d:2.2s" x1="187.9" y1="319.9" x2="250.8" y2="286.5"/><line class="edge" style="--d:2.6s" x1="187.9" y1="319.9" x2="200.0" y2="412.5"/><line class="edge" style="--d:0.0s" x1="434.1" y1="41.9" x2="516.9" y2="98.3"/><line class="edge" style="--d:0.3s" x1="288.4" y1="57.0" x2="434.1" y2="41.9"/><line class="edge" style="--d:0.6s" x1="297.1" y1="426.5" x2="286.2" y2="513.8"/><line class="edge" style="--d:1.0s" x1="297.1" y1="426.5" x2="200.0" y2="412.5"/><line class="edge" style="--d:1.3s" x1="297.1" y1="426.5" x2="182.7" y2="475.5"/><line class="edge" style="--d:1.6s" x1="399.2" y1="224.6" x2="499.7" y2="199.8"/><line class="edge" style="--d:1.9s" x1="282.7" y1="193.7" x2="399.2" y2="224.6"/><line class="edge" style="--d:2.2s" x1="41.5" y1="70.6" x2="53.0" y2="145.5"/><line class="edge" style="--d:2.6s" x1="120.8" y1="166.0" x2="41.5" y2="70.6"/><line class="edge" style="--d:0.0s" x1="478.5" y1="485.9" x2="407.8" y2="362.6"/><line class="edge" style="--d:0.3s" x1="182.7" y1="475.5" x2="200.0" y2="412.5"/><line class="edge" style="--d:0.6s" x1="123.4" y1="405.4" x2="182.7" y2="475.5"/><line class="edge" style="--d:1.0s" x1="123.4" y1="405.4" x2="49.3" y2="463.2"/><line class="edge" style="--d:1.3s" x1="499.7" y1="199.8" x2="516.9" y2="98.3"/><line class="edge" style="--d:1.6s" x1="387.7" y1="286.2" x2="499.7" y2="199.8"/><line class="edge" style="--d:1.9s" x1="182.7" y1="475.5" x2="286.2" y2="513.8"/><line class="edge" style="--d:2.2s" x1="200.0" y1="412.5" x2="286.2" y2="513.8"/><line class="edge" style="--d:2.6s" x1="297.1" y1="426.5" x2="407.8" y2="362.6"/><line class="edge" style="--d:0.0s" x1="399.2" y1="224.6" x2="407.8" y2="362.6"/><line class="edge" style="--d:0.3s" x1="360.7" y1="107.6" x2="516.9" y2="98.3"/></g><g class="nodes"><circle class="node node--anim" style="--d:0.0s;--t:7.0s" cx="360.7" cy="107.6" r="2.6"/><circle class="node node--anim" style="--d:0.4s;--t:8.0s" cx="100.2" cy="290.9" r="3.2"/><circle class="node node--anim" style="--d:0.8s;--t:9.0s" cx="120.8" cy="166.0" r="4.0"/><circle class="node node--anim" style="--d:1.2s;--t:10.0s" cx="387.7" cy="286.2" r="2.6"/><circle class="node__halo node__halo--marker" style="--d:1.6s" cx="123.4" cy="405.4" r="15"/><circle class="node node--hub node--marker node--anim" style="--d:1.6s;--t:11.0s" cx="123.4" cy="405.4" r="8.6" data-section="gtk"/><circle class="node__halo node__halo--marker" style="--d:2.0s" cx="282.7" cy="193.7" r="15"/><circle class="node node--hub node--marker node--anim" style="--d:2.0s;--t:7.0s" cx="282.7" cy="193.7" r="8.6" data-section="areas"/><circle class="node node--anim" style="--d:2.4s;--t:8.0s" cx="222.9" cy="164.9" r="2.6"/><circle class="node node--anim" style="--d:0.0s;--t:9.0s" cx="288.4" cy="57.0" r="3.2"/><circle class="node node--anim" style="--d:0.4s;--t:10.0s" cx="61.2" cy="381.4" r="4.0"/><circle class="node node--anim" style="--d:0.8s;--t:11.0s" cx="110.9" cy="475.0" r="2.6"/><circle class="node node--anim" style="--d:1.2s;--t:7.0s" cx="129.5" cy="59.9" r="3.2"/><circle class="node node--anim" style="--d:1.6s;--t:8.0s" cx="187.9" cy="319.9" r="4.0"/><circle class="node node--anim" style="--d:2.0s;--t:9.0s" cx="434.1" cy="41.9" r="2.6"/><circle class="node node--anim" style="--d:2.4s;--t:10.0s" cx="297.1" cy="426.5" r="3.2"/><circle class="node node--anim" style="--d:0.0s;--t:11.0s" cx="399.2" cy="224.6" r="4.0"/><circle class="node node--anim" style="--d:0.4s;--t:7.0s" cx="250.8" cy="286.5" r="2.6"/><circle class="node node--anim" style="--d:0.8s;--t:8.0s" cx="41.5" cy="70.6" r="3.2"/><circle class="node node--anim" style="--d:1.2s;--t:9.0s" cx="478.5" cy="485.9" r="4.0"/><circle class="node__halo node__halo--marker" style="--d:1.6s" cx="182.7" cy="475.5" r="15"/><circle class="node node--hub node--marker node--anim" style="--d:1.6s;--t:10.0s" cx="182.7" cy="475.5" r="8.6" data-section="proyectos"/><circle class="node node--anim" style="--d:2.0s;--t:11.0s" cx="49.3" cy="463.2" r="3.2"/><circle class="node node--anim" style="--d:2.4s;--t:7.0s" cx="499.7" cy="199.8" r="4.0"/><circle class="node__halo node__halo--marker" style="--d:0.0s" cx="200.0" cy="412.5" r="15"/><circle class="node node--hub node--marker node--anim" style="--d:0.0s;--t:8.0s" cx="200.0" cy="412.5" r="8.6" data-section="clientes"/><circle class="node node--anim" style="--d:0.4s;--t:9.0s" cx="286.2" cy="513.8" r="3.2"/><circle class="node node--anim" style="--d:0.8s;--t:10.0s" cx="407.8" cy="362.6" r="4.0"/><circle class="node node--anim" style="--d:1.2s;--t:11.0s" cx="53.0" cy="145.5" r="2.6"/><circle class="node node--anim" style="--d:1.6s;--t:7.0s" cx="516.9" cy="98.3" r="3.2"/></g></svg>
+</div>
 
 <svg class="sprite" width="0" height="0" aria-hidden="true">
   <symbol id="gtk-mark" viewBox="0 0 100 100">
@@ -367,9 +382,6 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
 <main id="main">
 
 <section id="inicio" class="hero">
-  <div class="hero__art rv" aria-hidden="true">
-    <svg viewBox="0 0 560 560" role="img" aria-labelledby="heroSvgTitle"><title id="heroSvgTitle" data-i18n="hero_svg_title">GTK's connected knowledge and institutions network</title><defs><radialGradient id="heroGrad" cx="50%" cy="50%" r="65%"><stop offset="0%" stop-color="var(--accent)" stop-opacity=".18"/><stop offset="100%" stop-color="var(--accent)" stop-opacity="0"/></radialGradient></defs><rect x="0" y="0" width="560" height="560" fill="url(#heroGrad)"/><g class="edges"><line class="edge" style="--d:0.0s" x1="360.7" y1="107.6" x2="288.4" y2="57.0"/><line class="edge" style="--d:0.3s" x1="360.7" y1="107.6" x2="434.1" y2="41.9"/><line class="edge" style="--d:0.6s" x1="360.7" y1="107.6" x2="282.7" y2="193.7"/><line class="edge" style="--d:1.0s" x1="100.2" y1="290.9" x2="187.9" y2="319.9"/><line class="edge" style="--d:1.3s" x1="100.2" y1="290.9" x2="61.2" y2="381.4"/><line class="edge" style="--d:1.6s" x1="100.2" y1="290.9" x2="123.4" y2="405.4"/><line class="edge" style="--d:1.9s" x1="120.8" y1="166.0" x2="53.0" y2="145.5"/><line class="edge" style="--d:2.2s" x1="120.8" y1="166.0" x2="222.9" y2="164.9"/><line class="edge" style="--d:2.6s" x1="120.8" y1="166.0" x2="129.5" y2="59.9"/><line class="edge" style="--d:0.0s" x1="387.7" y1="286.2" x2="399.2" y2="224.6"/><line class="edge" style="--d:0.3s" x1="387.7" y1="286.2" x2="407.8" y2="362.6"/><line class="edge" style="--d:0.6s" x1="387.7" y1="286.2" x2="250.8" y2="286.5"/><line class="edge" style="--d:1.0s" x1="123.4" y1="405.4" x2="61.2" y2="381.4"/><line class="edge" style="--d:1.3s" x1="123.4" y1="405.4" x2="110.9" y2="475.0"/><line class="edge" style="--d:1.6s" x1="123.4" y1="405.4" x2="200.0" y2="412.5"/><line class="edge" style="--d:1.9s" x1="282.7" y1="193.7" x2="222.9" y2="164.9"/><line class="edge" style="--d:2.2s" x1="282.7" y1="193.7" x2="250.8" y2="286.5"/><line class="edge" style="--d:2.6s" x1="222.9" y1="164.9" x2="250.8" y2="286.5"/><line class="edge" style="--d:0.0s" x1="222.9" y1="164.9" x2="288.4" y2="57.0"/><line class="edge" style="--d:0.3s" x1="282.7" y1="193.7" x2="288.4" y2="57.0"/><line class="edge" style="--d:0.6s" x1="61.2" y1="381.4" x2="49.3" y2="463.2"/><line class="edge" style="--d:1.0s" x1="110.9" y1="475.0" x2="49.3" y2="463.2"/><line class="edge" style="--d:1.3s" x1="110.9" y1="475.0" x2="182.7" y2="475.5"/><line class="edge" style="--d:1.6s" x1="129.5" y1="59.9" x2="41.5" y2="70.6"/><line class="edge" style="--d:1.9s" x1="129.5" y1="59.9" x2="53.0" y2="145.5"/><line class="edge" style="--d:2.2s" x1="187.9" y1="319.9" x2="250.8" y2="286.5"/><line class="edge" style="--d:2.6s" x1="187.9" y1="319.9" x2="200.0" y2="412.5"/><line class="edge" style="--d:0.0s" x1="434.1" y1="41.9" x2="516.9" y2="98.3"/><line class="edge" style="--d:0.3s" x1="288.4" y1="57.0" x2="434.1" y2="41.9"/><line class="edge" style="--d:0.6s" x1="297.1" y1="426.5" x2="286.2" y2="513.8"/><line class="edge" style="--d:1.0s" x1="297.1" y1="426.5" x2="200.0" y2="412.5"/><line class="edge" style="--d:1.3s" x1="297.1" y1="426.5" x2="182.7" y2="475.5"/><line class="edge" style="--d:1.6s" x1="399.2" y1="224.6" x2="499.7" y2="199.8"/><line class="edge" style="--d:1.9s" x1="282.7" y1="193.7" x2="399.2" y2="224.6"/><line class="edge" style="--d:2.2s" x1="41.5" y1="70.6" x2="53.0" y2="145.5"/><line class="edge" style="--d:2.6s" x1="120.8" y1="166.0" x2="41.5" y2="70.6"/><line class="edge" style="--d:0.0s" x1="478.5" y1="485.9" x2="407.8" y2="362.6"/><line class="edge" style="--d:0.3s" x1="182.7" y1="475.5" x2="200.0" y2="412.5"/><line class="edge" style="--d:0.6s" x1="123.4" y1="405.4" x2="182.7" y2="475.5"/><line class="edge" style="--d:1.0s" x1="123.4" y1="405.4" x2="49.3" y2="463.2"/><line class="edge" style="--d:1.3s" x1="499.7" y1="199.8" x2="516.9" y2="98.3"/><line class="edge" style="--d:1.6s" x1="387.7" y1="286.2" x2="499.7" y2="199.8"/><line class="edge" style="--d:1.9s" x1="182.7" y1="475.5" x2="286.2" y2="513.8"/><line class="edge" style="--d:2.2s" x1="200.0" y1="412.5" x2="286.2" y2="513.8"/><line class="edge" style="--d:2.6s" x1="297.1" y1="426.5" x2="407.8" y2="362.6"/><line class="edge" style="--d:0.0s" x1="399.2" y1="224.6" x2="407.8" y2="362.6"/><line class="edge" style="--d:0.3s" x1="360.7" y1="107.6" x2="516.9" y2="98.3"/></g><g class="nodes"><circle class="node node--anim" style="--d:0.0s;--t:7.0s" cx="360.7" cy="107.6" r="2.6"/><circle class="node node--anim" style="--d:0.4s;--t:8.0s" cx="100.2" cy="290.9" r="3.2"/><circle class="node node--anim" style="--d:0.8s;--t:9.0s" cx="120.8" cy="166.0" r="4.0"/><circle class="node node--anim" style="--d:1.2s;--t:10.0s" cx="387.7" cy="286.2" r="2.6"/><circle class="node__halo" style="--d:1.6s" cx="123.4" cy="405.4" r="13"/><circle class="node node--hub node--anim" style="--d:1.6s;--t:11.0s" cx="123.4" cy="405.4" r="7.5"/><circle class="node__halo" style="--d:2.0s" cx="282.7" cy="193.7" r="13"/><circle class="node node--hub node--anim" style="--d:2.0s;--t:7.0s" cx="282.7" cy="193.7" r="7.5"/><circle class="node node--anim" style="--d:2.4s;--t:8.0s" cx="222.9" cy="164.9" r="2.6"/><circle class="node node--anim" style="--d:0.0s;--t:9.0s" cx="288.4" cy="57.0" r="3.2"/><circle class="node node--anim" style="--d:0.4s;--t:10.0s" cx="61.2" cy="381.4" r="4.0"/><circle class="node node--anim" style="--d:0.8s;--t:11.0s" cx="110.9" cy="475.0" r="2.6"/><circle class="node node--anim" style="--d:1.2s;--t:7.0s" cx="129.5" cy="59.9" r="3.2"/><circle class="node node--anim" style="--d:1.6s;--t:8.0s" cx="187.9" cy="319.9" r="4.0"/><circle class="node node--anim" style="--d:2.0s;--t:9.0s" cx="434.1" cy="41.9" r="2.6"/><circle class="node node--anim" style="--d:2.4s;--t:10.0s" cx="297.1" cy="426.5" r="3.2"/><circle class="node node--anim" style="--d:0.0s;--t:11.0s" cx="399.2" cy="224.6" r="4.0"/><circle class="node node--anim" style="--d:0.4s;--t:7.0s" cx="250.8" cy="286.5" r="2.6"/><circle class="node node--anim" style="--d:0.8s;--t:8.0s" cx="41.5" cy="70.6" r="3.2"/><circle class="node node--anim" style="--d:1.2s;--t:9.0s" cx="478.5" cy="485.9" r="4.0"/><circle class="node__halo" style="--d:1.6s" cx="182.7" cy="475.5" r="13"/><circle class="node node--hub node--anim" style="--d:1.6s;--t:10.0s" cx="182.7" cy="475.5" r="7.5"/><circle class="node node--anim" style="--d:2.0s;--t:11.0s" cx="49.3" cy="463.2" r="3.2"/><circle class="node node--anim" style="--d:2.4s;--t:7.0s" cx="499.7" cy="199.8" r="4.0"/><circle class="node__halo" style="--d:0.0s" cx="200.0" cy="412.5" r="13"/><circle class="node node--hub node--anim" style="--d:0.0s;--t:8.0s" cx="200.0" cy="412.5" r="7.5"/><circle class="node node--anim" style="--d:0.4s;--t:9.0s" cx="286.2" cy="513.8" r="3.2"/><circle class="node node--anim" style="--d:0.8s;--t:10.0s" cx="407.8" cy="362.6" r="4.0"/><circle class="node node--anim" style="--d:1.2s;--t:11.0s" cx="53.0" cy="145.5" r="2.6"/><circle class="node node--anim" style="--d:1.6s;--t:7.0s" cx="516.9" cy="98.3" r="3.2"/></g></svg>
-  </div>
   <div class="wrap hero__grid">
     <div class="hero__copy">
       <span class="pill"><span class="pill__dot"></span>Global Technology Knowledge Corp.</span>
@@ -390,7 +402,7 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
 
 <section id="gtk">
   <div class="wrap">
-    <h2 data-i18n="gtk_title">Welcome to GTK, Global Technology Knowledge Corp.</h2>
+    <h2><span data-i18n="gtk_title">Welcome to GTK, Global Technology Knowledge Corp.</span><span class="h2mark" aria-hidden="true"></span></h2>
     <div class="group rv">
       <details class="row" open>
         <summary><span class="row__num">01</span><span class="row__title" data-i18n="row1_title">01 Knowledge ecosystems</span><svg class="row__chev" width="20" height="20" aria-hidden="true"><use href="#icon-chevron"/></svg></summary>
@@ -422,7 +434,7 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
 
 <section id="areas">
   <div class="wrap">
-    <h2 data-i18n="areas_title">Business areas</h2>
+    <h2><span data-i18n="areas_title">Business areas</span><span class="h2mark" aria-hidden="true"></span></h2>
     <ol class="areas">
       <li class="rv"><a href="#contacto"><span class="areas__num">01</span><span class="areas__title" data-i18n="area1">Knowledge Cities</span><svg class="areas__arrow" width="20" height="20" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li>
       <li class="rv"><a href="#contacto"><span class="areas__num">02</span><span class="areas__title" data-i18n="area2">International alliances for universities and research centers</span><svg class="areas__arrow" width="20" height="20" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li>
@@ -439,7 +451,7 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
 
 <section id="proyectos" class="projects">
   <div class="wrap">
-    <h2 data-i18n="projects_title">Projects</h2>
+    <h2><span data-i18n="projects_title">Projects</span><span class="h2mark" aria-hidden="true"></span></h2>
     <p class="projects__intro" data-i18n="projects_intro">Since 2002 Global Technology Knowledge Corp. have been involved in very diverse type of projects. We have contributed since that time to the internationalization and the creation of value for our customers in many areas of research and training. Among other projects:</p>
     <div class="filters" role="group" aria-label="Filtros de proyectos">
       <button type="button" class="pill pill--filter is-active" data-filter="all" aria-pressed="true" data-i18n="filter_all">All</button>
@@ -468,7 +480,7 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
 
 <section id="clientes">
   <div class="wrap">
-    <h2 data-i18n="clients_title">Clients</h2>
+    <h2><span data-i18n="clients_title">Clients</span><span class="h2mark" aria-hidden="true"></span></h2>
   </div>
   <div class="ribbon">
     <div class="ribbon__track" id="ribbonTrack">
@@ -722,6 +734,10 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
       if(dict[key] !== undefined){ el.textContent = dict[key]; }
     }
 
+    for(var sk in markTriggered){
+      if(markTriggered[sk]){ revealTitleMark(sk); }
+    }
+
     list = document.querySelectorAll('[data-i18n-html]');
     for(i=0;i<list.length;i++){
       el = list[i];
@@ -798,6 +814,29 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
     })(langButtons[li]));
   }
 
+  /* Network background: drifts with scroll depth */
+  var netSvg = document.querySelector('#netBg svg');
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(netSvg && !reduceMotion){
+    var netTicking = false;
+    var updateNetBg = function(){
+      var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+      var tx = Math.cos(y / 1400) * 18;
+      var ty = Math.sin(y / 900) * 34;
+      var rot = (y * 0.02) % 360;
+      var scale = 1 + Math.sin(y / 1600) * 0.05;
+      netSvg.style.transform = 'translate3d(' + tx.toFixed(2) + 'px,' + ty.toFixed(2) + 'px,0) rotate(' + rot.toFixed(2) + 'deg) scale(' + scale.toFixed(3) + ')';
+      netTicking = false;
+    };
+    window.addEventListener('scroll', function(){
+      if(!netTicking){
+        window.requestAnimationFrame(updateNetBg);
+        netTicking = true;
+      }
+    }, { passive: true });
+    updateNetBg();
+  }
+
   /* Footer year */
   var yearEl = document.getElementById('year');
   if(yearEl){ yearEl.textContent = new Date().getFullYear(); }
@@ -825,6 +864,66 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
   var si;
   for(si=0; si<sections.length; si++){ sectionState[sections[si].id] = false; }
 
+  /* Marker dot -> title underline: the strong blue hub tied to a section
+     flies to that title and flattens into its underline, once, the first
+     time the section comes into view. */
+  var markedSections = { gtk: 1, areas: 1, proyectos: 1, clientes: 1 };
+  var markTriggered = {};
+
+  function revealTitleMark(sectionId){
+    var section = document.getElementById(sectionId);
+    var titleSpan = section && section.querySelector('h2 [data-i18n]');
+    var mark = section && section.querySelector('.h2mark');
+    if(!titleSpan || !mark) return;
+    var textRect = titleSpan.getBoundingClientRect();
+    mark.style.width = textRect.width + 'px';
+    mark.style.opacity = '1';
+  }
+
+  function flySectionDot(sectionId){
+    if(reduceMotion || !netSvg){ revealTitleMark(sectionId); return; }
+    var marker = netSvg.querySelector('[data-section="' + sectionId + '"]');
+    var section = document.getElementById(sectionId);
+    var titleSpan = section && section.querySelector('h2 [data-i18n]');
+    var mark = section && section.querySelector('.h2mark');
+    if(!marker || !titleSpan || !mark){ revealTitleMark(sectionId); return; }
+
+    var markerRect = marker.getBoundingClientRect();
+    var textRect = titleSpan.getBoundingClientRect();
+    var size = Math.max(markerRect.width, markerRect.height, 6);
+
+    var fly = document.createElement('div');
+    fly.className = 'net-fly';
+    fly.style.left = (markerRect.left + markerRect.width / 2 - size / 2) + 'px';
+    fly.style.top = (markerRect.top + markerRect.height / 2 - size / 2) + 'px';
+    fly.style.width = size + 'px';
+    fly.style.height = size + 'px';
+    fly.style.borderRadius = '50%';
+    document.body.appendChild(fly);
+    fly.getBoundingClientRect(); /* force layout before transitioning */
+
+    window.requestAnimationFrame(function(){
+      fly.style.left = textRect.left + 'px';
+      fly.style.top = (textRect.bottom + 8) + 'px';
+      fly.style.width = textRect.width + 'px';
+      fly.style.height = '3px';
+      fly.style.borderRadius = '3px';
+    });
+
+    var done = false;
+    function finish(){
+      if(done) return;
+      done = true;
+      if(fly.parentNode){ fly.parentNode.removeChild(fly); }
+      mark.style.width = textRect.width + 'px';
+      mark.style.opacity = '1';
+    }
+    fly.addEventListener('transitionend', function(e){
+      if(e.propertyName === 'width'){ finish(); }
+    });
+    setTimeout(finish, 900);
+  }
+
   function updateActiveNav(){
     var activeId = null;
     for(var i=0;i<sections.length;i++){
@@ -837,6 +936,10 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
       } else {
         link.classList.remove('is-active');
       }
+    }
+    if(activeId && markedSections[activeId] && !markTriggered[activeId]){
+      markTriggered[activeId] = true;
+      flySectionDot(activeId);
     }
   }
 
