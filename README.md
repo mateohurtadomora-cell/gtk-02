@@ -25,6 +25,21 @@ No requiere build ni backend: son ficheros estáticos autocontenidos.
 carpeta `build/` vive fuera de este repo; si quieres versionarla también,
 cópiala dentro y ajusta las rutas de salida en `build.ps1`.
 
+## Formulario de contacto (pendiente de activar)
+
+El formulario de la sección «Escríbanos» envía por AJAX a Formspree. El
+endpoint es todavía un marcador de posición:
+
+```
+https://formspree.io/f/FORM_ID
+```
+
+Para activarlo: crear una cuenta gratuita en formspree.io, dar de alta un
+formulario con destino `info@globaltk.com`, copiar el id real y sustituir
+`FORM_ID` en la variable `$formEndpoint` de `../build/build.ps1`, luego
+regenerar las páginas. Hasta entonces el formulario valida correctamente
+pero los envíos no llegan a ningún buzón.
+
 ## Dominio
 
 El `canonical`, `hreflang`, Open Graph, JSON-LD, `sitemap.xml` y `robots.txt`

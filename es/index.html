@@ -76,30 +76,30 @@
 </script>
 <style>/* ---------- Tokens ---------- */
 :root{
-  --navy:#0B2A4A; --accent:#0A84FF; --accent-ink:#0064D2;
-  --bg:#F5F5F7; --surface:#FFFFFF; --surface-2:#FBFBFD;
-  --text:#1D1D1F; --text-2:#86868B; --border:#E5E5EA;
-  --tint:rgba(10,132,255,.09); --navy-soft:rgba(11,42,74,.06);
-  --logo-a:#0B2A4A; --logo-b:#B9BCC2;
+  --navy:#0A2540; --accent:#1D4E77; --accent-ink:#123A5C;
+  --bg:#F2F3F5; --surface:#FFFFFF; --surface-2:#F8F9FA;
+  --text:#16202B; --text-2:#5B6774; --border:#DFE3E8;
+  --tint:rgba(29,78,119,.08); --navy-soft:rgba(10,37,64,.06);
+  --logo-a:#0A2540; --logo-b:#A8B2BD;
   --glass:rgba(255,255,255,.72); --rail-bg:rgba(255,255,255,.78);
   --shadow-s:0 1px 2px rgba(11,42,74,.05), 0 6px 18px rgba(11,42,74,.06);
   --shadow-m:0 2px 8px rgba(11,42,74,.05), 0 20px 48px rgba(11,42,74,.09);
   --map-land:#EDEEF2; --map-block:#DDDFE6; --map-water:#CFE3F7; --map-road:#F7F8FA;
   --r-s:14px; --r-m:18px; --r-l:26px; --rail:264px;
-  --danger:#FF3B30;
+  --danger:#B3261E;
   --sans:"SF Pro Display",-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace;
 }
 @media (prefers-color-scheme: dark){
   :root{
-    --navy:#8CBBEA; --accent:#0A84FF; --accent-ink:#79BBFF;
-    --bg:#0B0B0D; --surface:#1C1C1E; --surface-2:#141416;
-    --text:#F5F5F7; --text-2:#A1A1A8; --border:#33333A;
-    --tint:rgba(10,132,255,.20); --navy-soft:rgba(255,255,255,.07);
-    --glass:rgba(20,20,22,.78); --rail-bg:rgba(20,20,22,.84);
+    --navy:#9BB6D0; --accent:#5B8CB8; --accent-ink:#8DAECD;
+    --bg:#0C1116; --surface:#161D24; --surface-2:#111820;
+    --text:#EDF1F5; --text-2:#95A3B1; --border:#2C3742;
+    --tint:rgba(91,140,184,.18); --navy-soft:rgba(255,255,255,.06);
+    --glass:rgba(18,24,30,.78); --rail-bg:rgba(18,24,30,.84);
     --shadow-s:0 1px 2px rgba(0,0,0,.5); --shadow-m:0 18px 44px rgba(0,0,0,.6);
     --map-land:#1A1A1E; --map-block:#26262C; --map-water:#123049; --map-road:#34343C;
-    --logo-a:#EAF0F7; --logo-b:#7C8189;
+    --logo-a:#E4EBF2; --logo-b:#78838F;
   }
 }
 
@@ -139,7 +139,7 @@ section[id]{scroll-margin-top:calc(70px + env(safe-area-inset-top))}
 .btn--ghost:hover{border-color:var(--accent)}
 
 .pill{display:inline-flex;align-items:center;gap:8px;padding:7px 16px;border-radius:100px;background:var(--tint);font-size:14px;font-weight:600;color:var(--accent-ink)}
-.pill__dot{width:8px;height:8px;border-radius:50%;background:#30D158;flex:none}
+.pill__dot{width:8px;height:8px;border-radius:50%;background:#3F7D5A;flex:none}
 
 /* ---------- Layout: rail / topbar / tabbar ---------- */
 .brand{display:inline-flex;align-items:center;gap:12px}
@@ -192,7 +192,8 @@ body{padding-top:calc(70px + env(safe-area-inset-top));padding-bottom:calc(64px 
 .hero__grid{position:relative;z-index:1;width:100%}
 .hero__copy{position:relative;max-width:720px}
 .hero__copy::before{content:"";position:absolute;inset:-56px -60px;background:radial-gradient(closest-side,var(--bg) 52%,transparent 100%);z-index:-1;pointer-events:none}
-.hero h1{margin:20px 0 22px}
+.hero__claim{margin:22px 0 0;font-size:clamp(13px,1.5vw,15px);font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--accent)}
+.hero h1{margin:10px 0 22px}
 .hero__accent{color:var(--navy)}
 .hero__lead{max-width:46ch;color:var(--text-2);font-size:19px}
 
@@ -299,9 +300,29 @@ button.logo__btn:hover,button.logo__btn:focus-visible{filter:grayscale(0);opacit
   .ribbon__track .logo__dup{display:none}
 }
 
+/* ---------- Contact form ---------- */
+.contact{background:var(--surface-2);border-top:1px solid var(--border)}
+.contact__wrap{max-width:760px}
+.contact__intro{color:var(--text-2);margin-bottom:32px;max-width:58ch}
+.form{display:flex;flex-direction:column;gap:20px}
+.form__row{display:grid;grid-template-columns:1fr;gap:20px}
+.form__field{display:flex;flex-direction:column;gap:7px}
+.form__label{font-size:14px;font-weight:600}
+.form input,.form textarea{width:100%;padding:13px 15px;border:1px solid var(--border);border-radius:var(--r-s);background:var(--surface);color:var(--text);font-size:16px;transition:border-color .2s ease,box-shadow .2s ease}
+.form input:focus,.form textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--tint)}
+.form textarea{resize:vertical;min-height:120px}
+.form__field.is-invalid input,.form__field.is-invalid textarea{border-color:var(--danger)}
+.form__err{font-size:13px;color:var(--danger);min-height:0}
+.form__submit{align-self:flex-start;margin-top:4px}
+.form__submit[disabled]{opacity:.6;cursor:progress}
+.form__status{font-size:15px;font-weight:600;margin:0}
+.form__status.is-ok{color:var(--accent-ink)}
+.form__status.is-err{color:var(--danger)}
+@media (min-width:640px){.form__row{grid-template-columns:1fr 1fr}}
+
 /* ---------- Footer ---------- */
 .foot{background:var(--navy);color:#fff;padding:clamp(52px,7vw,96px) 0 32px;--logo-a:#fff;--logo-b:rgba(255,255,255,.55)}
-@media (prefers-color-scheme: dark){.foot{background:#0A1C2E}}
+@media (prefers-color-scheme: dark){.foot{background:#08192B}}
 .foot__mark{margin-bottom:24px}
 .foot__claim{font-size:clamp(40px,8vw,104px);line-height:.95;font-weight:800;letter-spacing:-.03em;margin-bottom:18px}
 .foot__tagline{color:rgba(255,255,255,.7);margin-bottom:36px}
@@ -380,7 +401,7 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
     <li><a href="#areas" data-section="areas"><svg width="19" height="19" aria-hidden="true"><use href="#icon-areas"/></svg><span data-i18n="nav_areas">Áreas</span></a></li>
     <li><a href="#proyectos" data-section="proyectos"><svg width="19" height="19" aria-hidden="true"><use href="#icon-projects"/></svg><span data-i18n="nav_projects">Proyectos</span></a></li>
     <li><a href="#clientes" data-section="clientes"><svg width="19" height="19" aria-hidden="true"><use href="#icon-clients"/></svg><span data-i18n="nav_clients">Clientes</span></a></li>
-    <li><a href="#contacto" data-section="contacto"><svg width="19" height="19" aria-hidden="true"><use href="#icon-contact"/></svg><span data-i18n="nav_contact">Contacto</span></a></li>
+    <li><a href="#escribenos" data-section="escribenos"><svg width="19" height="19" aria-hidden="true"><use href="#icon-contact"/></svg><span data-i18n="nav_contact">Contacto</span></a></li>
   </ul>
   <div class="rail__foot">
     <div class="langswitch" role="group" aria-label="ES/EN">
@@ -397,18 +418,10 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
   <div class="wrap hero__grid">
     <div class="hero__copy">
       <span class="pill"><span class="pill__dot"></span>Global Technology Knowledge Corp.</span>
+      <p class="hero__claim" data-i18n="hero_claim">We Are Connectors</p>
       <h1 data-i18n-html="hero_h1">Ecosistemas de<br><span class="hero__accent">conocimiento aplicado</span></h1>
       <p class="hero__lead" data-i18n="hero_lead">Diseñamos y activamos alianzas entre universidades, gobiernos y empresas para convertir el conocimiento en valor real, desde 2002.</p>
     </div>
-  </div>
-</section>
-
-<section class="databand">
-  <div class="wrap databand__grid">
-    <div class="databand__cell rv"><span class="databand__accent" aria-hidden="true"></span><strong data-count="2002">2002</strong><span data-i18n="data_1_label">Año de fundación</span></div>
-    <div class="databand__cell rv"><span class="databand__accent" aria-hidden="true"></span><strong data-i18n="data_2_value">EE. UU. y Europa</strong><span data-i18n="data_2_label">Ámbito de trabajo</span></div>
-    <div class="databand__cell rv"><span class="databand__accent" aria-hidden="true"></span><strong data-count="15">15</strong><span data-i18n="data_3_label">Instituciones colaboradoras</span></div>
-    <div class="databand__cell rv"><span class="databand__accent" aria-hidden="true"></span><strong>NY · CA · MA</strong><span data-i18n="data_4_label">Oficinas</span></div>
   </div>
 </section>
 
@@ -424,17 +437,17 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
         <summary><span class="row__num">02</span><span class="row__title" data-i18n="row2_title">02 Alianzas institucionales</span><svg class="row__chev" width="20" height="20" aria-hidden="true"><use href="#icon-chevron"/></svg></summary>
         <p class="row__body" data-i18n="row2_body">Contamos con acuerdos de colaboración estables con algunas de las instituciones de educación superior y de investigación más potentes del mundo al igual que con los mejores socios tecnológicos en IT para el sector educativo.</p>
       </details>
+      <details class="row row--mece" open>
+        <summary><span class="row__num row__num--accent">03</span><span class="row__title" data-i18n="row5_title">03 Estrategias MECE</span><span class="badge" data-i18n="row5_badge">Línea propia</span><svg class="row__chev" width="20" height="20" aria-hidden="true"><use href="#icon-chevron"/></svg></summary>
+        <p class="row__body" data-i18n="row5_body">Destacamos nuestra línea de desarrollo de estrategias MECE de asociación multinivel (Mutually-Exclusive/Collectively-Exhaustive) como parte integral de la actividad desarrollada por Global Technology Knowledge para sus clientes.</p>
+      </details>
       <details class="row">
-        <summary><span class="row__num">03</span><span class="row__title" data-i18n="row3_title">03 Equipo y talento</span><svg class="row__chev" width="20" height="20" aria-hidden="true"><use href="#icon-chevron"/></svg></summary>
+        <summary><span class="row__num">04</span><span class="row__title" data-i18n="row3_title">04 Equipo y talento</span><svg class="row__chev" width="20" height="20" aria-hidden="true"><use href="#icon-chevron"/></svg></summary>
         <p class="row__body" data-i18n="row3_body">Nuestro equipo de gestión y coordinación de proyectos posee una experiencia única y singular en la creación, implantación y el desarrollo de proyectos complejos.</p>
       </details>
       <details class="row">
-        <summary><span class="row__num">04</span><span class="row__title" data-i18n="row4_title">04 Creación de valor</span><svg class="row__chev" width="20" height="20" aria-hidden="true"><use href="#icon-chevron"/></svg></summary>
+        <summary><span class="row__num">05</span><span class="row__title" data-i18n="row4_title">05 Creación de valor</span><svg class="row__chev" width="20" height="20" aria-hidden="true"><use href="#icon-chevron"/></svg></summary>
         <p class="row__body" data-i18n="row4_body">Estamos especializados en la creación de valor derivada de la integración de actividades, recursos y activos intangibles cuyos orígenes son inteligencia y conocimiento puestos en interacción con información y desarrollos de tecnología para converger en la llamada Sociedad del Conocimiento.</p>
-      </details>
-      <details class="row row--mece" open>
-        <summary><span class="row__num row__num--accent">05</span><span class="row__title" data-i18n="row5_title">05 Estrategias MECE</span><span class="badge" data-i18n="row5_badge">Línea propia</span><svg class="row__chev" width="20" height="20" aria-hidden="true"><use href="#icon-chevron"/></svg></summary>
-        <p class="row__body" data-i18n="row5_body">Destacamos nuestra línea de desarrollo de estrategias MECE de asociación multinivel (Mutually-Exclusive/Collectively-Exhaustive) como parte integral de la actividad desarrollada por Global Technology Knowledge para sus clientes.</p>
       </details>
       <details class="row">
         <summary><span class="row__num">06</span><span class="row__title" data-i18n="row6_title">06 Quién nos contrata</span><svg class="row__chev" width="20" height="20" aria-hidden="true"><use href="#icon-chevron"/></svg></summary>
@@ -444,19 +457,28 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
   </div>
 </section>
 
+<section class="databand">
+  <div class="wrap databand__grid">
+    <div class="databand__cell rv"><span class="databand__accent" aria-hidden="true"></span><strong data-count="2002">2002</strong><span data-i18n="data_1_label">Año de fundación</span></div>
+    <div class="databand__cell rv"><span class="databand__accent" aria-hidden="true"></span><strong data-i18n="data_2_value">EE. UU. y Europa</strong><span data-i18n="data_2_label">Ámbito de trabajo</span></div>
+    <div class="databand__cell rv"><span class="databand__accent" aria-hidden="true"></span><strong data-count="15">15</strong><span data-i18n="data_3_label">Socios estratégicos</span></div>
+    <div class="databand__cell rv"><span class="databand__accent" aria-hidden="true"></span><strong>NY · CA · MA</strong><span data-i18n="data_4_label">Oficinas</span></div>
+  </div>
+</section>
+
 <section id="areas">
   <div class="wrap">
-    <h2><span data-i18n="areas_title">Áreas de negocio</span><span class="h2mark" aria-hidden="true"></span></h2>
+    <h2><span data-i18n="areas_title">Áreas de actividad</span><span class="h2mark" aria-hidden="true"></span></h2>
     <ol class="areas">
-      <li class="rv"><a href="#contacto"><span class="areas__num">01</span><span class="areas__title" data-i18n="area1">Ciudades del Conocimiento</span><svg class="areas__arrow" width="20" height="20" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li>
-      <li class="rv"><a href="#contacto"><span class="areas__num">02</span><span class="areas__title" data-i18n="area2">Alianzas internacionales para universidades y centros de investigación</span><svg class="areas__arrow" width="20" height="20" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li>
-      <li class="rv"><a href="#contacto"><span class="areas__num">03</span><span class="areas__title" data-i18n="area3">Estrategias internacionales en I+D+I</span><svg class="areas__arrow" width="20" height="20" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li>
-      <li class="rv"><a href="#contacto"><span class="areas__num">04</span><span class="areas__title" data-i18n="area4">Incremento de la competitividad</span><svg class="areas__arrow" width="20" height="20" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li>
-      <li class="rv"><a href="#contacto"><span class="areas__num">05</span><span class="areas__title" data-i18n="area5">Alianzas en economías del conocimiento</span><svg class="areas__arrow" width="20" height="20" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li>
-      <li class="rv"><a href="#contacto"><span class="areas__num">06</span><span class="areas__title" data-i18n="area6">Universidades corporativas</span><svg class="areas__arrow" width="20" height="20" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li>
-      <li class="rv"><a href="#contacto"><span class="areas__num">07</span><span class="areas__title" data-i18n="area7">Alianzas y operadores dominantes</span><svg class="areas__arrow" width="20" height="20" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li>
-      <li class="rv"><a href="#contacto"><span class="areas__num">08</span><span class="areas__title" data-i18n="area8">Proyectos Open ID en investigación</span><svg class="areas__arrow" width="20" height="20" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li>
-      <li class="rv"><a href="#contacto"><span class="areas__num">09</span><span class="areas__title" data-i18n="area9">Programas de capital humano</span><svg class="areas__arrow" width="20" height="20" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li>
+      <li class="rv"><a href="#escribenos"><span class="areas__num">01</span><span class="areas__title" data-i18n="area1">Ciudades del Conocimiento</span><svg class="areas__arrow" width="20" height="20" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li>
+      <li class="rv"><a href="#escribenos"><span class="areas__num">02</span><span class="areas__title" data-i18n="area2">Alianzas internacionales para universidades y centros de investigación</span><svg class="areas__arrow" width="20" height="20" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li>
+      <li class="rv"><a href="#escribenos"><span class="areas__num">03</span><span class="areas__title" data-i18n="area3">Estrategias internacionales en I+D+I</span><svg class="areas__arrow" width="20" height="20" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li>
+      <li class="rv"><a href="#escribenos"><span class="areas__num">04</span><span class="areas__title" data-i18n="area4">Incremento de la competitividad</span><svg class="areas__arrow" width="20" height="20" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li>
+      <li class="rv"><a href="#escribenos"><span class="areas__num">05</span><span class="areas__title" data-i18n="area5">Alianzas en economías del conocimiento</span><svg class="areas__arrow" width="20" height="20" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li>
+      <li class="rv"><a href="#escribenos"><span class="areas__num">06</span><span class="areas__title" data-i18n="area6">Universidades corporativas</span><svg class="areas__arrow" width="20" height="20" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li>
+      <li class="rv"><a href="#escribenos"><span class="areas__num">07</span><span class="areas__title" data-i18n="area7">Alianzas y operadores dominantes</span><svg class="areas__arrow" width="20" height="20" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li>
+      <li class="rv"><a href="#escribenos"><span class="areas__num">08</span><span class="areas__title" data-i18n="area8">Proyectos Open ID en investigación</span><svg class="areas__arrow" width="20" height="20" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li>
+      <li class="rv"><a href="#escribenos"><span class="areas__num">09</span><span class="areas__title" data-i18n="area9">Programas de capital humano</span><svg class="areas__arrow" width="20" height="20" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li>
     </ol>
   </div>
 </section>
@@ -502,6 +524,39 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
   </div>
 </section>
 
+<section id="escribenos" class="contact">
+  <div class="wrap contact__wrap">
+    <h2><span data-i18n="form_title">Escríbanos</span><span class="h2mark" aria-hidden="true"></span></h2>
+    <p class="contact__intro" data-i18n="form_intro">Cuéntenos brevemente quién es y qué necesita. Le responderemos al correo que nos indique.</p>
+    <form class="form rv" id="contactForm" action="https://formspree.io/f/FORM_ID" method="POST" novalidate>
+      <div class="form__row">
+        <label class="form__field">
+          <span class="form__label" data-i18n="form_name_label">¿Quién consulta?</span>
+          <input type="text" name="nombre" required autocomplete="name" data-i18n-ph="form_name_ph" placeholder="Nombre y organización">
+          <span class="form__err" aria-live="polite"></span>
+        </label>
+        <label class="form__field">
+          <span class="form__label" data-i18n="form_email_label">Correo de respuesta</span>
+          <input type="email" name="email" required autocomplete="email" data-i18n-ph="form_email_ph" placeholder="nombre@organizacion.com">
+          <span class="form__err" aria-live="polite"></span>
+        </label>
+      </div>
+      <label class="form__field">
+        <span class="form__label" data-i18n="form_subject_label">Objeto de la consulta</span>
+        <input type="text" name="asunto" required data-i18n-ph="form_subject_ph" placeholder="Alianza académica, proyecto, acreditación…">
+        <span class="form__err" aria-live="polite"></span>
+      </label>
+      <label class="form__field">
+        <span class="form__label" data-i18n="form_message_label">Texto para definir el interés</span>
+        <textarea name="mensaje" rows="5" required data-i18n-ph="form_message_ph" placeholder="Describa el contexto y el alcance de su consulta."></textarea>
+        <span class="form__err" aria-live="polite"></span>
+      </label>
+      <button type="submit" class="btn btn--primary form__submit" data-i18n="form_submit">Enviar consulta</button>
+      <p class="form__status" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+
 </main>
 
 <footer class="foot" id="contacto">
@@ -528,7 +583,7 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
   <a href="#areas" data-section="areas"><svg width="22" height="22" aria-hidden="true"><use href="#icon-areas"/></svg><span data-i18n="nav_areas">Áreas</span></a>
   <a href="#proyectos" data-section="proyectos"><svg width="22" height="22" aria-hidden="true"><use href="#icon-projects"/></svg><span data-i18n="nav_projects">Proyectos</span></a>
   <a href="#clientes" data-section="clientes"><svg width="22" height="22" aria-hidden="true"><use href="#icon-clients"/></svg><span data-i18n="nav_clients">Clientes</span></a>
-  <a href="#contacto" data-section="contacto"><svg width="22" height="22" aria-hidden="true"><use href="#icon-contact"/></svg><span data-i18n="nav_contact">Contacto</span></a>
+  <a href="#escribenos" data-section="escribenos"><svg width="22" height="22" aria-hidden="true"><use href="#icon-contact"/></svg><span data-i18n="nav_contact">Contacto</span></a>
 </nav>
 
 <script>(function(){
@@ -547,29 +602,30 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
     lang_es_aria: "Cambiar a español",
     lang_en_aria: "Cambiar a inglés",
     hero_pill: "Global Technology Knowledge Corp.",
+    hero_claim: "We Are Connectors",
     hero_h1: "Ecosistemas de<br><span class=\"hero__accent\">conocimiento aplicado</span>",
     hero_lead: "Diseñamos y activamos alianzas entre universidades, gobiernos y empresas para convertir el conocimiento en valor real, desde 2002.",
     hero_svg_title: "Red de conocimiento e instituciones conectadas de GTK",
     data_1_label: "Año de fundación",
     data_2_value: "EE. UU. y Europa",
     data_2_label: "Ámbito de trabajo",
-    data_3_label: "Instituciones colaboradoras",
+    data_3_label: "Socios estratégicos",
     data_4_label: "Oficinas",
     gtk_title: "Bienvenidos a GTK, Global Technology Knowledge Corp.",
     row1_title: "01 Ecosistemas de conocimiento",
     row1_body: "En GTK creamos ecosistemas de conocimiento locales, regionales, nacionales y globales con la agregación de los agentes y dinamizadores más adecuados a cada proyecto y a cada fase del mismo.",
     row2_title: "02 Alianzas institucionales",
     row2_body: "Contamos con acuerdos de colaboración estables con algunas de las instituciones de educación superior y de investigación más potentes del mundo al igual que con los mejores socios tecnológicos en IT para el sector educativo.",
-    row3_title: "03 Equipo y talento",
+    row3_title: "04 Equipo y talento",
     row3_body: "Nuestro equipo de gestión y coordinación de proyectos posee una experiencia única y singular en la creación, implantación y el desarrollo de proyectos complejos.",
-    row4_title: "04 Creación de valor",
+    row4_title: "05 Creación de valor",
     row4_body: "Estamos especializados en la creación de valor derivada de la integración de actividades, recursos y activos intangibles cuyos orígenes son inteligencia y conocimiento puestos en interacción con información y desarrollos de tecnología para converger en la llamada Sociedad del Conocimiento.",
-    row5_title: "05 Estrategias MECE",
+    row5_title: "03 Estrategias MECE",
     row5_badge: "Línea propia",
     row5_body: "Destacamos nuestra línea de desarrollo de estrategias MECE de asociación multinivel (Mutually-Exclusive/Collectively-Exhaustive) como parte integral de la actividad desarrollada por Global Technology Knowledge para sus clientes.",
     row6_title: "06 Quién nos contrata",
     row6_body: "Nuestros servicios son demandados por gobiernos, comunidades regionales, municipalidades, compañías multinacionales, universidades, centros de investigación, agencias de calidad y entidades financieras e inversoras.",
-    areas_title: "Áreas de negocio",
+    areas_title: "Áreas de actividad",
     area1: "Ciudades del Conocimiento",
     area2: "Alianzas internacionales para universidades y centros de investigación",
     area3: "Estrategias internacionales en I+D+I",
@@ -623,6 +679,22 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
     contact_region_ny: "Nueva York",
     contact_region_ca: "California",
     contact_region_ma: "Massachusetts",
+    form_title: "Escríbanos",
+    form_intro: "Cuéntenos brevemente quién es y qué necesita. Le responderemos al correo que nos indique.",
+    form_name_label: "¿Quién consulta?",
+    form_name_ph: "Nombre y organización",
+    form_email_label: "Correo de respuesta",
+    form_email_ph: "nombre@organizacion.com",
+    form_subject_label: "Objeto de la consulta",
+    form_subject_ph: "Alianza académica, proyecto, acreditación…",
+    form_message_label: "Texto para definir el interés",
+    form_message_ph: "Describa el contexto y el alcance de su consulta.",
+    form_submit: "Enviar consulta",
+    form_sending: "Enviando…",
+    form_success: "Gracias. Hemos recibido su consulta y le responderemos en breve.",
+    form_error: "No se ha podido enviar. Inténtelo de nuevo o escríbanos a info@globaltk.com.",
+    form_required: "Este campo es obligatorio.",
+    form_email_invalid: "Introduzca un correo válido.",
     footer_claim: "Higher Education",
     footer_tagline: "Global Technology Knowledge Corp. · Union City, New Jersey · Desde 2002",
     footer_rights: "Todos los derechos reservados.",
@@ -642,29 +714,30 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
     lang_es_aria: "Switch to Spanish",
     lang_en_aria: "Switch to English",
     hero_pill: "Global Technology Knowledge Corp.",
+    hero_claim: "We Are Connectors",
     hero_h1: "Knowledge ecosystems,<br><span class=\"hero__accent\">applied</span>",
     hero_lead: "We design and activate alliances between universities, governments and companies to turn knowledge into real value, since 2002.",
     hero_svg_title: "GTK's connected knowledge and institutions network",
     data_1_label: "Year founded",
     data_2_value: "United States and Europe",
     data_2_label: "Scope of work",
-    data_3_label: "Partner institutions",
+    data_3_label: "Strategic partners",
     data_4_label: "Offices",
     gtk_title: "Welcome to GTK, Global Technology Knowledge Corp.",
     row1_title: "01 Knowledge ecosystems",
     row1_body: "At Global Technology Knowledge Corp. we create knowledge ecosystems at local, regional, national and global levels. We reach full optimization due a well balanced convination of knowledge engineering and the addition of the best suited agents and engines to each project and to each phase.",
     row2_title: "02 Institutional alliances",
     row2_body: "We have firm alliances and agreements with some of the most prestigious research centers and higher education institutions in the world and with some of the more porwerfull High-tech companies in the educational sector.",
-    row3_title: "03 Team and talent",
+    row3_title: "04 Team and talent",
     row3_body: "In our team we count with some unique human expertized talent, all of them are experts in the creation, management, coordination, implementation and development of complex projects.",
-    row4_title: "04 Value creation",
+    row4_title: "05 Value creation",
     row4_body: "Global Technology Knowledge Corp. is specialized in creating and adding value associated to the integration of activities and intangible assets whose origins are intelligence and knowledge put into interactions with information and technology. These developments converge on the so-called Knowledge Society.",
-    row5_title: "05 MECE strategies",
+    row5_title: "03 MECE strategies",
     row5_badge: "Signature line",
     row5_body: "We emphasize our line of developments for multilevel association and partnership strategies MECE (Mutually-Exclusive/Collectively-Exhaustive) as an integral part of the added value business conducted by Global Technology Konowledge to its costumers.",
     row6_title: "06 Who hires us",
     row6_body: "Our services are requested by governments, regional communities, municipalities, multinational companies, universities, research centers, quality agencies and financial institutions and investors.",
-    areas_title: "Business areas",
+    areas_title: "Areas of activity",
     area1: "Knowledge Cities",
     area2: "International alliances for universities and research centers",
     area3: "International R&D&I strategies",
@@ -718,6 +791,22 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
     contact_region_ny: "New York",
     contact_region_ca: "California",
     contact_region_ma: "Massachusetts",
+    form_title: "Write to us",
+    form_intro: "Tell us briefly who you are and what you need. We will reply to the address you provide.",
+    form_name_label: "Who is enquiring?",
+    form_name_ph: "Name and organisation",
+    form_email_label: "Reply address",
+    form_email_ph: "name@organisation.com",
+    form_subject_label: "Subject of the enquiry",
+    form_subject_ph: "Academic alliance, project, accreditation…",
+    form_message_label: "Text describing your interest",
+    form_message_ph: "Describe the context and scope of your enquiry.",
+    form_submit: "Send enquiry",
+    form_sending: "Sending…",
+    form_success: "Thank you. We have received your enquiry and will reply shortly.",
+    form_error: "It could not be sent. Please try again or email us at info@globaltk.com.",
+    form_required: "This field is required.",
+    form_email_invalid: "Please enter a valid email address.",
     footer_claim: "Higher Education",
     footer_tagline: "Global Technology Knowledge Corp. · Union City, New Jersey · Since 2002",
     footer_rights: "All rights reserved.",
@@ -1172,6 +1261,100 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
       var btn = findElClosest(e.target, 'logo__btn');
       if(!btn || btn.classList.contains('is-static') || btn.tagName !== 'BUTTON'){ return; }
       onClientClick(btn);
+    });
+  }
+
+  /* Contact form: in-page validation, then AJAX submit to Formspree so the
+     visitor never leaves the page. Falls back to a normal POST navigation
+     if fetch is unavailable. */
+  var contactForm = document.getElementById('contactForm');
+  if(contactForm){
+    var statusEl = contactForm.querySelector('.form__status');
+    var submitBtn = contactForm.querySelector('.form__submit');
+
+    function t(key){
+      var dict = I18N[CURRENT_LANG];
+      return (dict && dict[key] !== undefined) ? dict[key] : '';
+    }
+
+    function fieldOf(input){ return findElClosest(input, 'form__field'); }
+
+    function setFieldError(input, msg){
+      var field = fieldOf(input);
+      if(!field) return;
+      var err = field.querySelector('.form__err');
+      if(msg){
+        field.classList.add('is-invalid');
+        input.setAttribute('aria-invalid', 'true');
+        if(err){ err.textContent = msg; }
+      } else {
+        field.classList.remove('is-invalid');
+        input.removeAttribute('aria-invalid');
+        if(err){ err.textContent = ''; }
+      }
+    }
+
+    function validateInput(input){
+      var value = input.value.replace(/^\s+|\s+$/g, '');
+      if(!value){ setFieldError(input, t('form_required')); return false; }
+      if(input.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)){
+        setFieldError(input, t('form_email_invalid'));
+        return false;
+      }
+      setFieldError(input, '');
+      return true;
+    }
+
+    var fields = contactForm.querySelectorAll('input, textarea');
+    for(var fi=0; fi<fields.length; fi++){
+      (function(input){
+        input.addEventListener('blur', function(){ validateInput(input); });
+        input.addEventListener('input', function(){
+          if(fieldOf(input) && fieldOf(input).classList.contains('is-invalid')){ validateInput(input); }
+        });
+      })(fields[fi]);
+    }
+
+    function setStatus(msg, kind){
+      if(!statusEl) return;
+      statusEl.textContent = msg;
+      statusEl.className = 'form__status' + (kind ? ' is-' + kind : '');
+    }
+
+    contactForm.addEventListener('submit', function(e){
+      var valid = true;
+      var firstBad = null;
+      for(var i=0;i<fields.length;i++){
+        if(!validateInput(fields[i])){
+          valid = false;
+          if(!firstBad){ firstBad = fields[i]; }
+        }
+      }
+      if(!valid){
+        e.preventDefault();
+        setStatus('', '');
+        if(firstBad){ firstBad.focus(); }
+        return;
+      }
+      if(!window.fetch){ return; } /* let the browser POST normally */
+
+      e.preventDefault();
+      submitBtn.disabled = true;
+      setStatus(t('form_sending'), '');
+
+      window.fetch(contactForm.action, {
+        method: 'POST',
+        body: new FormData(contactForm),
+        headers: { 'Accept': 'application/json' }
+      }).then(function(res){
+        if(!res.ok){ throw new Error('bad status'); }
+        contactForm.reset();
+        setStatus(t('form_success'), 'ok');
+      }).catch(function(){
+        setStatus(t('form_error'), 'err');
+      }).then(function(){
+        submitBtn.disabled = false;
+      });
     });
   }
 
