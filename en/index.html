@@ -119,8 +119,16 @@ h1,h2{font-weight:800;letter-spacing:-.026em}
 h1{font-size:clamp(38px,6vw,72px);line-height:1.04}
 h2{position:relative;font-size:clamp(28px,3.4vw,44px);line-height:1.1;margin-bottom:.7em}
 .h2mark{position:absolute;left:0;top:0;width:0;height:3px;border-radius:3px;background:var(--accent-ink);opacity:0;transition:opacity .3s ease}
+/* Section lead-in. The opening claim is wrapped in <strong> so it reads as a
+   headline over the explanatory sentence that follows it. */
+.lede{max-width:68ch;color:var(--text-2);font-size:18px;margin-bottom:32px}
+.lede strong{display:block;margin-bottom:6px;color:var(--text);font-size:clamp(19px,2.1vw,23px);font-weight:700;line-height:1.28;letter-spacing:-.012em}
 
-.wrap{width:min(1140px,100% - 40px);margin-inline:auto}
+/* Gutters widen with the viewport so the display-size h1 never sits flush
+   against the left edge; every section shares .wrap, so hero and body copy
+   stay on the same optical margin. */
+.wrap{width:min(1140px,100% - 48px);margin-inline:auto}
+@media (min-width:768px){.wrap{width:min(1140px,100% - 96px)}}
 section{padding:clamp(52px,6.5vw,96px) 0}
 section[id]{scroll-margin-top:calc(70px + env(safe-area-inset-top))}
 
@@ -189,13 +197,15 @@ body{padding-top:calc(70px + env(safe-area-inset-top));padding-bottom:calc(64px 
 
 /* ---------- Hero ---------- */
 .hero{position:relative;min-height:clamp(460px,72vh,680px);display:flex;align-items:center;padding-top:calc(70px + env(safe-area-inset-top))}
-.hero__grid{position:relative;z-index:1;width:100%}
+/* No width here: it would override .wrap's gutter (same specificity, later in
+   the cascade) and pin the display-size h1 flush to the viewport edge. */
+.hero__grid{position:relative;z-index:1}
 .hero__copy{position:relative;max-width:720px}
 .hero__copy::before{content:"";position:absolute;inset:-56px -60px;background:radial-gradient(closest-side,var(--bg) 52%,transparent 100%);z-index:-1;pointer-events:none}
-.hero__claim{margin:22px 0 0;font-size:clamp(13px,1.5vw,15px);font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--accent)}
-.hero h1{margin:10px 0 22px}
+.hero h1{margin:0 0 22px}
 .hero__accent{color:var(--navy)}
-.hero__lead{max-width:46ch;color:var(--text-2);font-size:19px}
+.hero__lead{max-width:52ch;color:var(--text-2);font-size:19px}
+.hero__lead strong{display:block;margin-bottom:6px;color:var(--text);font-weight:700}
 
 @media (min-width:1024px){
   .hero{padding-top:0}
@@ -417,10 +427,8 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
 <section id="inicio" class="hero">
   <div class="wrap hero__grid">
     <div class="hero__copy">
-      <span class="pill"><span class="pill__dot"></span>Global Technology Knowledge Corp.</span>
-      <p class="hero__claim" data-i18n="hero_claim">We Are Connectors</p>
       <h1 data-i18n-html="hero_h1">Knowledge ecosystems <span class="hero__accent">that connect worlds</span></h1>
-      <p class="hero__lead" data-i18n="hero_lead">We design and activate alliances between universities, governments and companies to turn knowledge into real value, since 2002.</p>
+      <p class="hero__lead" data-i18n-html="hero_lead"><strong>Where others see separate institutions, we build the bridge.</strong> Since 2002 we have designed and activated alliances between universities, governments and companies to turn knowledge into real value.</p>
     </div>
   </div>
 </section>
@@ -428,6 +436,7 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
 <section id="gtk">
   <div class="wrap">
     <h2 data-i18n="gtk_title">Welcome to GTK, Global Technology Knowledge Corp.</h2>
+    <p class="lede rv" data-i18n-html="gtk_intro"><strong>Knowledge creates no value on its own: it creates value when it connects.</strong> Connecting is precisely our craft, and we have been practising it across two continents for over twenty years.</p>
     <div class="group rv">
       <details class="row" open>
         <summary><span class="row__num">01</span><span class="row__title" data-i18n="row1_title">01 Knowledge ecosystems</span><svg class="row__chev" width="20" height="20" aria-hidden="true"><use href="#icon-chevron"/></svg></summary>
@@ -469,6 +478,7 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
 <section id="areas">
   <div class="wrap">
     <h2><span data-i18n="areas_title">Areas of activity</span><span class="h2mark" aria-hidden="true"></span></h2>
+    <p class="lede rv" data-i18n-html="areas_intro"><strong>Nine fronts, one single goal: to put your institution in the international league.</strong> Pick the one you care about and let's talk.</p>
     <ol class="areas">
       <li class="rv"><a href="#escribenos"><span class="areas__num">01</span><span class="areas__title" data-i18n="area1">Knowledge Cities</span><svg class="areas__arrow" width="20" height="20" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li>
       <li class="rv"><a href="#escribenos"><span class="areas__num">02</span><span class="areas__title" data-i18n="area2">International alliances for universities and research centers</span><svg class="areas__arrow" width="20" height="20" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li>
@@ -486,7 +496,7 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
 <section id="proyectos" class="projects">
   <div class="wrap">
     <h2><span data-i18n="projects_title">Projects</span><span class="h2mark" aria-hidden="true"></span></h2>
-    <p class="projects__intro" data-i18n="projects_intro">Since 2002 Global Technology Knowledge Corp. have been involved in very diverse type of projects. We have contributed since that time to the internationalization and the creation of value for our customers in many areas of research and training. Among other projects:</p>
+    <p class="projects__intro lede" data-i18n-html="projects_intro"><strong>From MIT to Barcelona, from Columbia to Bogotá: two decades opening doors that looked closed.</strong> Since 2002 Global Technology Knowledge Corp. have been involved in very diverse type of projects. We have contributed since that time to the internationalization and the creation of value for our customers in many areas of research and training. Among other projects:</p>
     <div class="filters" role="group" aria-label="Filtros de proyectos">
       <button type="button" class="pill pill--filter is-active" data-filter="all" aria-pressed="true" data-i18n="filter_all">All</button>
       <button type="button" class="pill pill--filter" data-filter="cities" aria-pressed="false" data-i18n="filter_cities">Knowledge cities</button>
@@ -515,6 +525,7 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
 <section id="clientes">
   <div class="wrap">
     <h2><span data-i18n="clients_title">Clients</span><span class="h2mark" aria-hidden="true"></span></h2>
+    <p class="lede rv" data-i18n-html="clients_intro"><strong>Institutions that refuse to settle for local.</strong> Governments, universities and companies that stopped waiting for the opportunity and went out to build it.</p>
   </div>
   <div class="ribbon">
     <div class="ribbon__track" id="ribbonTrack">
@@ -527,7 +538,7 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
 <section id="escribenos" class="contact">
   <div class="wrap contact__wrap">
     <h2><span data-i18n="form_title">Write to us</span><span class="h2mark" aria-hidden="true"></span></h2>
-    <p class="contact__intro" data-i18n="form_intro">Tell us briefly who you are and what you need. We will reply to the address you provide.</p>
+    <p class="contact__intro lede" data-i18n-html="form_intro"><strong>Every great alliance started with a first conversation.</strong> Tell us briefly who you are and what you need: we will reply to the address you provide.</p>
     <form class="form rv" id="contactForm" action="https://formspree.io/f/FORM_ID" method="POST" novalidate>
       <div class="form__row">
         <label class="form__field">
@@ -601,10 +612,8 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
     brand_sub: "Global Technology Knowledge",
     lang_es_aria: "Cambiar a español",
     lang_en_aria: "Cambiar a inglés",
-    hero_pill: "Global Technology Knowledge Corp.",
-    hero_claim: "We Are Connectors",
     hero_h1: "Ecosistemas de conocimiento <span class=\"hero__accent\">que conectan mundos</span>",
-    hero_lead: "Diseñamos y activamos alianzas entre universidades, gobiernos y empresas para convertir el conocimiento en valor real, desde 2002.",
+    hero_lead: "<strong>Donde otros ven instituciones separadas, nosotros trazamos el puente.</strong> Desde 2002 diseñamos y activamos alianzas entre universidades, gobiernos y empresas para convertir el conocimiento en valor real.",
     hero_svg_title: "Red de conocimiento e instituciones conectadas de GTK",
     data_1_label: "Año de fundación",
     data_2_value: "EE. UU. y Europa",
@@ -612,6 +621,7 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
     data_3_label: "Socios estratégicos",
     data_4_label: "Oficinas",
     gtk_title: "Bienvenidos a GTK, Global Technology Knowledge Corp.",
+    gtk_intro: "<strong>El conocimiento no genera valor por sí solo: lo genera cuando se conecta.</strong> Conectar es exactamente nuestro oficio, y llevamos más de veinte años ejerciéndolo entre dos continentes.",
     row1_title: "01 Ecosistemas de conocimiento",
     row1_body: "En GTK creamos ecosistemas de conocimiento locales, regionales, nacionales y globales con la agregación de los agentes y dinamizadores más adecuados a cada proyecto y a cada fase del mismo.",
     row2_title: "02 Alianzas institucionales",
@@ -626,6 +636,7 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
     row6_title: "06 Quién nos contrata",
     row6_body: "Nuestros servicios son demandados por gobiernos, comunidades regionales, municipalidades, compañías multinacionales, universidades, centros de investigación, agencias de calidad y entidades financieras e inversoras.",
     areas_title: "Áreas de actividad",
+    areas_intro: "<strong>Nueve frentes, un mismo objetivo: que su institución juegue en la liga internacional.</strong> Elija el que le interesa y hablamos.",
     area1: "Ciudades del Conocimiento",
     area2: "Alianzas internacionales para universidades y centros de investigación",
     area3: "Estrategias internacionales en I+D+I",
@@ -636,7 +647,7 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
     area8: "Proyectos Open ID en investigación",
     area9: "Programas de capital humano",
     projects_title: "Proyectos",
-    projects_intro: "Desde el año 2002 en Global Technology Knowledge Corp. hemos participado en proyectos muy diversos que han contribuido a la internacionalización y a la creación de valor de nuestros clientes en las áreas de investigación y formación. Entre otros proyectos de relevancia citamos:",
+    projects_intro: "<strong>Del MIT a Barcelona, de Columbia a Bogotá: dos décadas abriendo puertas que parecían cerradas.</strong> Desde el año 2002 en Global Technology Knowledge Corp. hemos participado en proyectos muy diversos que han contribuido a la internacionalización y a la creación de valor de nuestros clientes en las áreas de investigación y formación. Entre otros proyectos de relevancia citamos:",
     filter_all: "Todos",
     filter_cities: "Ciudades del conocimiento",
     filter_academic: "Alianzas académicas",
@@ -676,11 +687,12 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
     carousel_prev_aria: "Proyecto anterior",
     carousel_next_aria: "Siguiente proyecto",
     clients_title: "Clientes",
+    clients_intro: "<strong>Instituciones que no se conforman con lo local.</strong> Gobiernos, universidades y compañías que decidieron dejar de esperar la oportunidad y salir a construirla.",
     contact_region_ny: "Nueva York",
     contact_region_ca: "California",
     contact_region_ma: "Massachusetts",
     form_title: "Escríbanos",
-    form_intro: "Cuéntenos brevemente quién es y qué necesita. Le responderemos al correo que nos indique.",
+    form_intro: "<strong>Toda gran alianza empezó con una primera conversación.</strong> Cuéntenos brevemente quién es y qué necesita: le responderemos al correo que nos indique.",
     form_name_label: "¿Quién consulta?",
     form_name_ph: "Nombre y organización",
     form_email_label: "Correo de respuesta",
@@ -713,10 +725,8 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
     brand_sub: "Global Technology Knowledge",
     lang_es_aria: "Switch to Spanish",
     lang_en_aria: "Switch to English",
-    hero_pill: "Global Technology Knowledge Corp.",
-    hero_claim: "We Are Connectors",
     hero_h1: "Knowledge ecosystems <span class=\"hero__accent\">that connect worlds</span>",
-    hero_lead: "We design and activate alliances between universities, governments and companies to turn knowledge into real value, since 2002.",
+    hero_lead: "<strong>Where others see separate institutions, we build the bridge.</strong> Since 2002 we have designed and activated alliances between universities, governments and companies to turn knowledge into real value.",
     hero_svg_title: "GTK's connected knowledge and institutions network",
     data_1_label: "Year founded",
     data_2_value: "United States and Europe",
@@ -724,6 +734,7 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
     data_3_label: "Strategic partners",
     data_4_label: "Offices",
     gtk_title: "Welcome to GTK, Global Technology Knowledge Corp.",
+    gtk_intro: "<strong>Knowledge creates no value on its own: it creates value when it connects.</strong> Connecting is precisely our craft, and we have been practising it across two continents for over twenty years.",
     row1_title: "01 Knowledge ecosystems",
     row1_body: "At Global Technology Knowledge Corp. we create knowledge ecosystems at local, regional, national and global levels. We reach full optimization due a well balanced convination of knowledge engineering and the addition of the best suited agents and engines to each project and to each phase.",
     row2_title: "02 Institutional alliances",
@@ -738,6 +749,7 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
     row6_title: "06 Who hires us",
     row6_body: "Our services are requested by governments, regional communities, municipalities, multinational companies, universities, research centers, quality agencies and financial institutions and investors.",
     areas_title: "Areas of activity",
+    areas_intro: "<strong>Nine fronts, one single goal: to put your institution in the international league.</strong> Pick the one you care about and let's talk.",
     area1: "Knowledge Cities",
     area2: "International alliances for universities and research centers",
     area3: "International R&D&I strategies",
@@ -748,7 +760,7 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
     area8: "Open ID research projects",
     area9: "Human capital programs",
     projects_title: "Projects",
-    projects_intro: "Since 2002 Global Technology Knowledge Corp. have been involved in very diverse type of projects. We have contributed since that time to the internationalization and the creation of value for our customers in many areas of research and training. Among other projects:",
+    projects_intro: "<strong>From MIT to Barcelona, from Columbia to Bogotá: two decades opening doors that looked closed.</strong> Since 2002 Global Technology Knowledge Corp. have been involved in very diverse type of projects. We have contributed since that time to the internationalization and the creation of value for our customers in many areas of research and training. Among other projects:",
     filter_all: "All",
     filter_cities: "Knowledge cities",
     filter_academic: "Academic partnerships",
@@ -788,11 +800,12 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
     carousel_prev_aria: "Previous project",
     carousel_next_aria: "Next project",
     clients_title: "Clients",
+    clients_intro: "<strong>Institutions that refuse to settle for local.</strong> Governments, universities and companies that stopped waiting for the opportunity and went out to build it.",
     contact_region_ny: "New York",
     contact_region_ca: "California",
     contact_region_ma: "Massachusetts",
     form_title: "Write to us",
-    form_intro: "Tell us briefly who you are and what you need. We will reply to the address you provide.",
+    form_intro: "<strong>Every great alliance started with a first conversation.</strong> Tell us briefly who you are and what you need: we will reply to the address you provide.",
     form_name_label: "Who is enquiring?",
     form_name_ph: "Name and organisation",
     form_email_label: "Reply address",
