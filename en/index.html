@@ -162,9 +162,10 @@ section[id]{scroll-margin-top:calc(70px + env(safe-area-inset-top))}
 
 .rail{position:fixed;top:0;left:0;bottom:0;width:var(--rail);display:none;flex-direction:column;justify-content:space-between;padding:28px 22px;backdrop-filter:saturate(180%) blur(22px);-webkit-backdrop-filter:saturate(180%) blur(22px);background:var(--rail-bg);border-right:1px solid var(--border);z-index:100}
 .rail__nav{display:flex;flex-direction:column;gap:2px;margin-top:44px}
-.rail__nav a{display:flex;align-items:center;gap:14px;padding:11px 12px;border-radius:var(--r-s);color:var(--text-2);font-weight:600;font-size:15px}
+.rail__nav a{display:flex;align-items:center;gap:14px;line-height:1.25;padding:11px 12px;border-radius:var(--r-s);color:var(--text-2);font-weight:600;font-size:15px}
 .rail__nav a:hover{background:var(--navy-soft);color:var(--text)}
 .rail__nav a.is-active{background:var(--tint);color:var(--accent-ink)}
+.rail__nav a svg{flex:none}
 .rail__foot{display:flex;flex-direction:column;gap:16px}
 .rail__foot address{font-size:12.5px;color:var(--text-2);line-height:1.6}
 .rail__foot address a{color:var(--text-2)}
@@ -173,7 +174,8 @@ section[id]{scroll-margin-top:calc(70px + env(safe-area-inset-top))}
 .topbar,.tabbar{display:flex}
 .topbar{position:fixed;top:0;left:0;right:0;z-index:100;align-items:center;justify-content:space-between;padding:14px 20px;padding-top:calc(14px + env(safe-area-inset-top));backdrop-filter:saturate(180%) blur(22px);-webkit-backdrop-filter:saturate(180%) blur(22px);background:var(--rail-bg);border-bottom:1px solid var(--border)}
 .tabbar{position:fixed;bottom:0;left:0;right:0;z-index:100;justify-content:space-around;padding:6px 8px;padding-bottom:calc(6px + env(safe-area-inset-bottom));backdrop-filter:saturate(180%) blur(22px);-webkit-backdrop-filter:saturate(180%) blur(22px);background:var(--rail-bg);border-top:1px solid var(--border)}
-.tabbar a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-width:56px;min-height:48px;padding:4px 6px;border-radius:var(--r-s);color:var(--text-2);font-size:10.5px;font-weight:600}
+.tabbar a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-width:52px;min-height:48px;padding:4px 4px;border-radius:var(--r-s);color:var(--text-2);font-size:10px;font-weight:600}
+.tabbar a span{white-space:nowrap}
 .tabbar a.is-active{color:var(--accent-ink)}
 
 body{padding-top:calc(70px + env(safe-area-inset-top));padding-bottom:calc(64px + env(safe-area-inset-bottom))}
@@ -366,6 +368,23 @@ button.logo__btn:hover,button.logo__btn:focus-visible{filter:grayscale(0);opacit
 html.js .rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
 html.js .rv.is-in{opacity:1;transform:translateY(0)}
 
+/* ---------- Insights ----------
+   Article grid for the Insights section. The section and its two nav entries
+   are stripped from the generated pages while $insights in build.ps1 is empty,
+   so this only ever paints with real articles behind it. */
+.insights{list-style:none;display:grid;gap:20px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+.insight{display:flex;flex-direction:column;gap:10px;height:100%;padding:26px 24px;border:1px solid var(--border);border-radius:var(--r-m);background:var(--surface);box-shadow:var(--shadow-s);transition:border-color .2s ease,transform .2s ease,box-shadow .2s ease}
+.insight:hover,.insight:focus-within{border-color:var(--accent);transform:translateY(-2px);box-shadow:var(--shadow-m)}
+.insight__meta{display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:11.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text-2)}
+.insight__tag{color:var(--accent-ink)}
+.insight__title{margin:0;font-size:19px;line-height:1.3;letter-spacing:-.012em}
+/* Whole-card target: the link stretches over the tile so the hit area is the
+   tile itself, not just the words in the heading. */
+.insight__title a{color:var(--text)}
+.insight__title a::after{content:"";position:absolute;inset:0}
+.insight:has(.insight__title a){position:relative}
+.insight__body{margin:0;color:var(--text-2);font-size:15px}
+
 /* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto}
@@ -382,7 +401,7 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
 <a class="skip-link" href="#main" data-i18n="skip_link">Skip to content</a>
 
 <div class="net-bg" id="netBg" aria-hidden="true">
-  <svg viewBox="0 0 560 560" role="img" aria-labelledby="heroSvgTitle"><title id="heroSvgTitle" data-i18n="hero_svg_title">GTK's connected knowledge and institutions network</title><defs><radialGradient id="heroGrad" cx="50%" cy="50%" r="65%"><stop offset="0%" stop-color="var(--accent)" stop-opacity=".18"/><stop offset="100%" stop-color="var(--accent)" stop-opacity="0"/></radialGradient></defs><rect x="0" y="0" width="560" height="560" fill="url(#heroGrad)"/><g class="edges"><line class="edge" style="--d:0.0s" x1="360.7" y1="107.6" x2="288.4" y2="57.0"/><line class="edge" style="--d:0.3s" x1="360.7" y1="107.6" x2="434.1" y2="41.9"/><line class="edge" style="--d:0.6s" x1="360.7" y1="107.6" x2="282.7" y2="193.7"/><line class="edge" style="--d:1.0s" x1="100.2" y1="290.9" x2="187.9" y2="319.9"/><line class="edge" style="--d:1.3s" x1="100.2" y1="290.9" x2="61.2" y2="381.4"/><line class="edge" style="--d:1.6s" x1="100.2" y1="290.9" x2="123.4" y2="405.4"/><line class="edge" style="--d:1.9s" x1="120.8" y1="166.0" x2="53.0" y2="145.5"/><line class="edge" style="--d:2.2s" x1="120.8" y1="166.0" x2="222.9" y2="164.9"/><line class="edge" style="--d:2.6s" x1="120.8" y1="166.0" x2="129.5" y2="59.9"/><line class="edge" style="--d:0.0s" x1="387.7" y1="286.2" x2="399.2" y2="224.6"/><line class="edge" style="--d:0.3s" x1="387.7" y1="286.2" x2="407.8" y2="362.6"/><line class="edge" style="--d:0.6s" x1="387.7" y1="286.2" x2="250.8" y2="286.5"/><line class="edge" style="--d:1.0s" x1="123.4" y1="405.4" x2="61.2" y2="381.4"/><line class="edge" style="--d:1.3s" x1="123.4" y1="405.4" x2="110.9" y2="475.0"/><line class="edge" style="--d:1.6s" x1="123.4" y1="405.4" x2="200.0" y2="412.5"/><line class="edge" style="--d:1.9s" x1="282.7" y1="193.7" x2="222.9" y2="164.9"/><line class="edge" style="--d:2.2s" x1="282.7" y1="193.7" x2="250.8" y2="286.5"/><line class="edge" style="--d:2.6s" x1="222.9" y1="164.9" x2="250.8" y2="286.5"/><line class="edge" style="--d:0.0s" x1="222.9" y1="164.9" x2="288.4" y2="57.0"/><line class="edge" style="--d:0.3s" x1="282.7" y1="193.7" x2="288.4" y2="57.0"/><line class="edge" style="--d:0.6s" x1="61.2" y1="381.4" x2="49.3" y2="463.2"/><line class="edge" style="--d:1.0s" x1="110.9" y1="475.0" x2="49.3" y2="463.2"/><line class="edge" style="--d:1.3s" x1="110.9" y1="475.0" x2="182.7" y2="475.5"/><line class="edge" style="--d:1.6s" x1="129.5" y1="59.9" x2="41.5" y2="70.6"/><line class="edge" style="--d:1.9s" x1="129.5" y1="59.9" x2="53.0" y2="145.5"/><line class="edge" style="--d:2.2s" x1="187.9" y1="319.9" x2="250.8" y2="286.5"/><line class="edge" style="--d:2.6s" x1="187.9" y1="319.9" x2="200.0" y2="412.5"/><line class="edge" style="--d:0.0s" x1="434.1" y1="41.9" x2="516.9" y2="98.3"/><line class="edge" style="--d:0.3s" x1="288.4" y1="57.0" x2="434.1" y2="41.9"/><line class="edge" style="--d:0.6s" x1="297.1" y1="426.5" x2="286.2" y2="513.8"/><line class="edge" style="--d:1.0s" x1="297.1" y1="426.5" x2="200.0" y2="412.5"/><line class="edge" style="--d:1.3s" x1="297.1" y1="426.5" x2="182.7" y2="475.5"/><line class="edge" style="--d:1.6s" x1="399.2" y1="224.6" x2="499.7" y2="199.8"/><line class="edge" style="--d:1.9s" x1="282.7" y1="193.7" x2="399.2" y2="224.6"/><line class="edge" style="--d:2.2s" x1="41.5" y1="70.6" x2="53.0" y2="145.5"/><line class="edge" style="--d:2.6s" x1="120.8" y1="166.0" x2="41.5" y2="70.6"/><line class="edge" style="--d:0.0s" x1="478.5" y1="485.9" x2="407.8" y2="362.6"/><line class="edge" style="--d:0.3s" x1="182.7" y1="475.5" x2="200.0" y2="412.5"/><line class="edge" style="--d:0.6s" x1="123.4" y1="405.4" x2="182.7" y2="475.5"/><line class="edge" style="--d:1.0s" x1="123.4" y1="405.4" x2="49.3" y2="463.2"/><line class="edge" style="--d:1.3s" x1="499.7" y1="199.8" x2="516.9" y2="98.3"/><line class="edge" style="--d:1.6s" x1="387.7" y1="286.2" x2="499.7" y2="199.8"/><line class="edge" style="--d:1.9s" x1="182.7" y1="475.5" x2="286.2" y2="513.8"/><line class="edge" style="--d:2.2s" x1="200.0" y1="412.5" x2="286.2" y2="513.8"/><line class="edge" style="--d:2.6s" x1="297.1" y1="426.5" x2="407.8" y2="362.6"/><line class="edge" style="--d:0.0s" x1="399.2" y1="224.6" x2="407.8" y2="362.6"/><line class="edge" style="--d:0.3s" x1="360.7" y1="107.6" x2="516.9" y2="98.3"/></g><g class="nodes"><circle class="node node--anim" style="--d:0.0s;--t:7.0s" cx="360.7" cy="107.6" r="2.6"/><circle class="node node--anim" style="--d:0.4s;--t:8.0s" cx="100.2" cy="290.9" r="3.2"/><circle class="node node--anim" style="--d:0.8s;--t:9.0s" cx="120.8" cy="166.0" r="4.0"/><circle class="node node--anim" style="--d:1.2s;--t:10.0s" cx="387.7" cy="286.2" r="2.6"/><circle class="node node--anim" style="--d:1.6s;--t:11.0s" cx="123.4" cy="405.4" r="3.2"/><circle class="node node--anim" style="--d:2.4s;--t:8.0s" cx="222.9" cy="164.9" r="2.6"/><circle class="node node--anim" style="--d:0.0s;--t:9.0s" cx="288.4" cy="57.0" r="3.2"/><circle class="node node--anim" style="--d:0.4s;--t:10.0s" cx="61.2" cy="381.4" r="4.0"/><circle class="node node--anim" style="--d:0.8s;--t:11.0s" cx="110.9" cy="475.0" r="2.6"/><circle class="node node--anim" style="--d:1.2s;--t:7.0s" cx="129.5" cy="59.9" r="3.2"/><circle class="node node--anim" style="--d:2.0s;--t:9.0s" cx="434.1" cy="41.9" r="2.6"/><circle class="node node--anim" style="--d:2.4s;--t:10.0s" cx="297.1" cy="426.5" r="3.2"/><circle class="node node--anim" style="--d:0.0s;--t:11.0s" cx="399.2" cy="224.6" r="4.0"/><circle class="node node--anim" style="--d:0.8s;--t:8.0s" cx="41.5" cy="70.6" r="3.2"/><circle class="node node--anim" style="--d:1.2s;--t:9.0s" cx="478.5" cy="485.9" r="4.0"/><circle class="node node--anim" style="--d:1.6s;--t:10.0s" cx="182.7" cy="475.5" r="2.6"/><circle class="node node--anim" style="--d:2.0s;--t:11.0s" cx="49.3" cy="463.2" r="3.2"/><circle class="node node--anim" style="--d:2.4s;--t:7.0s" cx="499.7" cy="199.8" r="4.0"/><circle class="node node--anim" style="--d:0.0s;--t:8.0s" cx="200.0" cy="412.5" r="2.6"/><circle class="node node--anim" style="--d:0.4s;--t:9.0s" cx="286.2" cy="513.8" r="3.2"/><circle class="node node--anim" style="--d:0.8s;--t:10.0s" cx="407.8" cy="362.6" r="4.0"/><circle class="node node--anim" style="--d:1.2s;--t:11.0s" cx="53.0" cy="145.5" r="2.6"/><circle class="node node--anim" style="--d:1.6s;--t:7.0s" cx="516.9" cy="98.3" r="3.2"/></g><g class="markers"><circle class="node__halo node__halo--marker" style="--d:0.4s" cx="250.8" cy="286.5" r="15"/><circle class="node node--hub node--marker node--anim" style="--d:0.4s;--t:7.0s" cx="250.8" cy="286.5" r="8.6" data-section="areas"/><circle class="node__halo node__halo--marker" style="--d:2.0s" cx="282.7" cy="193.7" r="15"/><circle class="node node--hub node--marker node--anim" style="--d:2.0s;--t:7.0s" cx="282.7" cy="193.7" r="8.6" data-section="proyectos"/><circle class="node__halo node__halo--marker" style="--d:1.6s" cx="187.9" cy="319.9" r="15"/><circle class="node node--hub node--marker node--anim" style="--d:1.6s;--t:8.0s" cx="187.9" cy="319.9" r="8.6" data-section="socios"/></g></svg>
+  <svg viewBox="0 0 560 560" role="img" aria-labelledby="heroSvgTitle"><title id="heroSvgTitle" data-i18n="hero_svg_title">GTK's connected knowledge and institutions network</title><defs><radialGradient id="heroGrad" cx="50%" cy="50%" r="65%"><stop offset="0%" stop-color="var(--accent)" stop-opacity=".18"/><stop offset="100%" stop-color="var(--accent)" stop-opacity="0"/></radialGradient></defs><rect x="0" y="0" width="560" height="560" fill="url(#heroGrad)"/><g class="edges"><line class="edge" style="--d:0.0s" x1="360.7" y1="107.6" x2="288.4" y2="57.0"/><line class="edge" style="--d:0.3s" x1="360.7" y1="107.6" x2="434.1" y2="41.9"/><line class="edge" style="--d:0.6s" x1="360.7" y1="107.6" x2="282.7" y2="193.7"/><line class="edge" style="--d:1.0s" x1="100.2" y1="290.9" x2="187.9" y2="319.9"/><line class="edge" style="--d:1.3s" x1="100.2" y1="290.9" x2="61.2" y2="381.4"/><line class="edge" style="--d:1.6s" x1="100.2" y1="290.9" x2="123.4" y2="405.4"/><line class="edge" style="--d:1.9s" x1="120.8" y1="166.0" x2="53.0" y2="145.5"/><line class="edge" style="--d:2.2s" x1="120.8" y1="166.0" x2="222.9" y2="164.9"/><line class="edge" style="--d:2.6s" x1="120.8" y1="166.0" x2="129.5" y2="59.9"/><line class="edge" style="--d:0.0s" x1="387.7" y1="286.2" x2="399.2" y2="224.6"/><line class="edge" style="--d:0.3s" x1="387.7" y1="286.2" x2="407.8" y2="362.6"/><line class="edge" style="--d:0.6s" x1="387.7" y1="286.2" x2="250.8" y2="286.5"/><line class="edge" style="--d:1.0s" x1="123.4" y1="405.4" x2="61.2" y2="381.4"/><line class="edge" style="--d:1.3s" x1="123.4" y1="405.4" x2="110.9" y2="475.0"/><line class="edge" style="--d:1.6s" x1="123.4" y1="405.4" x2="200.0" y2="412.5"/><line class="edge" style="--d:1.9s" x1="282.7" y1="193.7" x2="222.9" y2="164.9"/><line class="edge" style="--d:2.2s" x1="282.7" y1="193.7" x2="250.8" y2="286.5"/><line class="edge" style="--d:2.6s" x1="222.9" y1="164.9" x2="250.8" y2="286.5"/><line class="edge" style="--d:0.0s" x1="222.9" y1="164.9" x2="288.4" y2="57.0"/><line class="edge" style="--d:0.3s" x1="282.7" y1="193.7" x2="288.4" y2="57.0"/><line class="edge" style="--d:0.6s" x1="61.2" y1="381.4" x2="49.3" y2="463.2"/><line class="edge" style="--d:1.0s" x1="110.9" y1="475.0" x2="49.3" y2="463.2"/><line class="edge" style="--d:1.3s" x1="110.9" y1="475.0" x2="182.7" y2="475.5"/><line class="edge" style="--d:1.6s" x1="129.5" y1="59.9" x2="41.5" y2="70.6"/><line class="edge" style="--d:1.9s" x1="129.5" y1="59.9" x2="53.0" y2="145.5"/><line class="edge" style="--d:2.2s" x1="187.9" y1="319.9" x2="250.8" y2="286.5"/><line class="edge" style="--d:2.6s" x1="187.9" y1="319.9" x2="200.0" y2="412.5"/><line class="edge" style="--d:0.0s" x1="434.1" y1="41.9" x2="516.9" y2="98.3"/><line class="edge" style="--d:0.3s" x1="288.4" y1="57.0" x2="434.1" y2="41.9"/><line class="edge" style="--d:0.6s" x1="297.1" y1="426.5" x2="286.2" y2="513.8"/><line class="edge" style="--d:1.0s" x1="297.1" y1="426.5" x2="200.0" y2="412.5"/><line class="edge" style="--d:1.3s" x1="297.1" y1="426.5" x2="182.7" y2="475.5"/><line class="edge" style="--d:1.6s" x1="399.2" y1="224.6" x2="499.7" y2="199.8"/><line class="edge" style="--d:1.9s" x1="282.7" y1="193.7" x2="399.2" y2="224.6"/><line class="edge" style="--d:2.2s" x1="41.5" y1="70.6" x2="53.0" y2="145.5"/><line class="edge" style="--d:2.6s" x1="120.8" y1="166.0" x2="41.5" y2="70.6"/><line class="edge" style="--d:0.0s" x1="478.5" y1="485.9" x2="407.8" y2="362.6"/><line class="edge" style="--d:0.3s" x1="182.7" y1="475.5" x2="200.0" y2="412.5"/><line class="edge" style="--d:0.6s" x1="123.4" y1="405.4" x2="182.7" y2="475.5"/><line class="edge" style="--d:1.0s" x1="123.4" y1="405.4" x2="49.3" y2="463.2"/><line class="edge" style="--d:1.3s" x1="499.7" y1="199.8" x2="516.9" y2="98.3"/><line class="edge" style="--d:1.6s" x1="387.7" y1="286.2" x2="499.7" y2="199.8"/><line class="edge" style="--d:1.9s" x1="182.7" y1="475.5" x2="286.2" y2="513.8"/><line class="edge" style="--d:2.2s" x1="200.0" y1="412.5" x2="286.2" y2="513.8"/><line class="edge" style="--d:2.6s" x1="297.1" y1="426.5" x2="407.8" y2="362.6"/><line class="edge" style="--d:0.0s" x1="399.2" y1="224.6" x2="407.8" y2="362.6"/><line class="edge" style="--d:0.3s" x1="360.7" y1="107.6" x2="516.9" y2="98.3"/></g><g class="nodes"><circle class="node node--anim" style="--d:0.0s;--t:7.0s" cx="360.7" cy="107.6" r="2.6"/><circle class="node node--anim" style="--d:0.4s;--t:8.0s" cx="100.2" cy="290.9" r="3.2"/><circle class="node node--anim" style="--d:0.8s;--t:9.0s" cx="120.8" cy="166.0" r="4.0"/><circle class="node node--anim" style="--d:1.2s;--t:10.0s" cx="387.7" cy="286.2" r="2.6"/><circle class="node node--anim" style="--d:1.6s;--t:11.0s" cx="123.4" cy="405.4" r="3.2"/><circle class="node node--anim" style="--d:2.4s;--t:8.0s" cx="222.9" cy="164.9" r="2.6"/><circle class="node node--anim" style="--d:0.0s;--t:9.0s" cx="288.4" cy="57.0" r="3.2"/><circle class="node node--anim" style="--d:0.4s;--t:10.0s" cx="61.2" cy="381.4" r="4.0"/><circle class="node node--anim" style="--d:0.8s;--t:11.0s" cx="110.9" cy="475.0" r="2.6"/><circle class="node node--anim" style="--d:1.2s;--t:7.0s" cx="129.5" cy="59.9" r="3.2"/><circle class="node node--anim" style="--d:2.0s;--t:9.0s" cx="434.1" cy="41.9" r="2.6"/><circle class="node node--anim" style="--d:2.4s;--t:10.0s" cx="297.1" cy="426.5" r="3.2"/><circle class="node node--anim" style="--d:0.0s;--t:11.0s" cx="399.2" cy="224.6" r="4.0"/><circle class="node node--anim" style="--d:0.8s;--t:8.0s" cx="41.5" cy="70.6" r="3.2"/><circle class="node node--anim" style="--d:1.2s;--t:9.0s" cx="478.5" cy="485.9" r="4.0"/><circle class="node node--anim" style="--d:1.6s;--t:10.0s" cx="182.7" cy="475.5" r="2.6"/><circle class="node node--anim" style="--d:2.0s;--t:11.0s" cx="49.3" cy="463.2" r="3.2"/><circle class="node node--anim" style="--d:2.4s;--t:7.0s" cx="499.7" cy="199.8" r="4.0"/><circle class="node node--anim" style="--d:0.0s;--t:8.0s" cx="200.0" cy="412.5" r="2.6"/><circle class="node node--anim" style="--d:0.4s;--t:9.0s" cx="286.2" cy="513.8" r="3.2"/><circle class="node node--anim" style="--d:0.8s;--t:10.0s" cx="407.8" cy="362.6" r="4.0"/><circle class="node node--anim" style="--d:1.2s;--t:11.0s" cx="53.0" cy="145.5" r="2.6"/><circle class="node node--anim" style="--d:1.6s;--t:7.0s" cx="516.9" cy="98.3" r="3.2"/></g><g class="markers"><circle class="node__halo node__halo--marker" style="--d:0.4s" cx="250.8" cy="286.5" r="15"/><circle class="node node--hub node--marker node--anim" style="--d:0.4s;--t:7.0s" cx="250.8" cy="286.5" r="8.6" data-section="areas"/><circle class="node__halo node__halo--marker" style="--d:2.0s" cx="282.7" cy="193.7" r="15"/><circle class="node node--hub node--marker node--anim" style="--d:2.0s;--t:7.0s" cx="282.7" cy="193.7" r="8.6" data-section="socios"/><circle class="node__halo node__halo--marker" style="--d:1.6s" cx="187.9" cy="319.9" r="15"/><circle class="node node--hub node--marker node--anim" style="--d:1.6s;--t:8.0s" cx="187.9" cy="319.9" r="8.6" data-section="colaboraciones"/></g></svg>
 </div>
 
 <svg class="sprite" width="0" height="0" aria-hidden="true">
@@ -393,12 +412,12 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
       <circle cx="50" cy="81.5" r="12.9"/><circle cx="18.5" cy="50" r="12.9"/>
     </g>
   </symbol>
-  <symbol id="icon-home" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M4 11 12 4l8 7M6 10v10h5v-6h2v6h5V10"/></symbol>
   <symbol id="icon-gtk" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M4 20h16M4 10 12 4l8 6M6 20V10M10 20V10M14 20V10M18 20V10"/></symbol>
   <symbol id="icon-areas" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></symbol>
   <symbol id="icon-projects" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M4 7h5.5L11 9h9v10H4z"/></symbol>
   <symbol id="icon-clients" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M3.2 20c.4-3.2 2.8-5.6 5.8-5.6s5.4 2.4 5.8 5.6M9 11.4a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM15.6 9.4a2.6 2.6 0 1 0 0-5.2M15.2 14.8c2.4.3 4.3 2.1 4.8 4.6"/></symbol>
   <symbol id="icon-contact" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M3 6h18v13H3zM3 7l9 6 9-6"/></symbol>
+  <symbol id="icon-insights" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M5 4h11l3 3v13H5zM8 10h8M8 14h8M8 18h5"/></symbol>
   <symbol id="icon-chevron" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M9 6l6 6-6 6"/></symbol>
   <symbol id="icon-arrow" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 12h13M13 6l6 6-6 6"/></symbol>
   <symbol id="icon-caret" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M15 6l-6 6 6 6"/></symbol>
@@ -423,11 +442,10 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
     <span class="brand__text"><strong>GTK</strong><small data-i18n="brand_sub">Global Technology Knowledge</small></span>
   </a>
   <ul class="rail__nav">
-    <li><a href="#inicio" data-section="inicio"><svg width="19" height="19" aria-hidden="true"><use href="#icon-home"/></svg><span data-i18n="nav_home">Home</span></a></li>
-    <li><a href="#gtk" data-section="gtk"><svg width="19" height="19" aria-hidden="true"><use href="#icon-gtk"/></svg><span data-i18n="nav_gtk">GTK</span></a></li>
-    <li><a href="#areas" data-section="areas"><svg width="19" height="19" aria-hidden="true"><use href="#icon-areas"/></svg><span data-i18n="nav_areas">Areas</span></a></li>
-    <li><a href="#proyectos" data-section="proyectos"><svg width="19" height="19" aria-hidden="true"><use href="#icon-projects"/></svg><span data-i18n="nav_projects">Projects</span></a></li>
-    <li><a href="#socios" data-section="socios"><svg width="19" height="19" aria-hidden="true"><use href="#icon-clients"/></svg><span data-i18n="nav_clients">Partners</span></a></li>
+    <li><a href="#gtk" data-section="gtk"><svg width="19" height="19" aria-hidden="true"><use href="#icon-gtk"/></svg><span data-i18n="nav_gtk">About GTK</span></a></li>
+    <li><a href="#areas" data-section="areas"><svg width="19" height="19" aria-hidden="true"><use href="#icon-areas"/></svg><span data-i18n="nav_areas">Areas of Expertise</span></a></li>
+    <li><a href="#socios" data-section="socios"><svg width="19" height="19" aria-hidden="true"><use href="#icon-clients"/></svg><span data-i18n="nav_clients">Strategic Partners</span></a></li>
+    <li><a href="#colaboraciones" data-section="colaboraciones"><svg width="19" height="19" aria-hidden="true"><use href="#icon-projects"/></svg><span data-i18n="nav_projects">Selected Collaborations</span></a></li>
     <li><a href="#escribenos" data-section="escribenos"><svg width="19" height="19" aria-hidden="true"><use href="#icon-contact"/></svg><span data-i18n="nav_contact">Contact</span></a></li>
   </ul>
   <div class="rail__foot">
@@ -453,7 +471,7 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
 
 <section id="gtk">
   <div class="wrap">
-    <h2 data-i18n="gtk_title">Welcome to GTK, Global Technology Knowledge Corp.</h2>
+    <h2 data-i18n="gtk_title">About GTK</h2>
     <p class="lede rv" data-i18n-html="gtk_intro"><strong>Knowledge creates no value on its own: it creates value when it connects.</strong> Connecting is precisely our craft, and we have been practising it across two continents for over twenty years.</p>
     <div class="group rv">
       <details class="row" open>
@@ -477,8 +495,8 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
         <p class="row__body" data-i18n="row4_body">Global Technology Knowledge Corp. is specialized in creating and adding value associated to the integration of activities and intangible assets whose origins are intelligence and knowledge put into interactions with information and technology. These developments converge on the so-called Knowledge Society.</p>
       </details>
       <details class="row">
-        <summary><span class="row__num">06</span><span class="row__title" data-i18n="row6_title">06 Who hires us</span><svg class="row__chev" width="20" height="20" aria-hidden="true"><use href="#icon-chevron"/></svg></summary>
-        <p class="row__body" data-i18n="row6_body">Our services are requested by governments, regional communities, municipalities, multinational companies, universities, research centers, quality agencies and financial institutions and investors.</p>
+        <summary><span class="row__num">06</span><span class="row__title" data-i18n="row6_title">06 Who works with us</span><svg class="row__chev" width="20" height="20" aria-hidden="true"><use href="#icon-chevron"/></svg></summary>
+        <p class="row__body" data-i18n="row6_body">We work alongside governments, regional communities, municipalities, multinational companies, universities, research centers, quality agencies and financial institutions and investors.</p>
       </details>
     </div>
   </div>
@@ -495,7 +513,7 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
 
 <section id="areas">
   <div class="wrap">
-    <h2><span data-i18n="areas_title">Areas of activity</span><span class="h2mark" aria-hidden="true"></span></h2>
+    <h2><span data-i18n="areas_title">Areas of Expertise</span><span class="h2mark" aria-hidden="true"></span></h2>
     <p class="lede rv" data-i18n-html="areas_intro"><strong>Nine fronts, one single goal: to put your institution in the international league.</strong> Pick the one you care about and let's talk.</p>
     <ol class="areas">
       <li class="rv"><a href="#escribenos"><span class="areas__num">01</span><span class="areas__title" data-i18n="area1">Knowledge Cities</span><svg class="areas__arrow" width="20" height="20" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li>
@@ -511,11 +529,24 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
   </div>
 </section>
 
-<section id="proyectos" class="projects">
+<section id="socios">
   <div class="wrap">
-    <h2><span data-i18n="projects_title">Projects</span><span class="h2mark" aria-hidden="true"></span></h2>
+    <h2><span data-i18n="clients_title">Strategic Partners</span><span class="h2mark" aria-hidden="true"></span></h2>
+    <p class="lede rv" data-i18n-html="clients_intro"><strong>Institutions that refuse to settle for local.</strong> Governments, universities and companies that stopped waiting for the opportunity and went out to build it.</p>
+  </div>
+  <div class="ribbon">
+    <div class="ribbon__track" id="ribbonTrack">
+      <button type="button" class="logo__btn" data-client="MIT Industrial Liaison Program" data-p="1,5" title="MIT Industrial Liaison Program"><img class="logo__img" src="../assets/logos/mit-ilp.png" alt="MIT Industrial Liaison Program" width="165" height="96" decoding="async"></button><button type="button" class="logo__btn" data-client="Excelsior College" data-p="11" title="Excelsior College"><img class="logo__img" src="../assets/logos/excelsior.png" alt="Excelsior College" width="180" height="180" decoding="async"></button><button type="button" class="logo__btn" data-client="UC Irvine Extension" data-p="9" title="UC Irvine Extension"><img class="logo__img" src="../assets/logos/uci-extension.jpg" alt="UC Irvine Extension" width="773" height="180" decoding="async"></button><button type="button" class="logo__btn" data-client="Boston University Metropolitan College" data-p="10" title="Boston University Metropolitan College"><img class="logo__img" src="../assets/logos/bu-metropolitan.png" alt="Boston University Metropolitan College" width="868" height="180" decoding="async"></button><button type="button" class="logo__btn" data-client="University of Chicago Graham School" data-p="6,8" title="University of Chicago Graham School"><img class="logo__img" src="../assets/logos/chicago-graham.png" alt="University of Chicago Graham School" width="512" height="180" decoding="async"></button><span class="logo__btn is-static" title="Vantage Learning"><img class="logo__img" src="../assets/logos/vantage-learning.jpg" alt="Vantage Learning" width="180" height="180" decoding="async"></span><button type="button" class="logo__btn" data-client="b_TEC Barcelona" data-p="1" title="b_TEC Barcelona"><img class="logo__img" src="../assets/logos/btec-barcelona.png" alt="b_TEC Barcelona" width="403" height="180" decoding="async"></button><span class="logo__btn is-static" title="Fundación Madrid+D"><img class="logo__img" src="../assets/logos/madrid-mas-d.png" alt="Fundación Madrid+D" width="402" height="180" decoding="async"></span><button type="button" class="logo__btn" data-client="Universidad San Pablo CEU" data-p="2" title="Universidad San Pablo CEU"><img class="logo__img" src="../assets/logos/san-pablo-ceu.png" alt="Universidad San Pablo CEU" width="625" height="160" decoding="async"></button><button type="button" class="logo__btn" data-client="IL3 Universitat de Barcelona" data-p="3" title="IL3 Universitat de Barcelona"><img class="logo__img" src="../assets/logos/il3-ub.png" alt="IL3 Universitat de Barcelona" width="321" height="180" decoding="async"></button><span class="logo__btn is-static" title="Universidad de Cantabria"><img class="logo__img" src="../assets/logos/cantabria.png" alt="Universidad de Cantabria" width="756" height="150" decoding="async"></span><span class="logo__btn is-static" title="Universidad de Extremadura"><img class="logo__img" src="../assets/logos/extremadura.png" alt="Universidad de Extremadura" width="400" height="169" decoding="async"></span><button type="button" class="logo__btn" data-client="ACAP Madrid" data-p="4" title="ACAP Madrid"><img class="logo__img" src="../assets/logos/acap-madrid.jpg" alt="ACAP Madrid" width="188" height="161" decoding="async"></button><button type="button" class="logo__btn" data-client="EIN Bogotá" data-p="10" title="EIN Bogotá"><img class="logo__img" src="../assets/logos/ein-bogota.png" alt="EIN Bogotá" width="121" height="44" decoding="async"></button><span class="logo__btn is-static" title="Azuero"><img class="logo__img" src="../assets/logos/azuero.png" alt="Azuero" width="103" height="99" decoding="async"></span><span class="logo__btn is-static" title="UCLA Extension">UCLA Extension</span><span class="logo__btn is-static" title="UC Davis">UC Davis</span><span class="logo__btn is-static" title="Cámara de Comercio de Álava">Cámara de Comercio de Álava</span><span class="logo__btn is-static" title="Shanghai International University (SISU) DongFang">Shanghai International University (SISU) DongFang</span><span class="logo__btn is-static" title="Universidad Politécnica de Madrid">Universidad Politécnica de Madrid</span><span class="logo__btn is-static" title="Global Alumni">Global Alumni</span>
+      <button type="button" class="logo__btn logo__dup" data-client="MIT Industrial Liaison Program" data-p="1,5" title="MIT Industrial Liaison Program" aria-hidden="true" tabindex="-1"><img class="logo__img" src="../assets/logos/mit-ilp.png" alt="" width="165" height="96" decoding="async"></button><button type="button" class="logo__btn logo__dup" data-client="Excelsior College" data-p="11" title="Excelsior College" aria-hidden="true" tabindex="-1"><img class="logo__img" src="../assets/logos/excelsior.png" alt="" width="180" height="180" decoding="async"></button><button type="button" class="logo__btn logo__dup" data-client="UC Irvine Extension" data-p="9" title="UC Irvine Extension" aria-hidden="true" tabindex="-1"><img class="logo__img" src="../assets/logos/uci-extension.jpg" alt="" width="773" height="180" decoding="async"></button><button type="button" class="logo__btn logo__dup" data-client="Boston University Metropolitan College" data-p="10" title="Boston University Metropolitan College" aria-hidden="true" tabindex="-1"><img class="logo__img" src="../assets/logos/bu-metropolitan.png" alt="" width="868" height="180" decoding="async"></button><button type="button" class="logo__btn logo__dup" data-client="University of Chicago Graham School" data-p="6,8" title="University of Chicago Graham School" aria-hidden="true" tabindex="-1"><img class="logo__img" src="../assets/logos/chicago-graham.png" alt="" width="512" height="180" decoding="async"></button><span class="logo__btn is-static logo__dup" title="Vantage Learning" aria-hidden="true" tabindex="-1"><img class="logo__img" src="../assets/logos/vantage-learning.jpg" alt="" width="180" height="180" decoding="async"></span><button type="button" class="logo__btn logo__dup" data-client="b_TEC Barcelona" data-p="1" title="b_TEC Barcelona" aria-hidden="true" tabindex="-1"><img class="logo__img" src="../assets/logos/btec-barcelona.png" alt="" width="403" height="180" decoding="async"></button><span class="logo__btn is-static logo__dup" title="Fundación Madrid+D" aria-hidden="true" tabindex="-1"><img class="logo__img" src="../assets/logos/madrid-mas-d.png" alt="" width="402" height="180" decoding="async"></span><button type="button" class="logo__btn logo__dup" data-client="Universidad San Pablo CEU" data-p="2" title="Universidad San Pablo CEU" aria-hidden="true" tabindex="-1"><img class="logo__img" src="../assets/logos/san-pablo-ceu.png" alt="" width="625" height="160" decoding="async"></button><button type="button" class="logo__btn logo__dup" data-client="IL3 Universitat de Barcelona" data-p="3" title="IL3 Universitat de Barcelona" aria-hidden="true" tabindex="-1"><img class="logo__img" src="../assets/logos/il3-ub.png" alt="" width="321" height="180" decoding="async"></button><span class="logo__btn is-static logo__dup" title="Universidad de Cantabria" aria-hidden="true" tabindex="-1"><img class="logo__img" src="../assets/logos/cantabria.png" alt="" width="756" height="150" decoding="async"></span><span class="logo__btn is-static logo__dup" title="Universidad de Extremadura" aria-hidden="true" tabindex="-1"><img class="logo__img" src="../assets/logos/extremadura.png" alt="" width="400" height="169" decoding="async"></span><button type="button" class="logo__btn logo__dup" data-client="ACAP Madrid" data-p="4" title="ACAP Madrid" aria-hidden="true" tabindex="-1"><img class="logo__img" src="../assets/logos/acap-madrid.jpg" alt="" width="188" height="161" decoding="async"></button><button type="button" class="logo__btn logo__dup" data-client="EIN Bogotá" data-p="10" title="EIN Bogotá" aria-hidden="true" tabindex="-1"><img class="logo__img" src="../assets/logos/ein-bogota.png" alt="" width="121" height="44" decoding="async"></button><span class="logo__btn is-static logo__dup" title="Azuero" aria-hidden="true" tabindex="-1"><img class="logo__img" src="../assets/logos/azuero.png" alt="" width="103" height="99" decoding="async"></span><span class="logo__btn is-static logo__dup" title="UCLA Extension" aria-hidden="true" tabindex="-1">UCLA Extension</span><span class="logo__btn is-static logo__dup" title="UC Davis" aria-hidden="true" tabindex="-1">UC Davis</span><span class="logo__btn is-static logo__dup" title="Cámara de Comercio de Álava" aria-hidden="true" tabindex="-1">Cámara de Comercio de Álava</span><span class="logo__btn is-static logo__dup" title="Shanghai International University (SISU) DongFang" aria-hidden="true" tabindex="-1">Shanghai International University (SISU) DongFang</span><span class="logo__btn is-static logo__dup" title="Universidad Politécnica de Madrid" aria-hidden="true" tabindex="-1">Universidad Politécnica de Madrid</span><span class="logo__btn is-static logo__dup" title="Global Alumni" aria-hidden="true" tabindex="-1">Global Alumni</span>
+    </div>
+  </div>
+</section>
+
+<section id="colaboraciones" class="projects">
+  <div class="wrap">
+    <h2><span data-i18n="projects_title">Selected Collaborations</span><span class="h2mark" aria-hidden="true"></span></h2>
     <p class="projects__intro lede" data-i18n-html="projects_intro"><strong>From MIT to Barcelona, from Columbia to Bogotá: two decades opening doors that looked closed.</strong> Since 2002 Global Technology Knowledge Corp. have been involved in very diverse type of projects. We have contributed since that time to the internationalization and the creation of value for our strategic partners in many areas of research and training. Among other projects:</p>
-    <div class="filters" role="group" aria-label="Filtros de proyectos">
+    <div class="filters" role="group" data-i18n-aria="filters_aria" aria-label="Collaboration filters">
       <button type="button" class="pill pill--filter is-active" data-filter="all" aria-pressed="true" data-i18n="filter_all">All</button>
       <button type="button" class="pill pill--filter" data-filter="cities" aria-pressed="false" data-i18n="filter_cities">Knowledge cities</button>
       <button type="button" class="pill pill--filter" data-filter="academic" aria-pressed="false" data-i18n="filter_academic">Academic partnerships</button>
@@ -532,7 +563,7 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
     </div>
   </div>
   <div class="wrap carousel__controls">
-    <p class="carousel__hint" data-i18n="carousel_hint">Swipe to see more projects</p>
+    <p class="carousel__hint" data-i18n="carousel_hint">Swipe to see more collaborations</p>
     <div class="carousel__btns">
       <button type="button" class="circle-btn" id="prevBtn" data-i18n-aria="carousel_prev_aria" aria-label="Previous project"><svg width="18" height="18" aria-hidden="true"><use href="#icon-caret"/></svg></button>
       <button type="button" class="circle-btn" id="nextBtn" data-i18n-aria="carousel_next_aria" aria-label="Next project"><svg width="18" height="18" aria-hidden="true"><use href="#icon-caret-r"/></svg></button>
@@ -540,18 +571,6 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
   </div>
 </section>
 
-<section id="socios">
-  <div class="wrap">
-    <h2><span data-i18n="clients_title">Strategic partners</span><span class="h2mark" aria-hidden="true"></span></h2>
-    <p class="lede rv" data-i18n-html="clients_intro"><strong>Institutions that refuse to settle for local.</strong> Governments, universities and companies that stopped waiting for the opportunity and went out to build it.</p>
-  </div>
-  <div class="ribbon">
-    <div class="ribbon__track" id="ribbonTrack">
-      <button type="button" class="logo__btn" data-client="MIT Industrial Liaison Program" data-p="1,5" title="MIT Industrial Liaison Program"><img class="logo__img" src="../assets/logos/mit-ilp.png" alt="MIT Industrial Liaison Program" width="165" height="96" decoding="async"></button><button type="button" class="logo__btn" data-client="Excelsior College" data-p="11" title="Excelsior College"><img class="logo__img" src="../assets/logos/excelsior.png" alt="Excelsior College" width="180" height="180" decoding="async"></button><button type="button" class="logo__btn" data-client="UC Irvine Extension" data-p="9" title="UC Irvine Extension"><img class="logo__img" src="../assets/logos/uci-extension.jpg" alt="UC Irvine Extension" width="773" height="180" decoding="async"></button><button type="button" class="logo__btn" data-client="Boston University Metropolitan College" data-p="10" title="Boston University Metropolitan College"><img class="logo__img" src="../assets/logos/bu-metropolitan.png" alt="Boston University Metropolitan College" width="868" height="180" decoding="async"></button><button type="button" class="logo__btn" data-client="University of Chicago Graham School" data-p="6,8" title="University of Chicago Graham School"><img class="logo__img" src="../assets/logos/chicago-graham.png" alt="University of Chicago Graham School" width="512" height="180" decoding="async"></button><span class="logo__btn is-static" title="Vantage Learning"><img class="logo__img" src="../assets/logos/vantage-learning.jpg" alt="Vantage Learning" width="180" height="180" decoding="async"></span><button type="button" class="logo__btn" data-client="b_TEC Barcelona" data-p="1" title="b_TEC Barcelona"><img class="logo__img" src="../assets/logos/btec-barcelona.png" alt="b_TEC Barcelona" width="403" height="180" decoding="async"></button><span class="logo__btn is-static" title="Fundación Madrid+D"><img class="logo__img" src="../assets/logos/madrid-mas-d.png" alt="Fundación Madrid+D" width="402" height="180" decoding="async"></span><button type="button" class="logo__btn" data-client="Universidad San Pablo CEU" data-p="2" title="Universidad San Pablo CEU"><img class="logo__img" src="../assets/logos/san-pablo-ceu.png" alt="Universidad San Pablo CEU" width="625" height="160" decoding="async"></button><button type="button" class="logo__btn" data-client="IL3 Universitat de Barcelona" data-p="3" title="IL3 Universitat de Barcelona"><img class="logo__img" src="../assets/logos/il3-ub.png" alt="IL3 Universitat de Barcelona" width="321" height="180" decoding="async"></button><span class="logo__btn is-static" title="Universidad de Cantabria"><img class="logo__img" src="../assets/logos/cantabria.png" alt="Universidad de Cantabria" width="756" height="150" decoding="async"></span><span class="logo__btn is-static" title="Universidad de Extremadura"><img class="logo__img" src="../assets/logos/extremadura.png" alt="Universidad de Extremadura" width="400" height="169" decoding="async"></span><button type="button" class="logo__btn" data-client="ACAP Madrid" data-p="4" title="ACAP Madrid"><img class="logo__img" src="../assets/logos/acap-madrid.jpg" alt="ACAP Madrid" width="188" height="161" decoding="async"></button><button type="button" class="logo__btn" data-client="EIN Bogotá" data-p="10" title="EIN Bogotá"><img class="logo__img" src="../assets/logos/ein-bogota.png" alt="EIN Bogotá" width="121" height="44" decoding="async"></button><span class="logo__btn is-static" title="Azuero"><img class="logo__img" src="../assets/logos/azuero.png" alt="Azuero" width="103" height="99" decoding="async"></span><span class="logo__btn is-static" title="UCLA Extension">UCLA Extension</span><span class="logo__btn is-static" title="UC Davis">UC Davis</span><span class="logo__btn is-static" title="Cámara de Comercio de Álava">Cámara de Comercio de Álava</span><span class="logo__btn is-static" title="Shanghai International University (SISU) DongFang">Shanghai International University (SISU) DongFang</span><span class="logo__btn is-static" title="Universidad Politécnica de Madrid">Universidad Politécnica de Madrid</span><span class="logo__btn is-static" title="Global Alumni">Global Alumni</span>
-      <button type="button" class="logo__btn logo__dup" data-client="MIT Industrial Liaison Program" data-p="1,5" title="MIT Industrial Liaison Program" aria-hidden="true" tabindex="-1"><img class="logo__img" src="../assets/logos/mit-ilp.png" alt="" width="165" height="96" decoding="async"></button><button type="button" class="logo__btn logo__dup" data-client="Excelsior College" data-p="11" title="Excelsior College" aria-hidden="true" tabindex="-1"><img class="logo__img" src="../assets/logos/excelsior.png" alt="" width="180" height="180" decoding="async"></button><button type="button" class="logo__btn logo__dup" data-client="UC Irvine Extension" data-p="9" title="UC Irvine Extension" aria-hidden="true" tabindex="-1"><img class="logo__img" src="../assets/logos/uci-extension.jpg" alt="" width="773" height="180" decoding="async"></button><button type="button" class="logo__btn logo__dup" data-client="Boston University Metropolitan College" data-p="10" title="Boston University Metropolitan College" aria-hidden="true" tabindex="-1"><img class="logo__img" src="../assets/logos/bu-metropolitan.png" alt="" width="868" height="180" decoding="async"></button><button type="button" class="logo__btn logo__dup" data-client="University of Chicago Graham School" data-p="6,8" title="University of Chicago Graham School" aria-hidden="true" tabindex="-1"><img class="logo__img" src="../assets/logos/chicago-graham.png" alt="" width="512" height="180" decoding="async"></button><span class="logo__btn is-static logo__dup" title="Vantage Learning" aria-hidden="true" tabindex="-1"><img class="logo__img" src="../assets/logos/vantage-learning.jpg" alt="" width="180" height="180" decoding="async"></span><button type="button" class="logo__btn logo__dup" data-client="b_TEC Barcelona" data-p="1" title="b_TEC Barcelona" aria-hidden="true" tabindex="-1"><img class="logo__img" src="../assets/logos/btec-barcelona.png" alt="" width="403" height="180" decoding="async"></button><span class="logo__btn is-static logo__dup" title="Fundación Madrid+D" aria-hidden="true" tabindex="-1"><img class="logo__img" src="../assets/logos/madrid-mas-d.png" alt="" width="402" height="180" decoding="async"></span><button type="button" class="logo__btn logo__dup" data-client="Universidad San Pablo CEU" data-p="2" title="Universidad San Pablo CEU" aria-hidden="true" tabindex="-1"><img class="logo__img" src="../assets/logos/san-pablo-ceu.png" alt="" width="625" height="160" decoding="async"></button><button type="button" class="logo__btn logo__dup" data-client="IL3 Universitat de Barcelona" data-p="3" title="IL3 Universitat de Barcelona" aria-hidden="true" tabindex="-1"><img class="logo__img" src="../assets/logos/il3-ub.png" alt="" width="321" height="180" decoding="async"></button><span class="logo__btn is-static logo__dup" title="Universidad de Cantabria" aria-hidden="true" tabindex="-1"><img class="logo__img" src="../assets/logos/cantabria.png" alt="" width="756" height="150" decoding="async"></span><span class="logo__btn is-static logo__dup" title="Universidad de Extremadura" aria-hidden="true" tabindex="-1"><img class="logo__img" src="../assets/logos/extremadura.png" alt="" width="400" height="169" decoding="async"></span><button type="button" class="logo__btn logo__dup" data-client="ACAP Madrid" data-p="4" title="ACAP Madrid" aria-hidden="true" tabindex="-1"><img class="logo__img" src="../assets/logos/acap-madrid.jpg" alt="" width="188" height="161" decoding="async"></button><button type="button" class="logo__btn logo__dup" data-client="EIN Bogotá" data-p="10" title="EIN Bogotá" aria-hidden="true" tabindex="-1"><img class="logo__img" src="../assets/logos/ein-bogota.png" alt="" width="121" height="44" decoding="async"></button><span class="logo__btn is-static logo__dup" title="Azuero" aria-hidden="true" tabindex="-1"><img class="logo__img" src="../assets/logos/azuero.png" alt="" width="103" height="99" decoding="async"></span><span class="logo__btn is-static logo__dup" title="UCLA Extension" aria-hidden="true" tabindex="-1">UCLA Extension</span><span class="logo__btn is-static logo__dup" title="UC Davis" aria-hidden="true" tabindex="-1">UC Davis</span><span class="logo__btn is-static logo__dup" title="Cámara de Comercio de Álava" aria-hidden="true" tabindex="-1">Cámara de Comercio de Álava</span><span class="logo__btn is-static logo__dup" title="Shanghai International University (SISU) DongFang" aria-hidden="true" tabindex="-1">Shanghai International University (SISU) DongFang</span><span class="logo__btn is-static logo__dup" title="Universidad Politécnica de Madrid" aria-hidden="true" tabindex="-1">Universidad Politécnica de Madrid</span><span class="logo__btn is-static logo__dup" title="Global Alumni" aria-hidden="true" tabindex="-1">Global Alumni</span>
-    </div>
-  </div>
-</section>
 
 <section id="escribenos" class="contact">
   <div class="wrap contact__wrap">
@@ -607,12 +626,11 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
 </footer>
 
 <nav class="tabbar" aria-label="Main">
-  <a href="#inicio" data-section="inicio"><svg width="22" height="22" aria-hidden="true"><use href="#icon-home"/></svg><span data-i18n="nav_home">Home</span></a>
-  <a href="#gtk" data-section="gtk"><svg width="22" height="22" aria-hidden="true"><use href="#icon-gtk"/></svg><span data-i18n="nav_gtk">GTK</span></a>
-  <a href="#areas" data-section="areas"><svg width="22" height="22" aria-hidden="true"><use href="#icon-areas"/></svg><span data-i18n="nav_areas">Areas</span></a>
-  <a href="#proyectos" data-section="proyectos"><svg width="22" height="22" aria-hidden="true"><use href="#icon-projects"/></svg><span data-i18n="nav_projects">Projects</span></a>
-  <a href="#socios" data-section="socios"><svg width="22" height="22" aria-hidden="true"><use href="#icon-clients"/></svg><span data-i18n="nav_clients">Partners</span></a>
-  <a href="#escribenos" data-section="escribenos"><svg width="22" height="22" aria-hidden="true"><use href="#icon-contact"/></svg><span data-i18n="nav_contact">Contact</span></a>
+  <a href="#gtk" data-section="gtk"><svg width="22" height="22" aria-hidden="true"><use href="#icon-gtk"/></svg><span data-i18n="tab_gtk">GTK</span></a>
+  <a href="#areas" data-section="areas"><svg width="22" height="22" aria-hidden="true"><use href="#icon-areas"/></svg><span data-i18n="tab_areas">Areas</span></a>
+  <a href="#socios" data-section="socios"><svg width="22" height="22" aria-hidden="true"><use href="#icon-clients"/></svg><span data-i18n="tab_clients">Partners</span></a>
+  <a href="#colaboraciones" data-section="colaboraciones"><svg width="22" height="22" aria-hidden="true"><use href="#icon-projects"/></svg><span data-i18n="tab_projects">Projects</span></a>
+  <a href="#escribenos" data-section="escribenos"><svg width="22" height="22" aria-hidden="true"><use href="#icon-contact"/></svg><span data-i18n="tab_contact">Contact</span></a>
 </nav>
 
 <script>(function(){
@@ -621,12 +639,18 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
   var I18N = {
   es: {
     skip_link: "Saltar al contenido",
-    nav_home: "Inicio",
-    nav_gtk: "GTK",
-    nav_areas: "Áreas",
-    nav_projects: "Proyectos",
-    nav_clients: "Socios",
+    nav_gtk: "Sobre GTK",
+    nav_areas: "Áreas de especialización",
+    nav_projects: "Colaboraciones destacadas",
+    nav_clients: "Socios estratégicos",
+    nav_insights: "Insights",
     nav_contact: "Contacto",
+    tab_gtk: "GTK",
+    tab_areas: "Áreas",
+    tab_clients: "Socios",
+    tab_projects: "Proyectos",
+    tab_insights: "Insights",
+    tab_contact: "Contacto",
     brand_sub: "Global Technology Knowledge",
     lang_es_aria: "Cambiar a español",
     lang_en_aria: "Cambiar a inglés",
@@ -639,7 +663,7 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
     data_2_label: "Ámbito de trabajo",
     data_3_label: "Socios estratégicos",
     data_4_label: "Oficinas",
-    gtk_title: "Bienvenidos a GTK, Global Technology Knowledge Corp.",
+    gtk_title: "Sobre GTK",
     gtk_intro: "<strong>El conocimiento no genera valor por sí solo: lo genera cuando se conecta.</strong> Conectar es exactamente nuestro oficio, y llevamos más de veinte años ejerciéndolo entre dos continentes.",
     row1_title: "01 Ecosistemas de conocimiento",
     row1_body: "En GTK creamos ecosistemas de conocimiento locales, regionales, nacionales y globales con la agregación de los agentes y dinamizadores más adecuados a cada proyecto y a cada fase del mismo.",
@@ -652,9 +676,9 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
     row5_title: "03 Estrategias MECE",
     row5_badge: "Línea propia",
     row5_body: "Destacamos nuestra línea de desarrollo de estrategias MECE de asociación multinivel (Mutually-Exclusive/Collectively-Exhaustive) como parte integral de la actividad desarrollada por Global Technology Knowledge para sus socios estratégicos.",
-    row6_title: "06 Quién nos contrata",
-    row6_body: "Nuestros servicios son demandados por gobiernos, comunidades regionales, municipalidades, compañías multinacionales, universidades, centros de investigación, agencias de calidad y entidades financieras e inversoras.",
-    areas_title: "Áreas de actividad",
+    row6_title: "06 Quién confía en GTK",
+    row6_body: "Trabajamos con gobiernos, comunidades regionales, municipalidades, compañías multinacionales, universidades, centros de investigación, agencias de calidad y entidades financieras e inversoras.",
+    areas_title: "Áreas de especialización",
     areas_intro: "<strong>Nueve frentes, un mismo objetivo: que su institución juegue en la liga internacional.</strong> Elija el que le interesa y hablamos.",
     area1: "Ciudades del Conocimiento",
     area2: "Alianzas internacionales para universidades y centros de investigación",
@@ -665,8 +689,9 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
     area7: "Alianzas y operadores dominantes",
     area8: "Proyectos Open ID en investigación",
     area9: "Programas de capital humano",
-    projects_title: "Proyectos",
+    projects_title: "Colaboraciones destacadas",
     projects_intro: "<strong>Del MIT a Barcelona, de Columbia a Bogotá: dos décadas abriendo puertas que parecían cerradas.</strong> Desde el año 2002 en Global Technology Knowledge Corp. hemos participado en proyectos muy diversos que han contribuido a la internacionalización y a la creación de valor de nuestros socios estratégicos en las áreas de investigación y formación. Entre otros proyectos de relevancia citamos:",
+    filters_aria: "Filtros de colaboraciones",
     filter_all: "Todos",
     filter_cities: "Ciudades del conocimiento",
     filter_academic: "Alianzas académicas",
@@ -702,11 +727,13 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
     project13_desc: "La creación de un proceso de internacionalización y homogenización de standards de learning outcomes en las diversas áreas de la Ingeniería.",
     project14_title: "Universidad corporativa · sector financiero",
     project14_desc: "Diseño de Universidad Corporativa para el sector financiero.",
-    carousel_hint: "Deslice para ver más proyectos",
+    carousel_hint: "Deslice para ver más colaboraciones",
     carousel_prev_aria: "Proyecto anterior",
     carousel_next_aria: "Siguiente proyecto",
     clients_title: "Socios estratégicos",
     clients_intro: "<strong>Instituciones que no se conforman con lo local.</strong> Gobiernos, universidades y compañías que decidieron dejar de esperar la oportunidad y salir a construirla.",
+    insights_title: "Insights",
+    insights_intro: "<strong>Lo que aprendemos construyendo alianzas, puesto a disposición de quien va a construir la suya.</strong> Análisis y notas sobre internacionalización, ecosistemas de conocimiento y educación superior.",
     contact_region_ny: "Nueva York",
     contact_region_ca: "California",
     contact_region_ma: "Massachusetts",
@@ -735,12 +762,18 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
   },
   en: {
     skip_link: "Skip to content",
-    nav_home: "Home",
-    nav_gtk: "GTK",
-    nav_areas: "Areas",
-    nav_projects: "Projects",
-    nav_clients: "Partners",
+    nav_gtk: "About GTK",
+    nav_areas: "Areas of Expertise",
+    nav_projects: "Selected Collaborations",
+    nav_clients: "Strategic Partners",
+    nav_insights: "Insights",
     nav_contact: "Contact",
+    tab_gtk: "GTK",
+    tab_areas: "Areas",
+    tab_clients: "Partners",
+    tab_projects: "Projects",
+    tab_insights: "Insights",
+    tab_contact: "Contact",
     brand_sub: "Global Technology Knowledge",
     lang_es_aria: "Switch to Spanish",
     lang_en_aria: "Switch to English",
@@ -753,7 +786,7 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
     data_2_label: "Scope of work",
     data_3_label: "Strategic partners",
     data_4_label: "Offices",
-    gtk_title: "Welcome to GTK, Global Technology Knowledge Corp.",
+    gtk_title: "About GTK",
     gtk_intro: "<strong>Knowledge creates no value on its own: it creates value when it connects.</strong> Connecting is precisely our craft, and we have been practising it across two continents for over twenty years.",
     row1_title: "01 Knowledge ecosystems",
     row1_body: "At Global Technology Knowledge Corp. we create knowledge ecosystems at local, regional, national and global levels. We reach full optimization through a well-balanced combination of knowledge engineering and the addition of the best suited agents and engines to each project and to each phase.",
@@ -766,9 +799,9 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
     row5_title: "03 MECE strategies",
     row5_badge: "Signature line",
     row5_body: "We emphasize our line of developments for multilevel association and partnership strategies MECE (Mutually-Exclusive/Collectively-Exhaustive) as an integral part of the added-value work conducted by Global Technology Knowledge for its strategic partners.",
-    row6_title: "06 Who hires us",
-    row6_body: "Our services are requested by governments, regional communities, municipalities, multinational companies, universities, research centers, quality agencies and financial institutions and investors.",
-    areas_title: "Areas of activity",
+    row6_title: "06 Who works with us",
+    row6_body: "We work alongside governments, regional communities, municipalities, multinational companies, universities, research centers, quality agencies and financial institutions and investors.",
+    areas_title: "Areas of Expertise",
     areas_intro: "<strong>Nine fronts, one single goal: to put your institution in the international league.</strong> Pick the one you care about and let's talk.",
     area1: "Knowledge Cities",
     area2: "International alliances for universities and research centers",
@@ -779,8 +812,9 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
     area7: "Alliances with leading operators",
     area8: "Open ID research projects",
     area9: "Human capital programs",
-    projects_title: "Projects",
+    projects_title: "Selected Collaborations",
     projects_intro: "<strong>From MIT to Barcelona, from Columbia to Bogotá: two decades opening doors that looked closed.</strong> Since 2002 Global Technology Knowledge Corp. have been involved in very diverse type of projects. We have contributed since that time to the internationalization and the creation of value for our strategic partners in many areas of research and training. Among other projects:",
+    filters_aria: "Collaboration filters",
     filter_all: "All",
     filter_cities: "Knowledge cities",
     filter_academic: "Academic partnerships",
@@ -816,11 +850,13 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
     project13_desc: "The creation of an internationalization and standardization process for learning outcomes standards across the various fields of Engineering.",
     project14_title: "Corporate university · financial sector",
     project14_desc: "Design of a Corporate University for the financial sector.",
-    carousel_hint: "Swipe to see more projects",
+    carousel_hint: "Swipe to see more collaborations",
     carousel_prev_aria: "Previous project",
     carousel_next_aria: "Next project",
-    clients_title: "Strategic partners",
+    clients_title: "Strategic Partners",
     clients_intro: "<strong>Institutions that refuse to settle for local.</strong> Governments, universities and companies that stopped waiting for the opportunity and went out to build it.",
+    insights_title: "Insights",
+    insights_intro: "<strong>What we learn building alliances, shared with whoever is about to build their own.</strong> Analysis and notes on internationalization, knowledge ecosystems and higher education.",
     contact_region_ny: "New York",
     contact_region_ca: "California",
     contact_region_ma: "Massachusetts",
@@ -1025,7 +1061,7 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
   /* Marker dot -> title underline: the strong blue hub tied to a section
      flies to that title and flattens into its underline, once, the first
      time the section comes into view. */
-  var markedSections = { areas: 1, proyectos: 1, socios: 1 };
+  var markedSections = { areas: 1, socios: 1, colaboraciones: 1 };
   var markTriggered = {};
 
   /* Last visible line of a (possibly wrapped) inline title, in viewport coords */
@@ -1281,8 +1317,8 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
     if(!raw) return;
     var nums = raw.split(',');
     setFilter('all');
-    var proyectos = document.getElementById('proyectos');
-    if(proyectos){ proyectos.scrollIntoView({ behavior: 'smooth' }); }
+    var colabs = document.getElementById('colaboraciones');
+    if(colabs){ colabs.scrollIntoView({ behavior: 'smooth' }); }
     var targets = highlightProjects(nums);
     if(targets.length){
       setTimeout(function(){ scrollToCard(targets[0]); }, 400);
