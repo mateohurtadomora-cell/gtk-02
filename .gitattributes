@@ -1,0 +1,8 @@
+# El generador reescribe es/index.html y en/index.html byte a byte desde las
+# fuentes de build/. Sin esto, un clon en Windows recibiria CRLF en las fuentes
+# y produciria un HTML distinto al versionado: diff fantasma en cada
+# regeneracion. Con eol=lf, clonar y regenerar no cambia ni un byte.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary

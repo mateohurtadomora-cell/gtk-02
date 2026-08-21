@@ -1,29 +1,57 @@
 # GTK – Global Technology Knowledge Corp.
 
-Web corporativa estática, bilingüe (ES/EN), sin frameworks ni paso de build.
+Web corporativa estática, bilingüe (ES/EN), sin frameworks ni dependencias.
 
 ## Estructura
 
 ```
-index.html    raíz: detecta idioma del navegador y redirige
-es/index.html versión española
-en/index.html versión inglesa
+index.html          raíz: detecta idioma del navegador y redirige
+es/index.html       versión española   (generado)
+en/index.html       versión inglesa    (generado)
+assets/logos/       logotipos de los socios
 sitemap.xml
 robots.txt
+build/              fuentes del generador
+  template.html       plantilla única de la que salen las dos páginas
+  content.json        todos los textos, ES y EN emparejados clave a clave
+  style.css           sistema de diseño
+  app.js              comportamiento (ES5, sin dependencias)
+  build.ps1           generador
+  serve.ps1           servidor local de desarrollo
 ```
+
+`build/` está dentro del repositorio a propósito: es la única fuente de verdad
+del sitio. El HTML de `es/` y `en/` es producto, no original — editarlo a mano
+se pierde en la siguiente regeneración.
+
+GitHub Pages sirve también `build/` como ficheros estáticos. No hay nada
+sensible ahí (el CSS y el JS ya van incrustados en las páginas publicadas y
+`content.json` es texto público), pero `robots.txt` lo excluye de la
+indexación porque `template.html` se serviría con los marcadores `{{...}}` sin
+resolver.
 
 ## Publicación (GitHub Pages)
 
 Esta carpeta es la raíz que sirve GitHub Pages (rama `main`, carpeta `/root`).
-No requiere build ni backend: son ficheros estáticos autocontenidos.
+Las páginas publicadas son estáticas y autocontenidas: no requieren build ni
+backend en el servidor.
 
-## Código fuente / regeneración
+## Regeneración
 
-`es/index.html` y `en/index.html` se generan desde una plantilla única en
-`../build/` (`template.html`, `style.css`, `app.js`, `content.json`) mediante
-`../build/build.ps1`, para que ambos idiomas no puedan desincronizarse. Esa
-carpeta `build/` vive fuera de este repo; si quieres versionarla también,
-cópiala dentro y ajusta las rutas de salida en `build.ps1`.
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File build\build.ps1
+```
+
+Reescribe `es/index.html` y `en/index.html` desde la plantilla única, de modo
+que los dos idiomas no puedan desincronizarse. Todas las rutas del generador
+son relativas a su propia ubicación, así que el repositorio se puede clonar en
+cualquier máquina y produce exactamente el mismo resultado.
+
+Para ver el resultado en local:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File build\serve.ps1 -Port 8099
+```
 
 ## Formulario de contacto (pendiente de activar)
 
@@ -36,7 +64,7 @@ https://formspree.io/f/FORM_ID
 
 Para activarlo: crear una cuenta gratuita en formspree.io, dar de alta un
 formulario con destino `info@globaltk.com`, copiar el id real y sustituir
-`FORM_ID` en la variable `$formEndpoint` de `../build/build.ps1`, luego
+`FORM_ID` en la variable `$formEndpoint` de `build/build.ps1`, luego
 regenerar las páginas. Hasta entonces el formulario valida correctamente
 pero los envíos no llegan a ningún buzón.
 
@@ -79,7 +107,7 @@ Notas de implementacion:
 ## Insights
 
 La seccion existe en `template.html` pero **no se publica todavia**: no hay
-articulos. Mientras el array `$insights` de `../build/build.ps1` este vacio, el
+articulos. Mientras el array `$insights` de `build/build.ps1` este vacio, el
 generador borra de las paginas el bloque delimitado por
 `<!-- INSIGHTS -->` / `<!-- /INSIGHTS -->` — la seccion y sus dos entradas de
 menu (rail y barra movil) — para no publicar una seccion en blanco.
@@ -105,7 +133,7 @@ Ya estan escritos el titulo y la entradilla de la seccion (`insights_title`,
 Seis entidades ya figuran en la cinta de socios como placa de texto, a la
 espera del logo oficial del cliente. Para activarlas: dejar el fichero en
 `assets/logos/` y rellenar el campo `file` de la entrada correspondiente en
-el array `$clients` de `../build/build.ps1`, luego regenerar.
+el array `$clients` de `build/build.ps1`, luego regenerar.
 
 | Entidad (como se muestra) | Denominacion oficial | Estado |
 |---------------------------|----------------------|--------|
@@ -126,4 +154,4 @@ institucion. Hay que confirmar con el cliente de que entidad se trata antes de
 publicar su logo.
 
 Al incorporarlas, la banda de datos pasa a anunciar 21 socios
-(`data-count` en `../build/template.html`).
+(`data-count` en `build/template.html`).

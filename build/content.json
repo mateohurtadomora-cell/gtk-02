@@ -1,0 +1,157 @@
+{
+  "skip_link": { "es": "Saltar al contenido", "en": "Skip to content" },
+
+  "nav_gtk": { "es": "Sobre GTK", "en": "About GTK" },
+  "nav_areas": { "es": "Áreas de especialización", "en": "Areas of Expertise" },
+  "nav_projects": { "es": "Colaboraciones destacadas", "en": "Selected Collaborations" },
+  "nav_clients": { "es": "Socios estratégicos", "en": "Strategic Partners" },
+  "nav_insights": { "es": "Insights", "en": "Insights" },
+  "nav_contact": { "es": "Contacto", "en": "Contact" },
+  "tab_gtk": { "es": "GTK", "en": "GTK" },
+  "tab_areas": { "es": "\u00c1reas", "en": "Areas" },
+  "tab_clients": { "es": "Socios", "en": "Partners" },
+  "tab_projects": { "es": "Proyectos", "en": "Projects" },
+  "tab_insights": { "es": "Insights", "en": "Insights" },
+  "tab_contact": { "es": "Contacto", "en": "Contact" },
+  "brand_sub": { "es": "Global Technology Knowledge", "en": "Global Technology Knowledge" },
+  "lang_es_aria": { "es": "Cambiar a español", "en": "Switch to Spanish" },
+  "lang_en_aria": { "es": "Cambiar a inglés", "en": "Switch to English" },
+
+  "hero_name": { "es": "Global Technology Knowledge Corp.", "en": "Global Technology Knowledge Corp." },
+  "hero_h1": { "es": "Ecosistemas de conocimiento <span class=\"hero__accent\">que conectan mundos</span>", "en": "Knowledge ecosystems <span class=\"hero__accent\">that connect worlds</span>" },
+  "hero_lead": { "es": "<strong>Donde otros ven instituciones separadas, nosotros trazamos el puente.</strong> Desde 2002 diseñamos y activamos alianzas entre universidades, gobiernos y empresas para convertir el conocimiento en valor real.", "en": "<strong>Where others see separate institutions, we build the bridge.</strong> Since 2002 we have designed and activated alliances between universities, governments and companies to turn knowledge into real value." },
+  "hero_svg_title": { "es": "Red de conocimiento e instituciones conectadas de GTK", "en": "GTK's connected knowledge and institutions network" },
+
+  "data_1_label": { "es": "Año de fundación", "en": "Year founded" },
+  "data_2_value": { "es": "EE. UU. y Europa", "en": "United States and Europe" },
+  "data_2_label": { "es": "Ámbito de trabajo", "en": "Scope of work" },
+  "data_3_label": { "es": "Socios estratégicos", "en": "Strategic partners" },
+  "data_4_label": { "es": "Oficinas", "en": "Offices" },
+
+  "gtk_title": { "es": "Sobre GTK", "en": "About GTK" },
+  "gtk_intro": { "es": "<strong>El conocimiento no genera valor por sí solo: lo genera cuando se conecta.</strong> Conectar es exactamente nuestro oficio, y llevamos más de veinte años ejerciéndolo entre dos continentes.", "en": "<strong>Knowledge creates no value on its own: it creates value when it connects.</strong> Connecting is precisely our craft, and we have been practising it across two continents for over twenty years." },
+
+  "row1_title": { "es": "01 Ecosistemas de conocimiento", "en": "01 Knowledge ecosystems" },
+  "row1_body": { "es": "En GTK creamos ecosistemas de conocimiento locales, regionales, nacionales y globales con la agregación de los agentes y dinamizadores más adecuados a cada proyecto y a cada fase del mismo.", "en": "At Global Technology Knowledge Corp. we create knowledge ecosystems at local, regional, national and global levels. We reach full optimization through a well-balanced combination of knowledge engineering and the addition of the best suited agents and engines to each project and to each phase." },
+
+  "row2_title": { "es": "02 Alianzas institucionales", "en": "02 Institutional alliances" },
+  "row2_body": { "es": "Contamos con acuerdos de colaboración estables con algunas de las instituciones de educación superior y de investigación más potentes del mundo al igual que con los mejores socios tecnológicos en IT para el sector educativo.", "en": "We have firm alliances and agreements with some of the most prestigious research centers and higher education institutions in the world and with some of the most powerful high-tech companies in the educational sector." },
+
+  "row3_title": { "es": "04 Equipo y talento", "en": "04 Team and talent" },
+  "row3_body": { "es": "Nuestro equipo de gestión y coordinación de proyectos posee una experiencia única y singular en la creación, implantación y el desarrollo de proyectos complejos.", "en": "Our team brings together highly specialized human talent, all of them experts in the creation, management, coordination, implementation and development of complex projects." },
+
+  "row4_title": { "es": "05 Creación de valor", "en": "05 Value creation" },
+  "row4_body": { "es": "Estamos especializados en la creación de valor derivada de la integración de actividades, recursos y activos intangibles cuyos orígenes son inteligencia y conocimiento puestos en interacción con información y desarrollos de tecnología para converger en la llamada Sociedad del Conocimiento.", "en": "Global Technology Knowledge Corp. is specialized in creating and adding value associated to the integration of activities and intangible assets whose origins are intelligence and knowledge put into interactions with information and technology. These developments converge on the so-called Knowledge Society." },
+
+  "row5_title": { "es": "03 Estrategias MECE", "en": "03 MECE strategies" },
+  "row5_badge": { "es": "Línea propia", "en": "Signature line" },
+  "row5_body": { "es": "Destacamos nuestra línea de desarrollo de estrategias MECE de asociación multinivel (Mutually-Exclusive/Collectively-Exhaustive) como parte integral de la actividad desarrollada por Global Technology Knowledge para sus socios estratégicos.", "en": "We emphasize our line of developments for multilevel association and partnership strategies MECE (Mutually-Exclusive/Collectively-Exhaustive) as an integral part of the added-value work conducted by Global Technology Knowledge for its strategic partners." },
+
+  "row6_title": { "es": "06 Quién confía en GTK", "en": "06 Who works with us" },
+  "row6_body": { "es": "Trabajamos con gobiernos, comunidades regionales, municipalidades, compañías multinacionales, universidades, centros de investigación, agencias de calidad y entidades financieras e inversoras.", "en": "We work alongside governments, regional communities, municipalities, multinational companies, universities, research centers, quality agencies and financial institutions and investors." },
+
+  "areas_title": { "es": "Áreas de especialización", "en": "Areas of Expertise" },
+  "areas_intro": { "es": "<strong>Nueve frentes, un mismo objetivo: que su institución juegue en la liga internacional.</strong> Elija el que le interesa y hablamos.", "en": "<strong>Nine fronts, one single goal: to put your institution in the international league.</strong> Pick the one you care about and let's talk." },
+  "area1": { "es": "Ciudades del Conocimiento", "en": "Knowledge Cities" },
+  "area2": { "es": "Alianzas internacionales para universidades y centros de investigación", "en": "International alliances for universities and research centers" },
+  "area3": { "es": "Estrategias internacionales en I+D+I", "en": "International R&D&I strategies" },
+  "area4": { "es": "Incremento de la competitividad", "en": "Increasing competitiveness" },
+  "area5": { "es": "Alianzas en economías del conocimiento", "en": "Alliances in knowledge economies" },
+  "area6": { "es": "Universidades corporativas", "en": "Corporate universities" },
+  "area7": { "es": "Alianzas y operadores dominantes", "en": "Alliances with leading operators" },
+  "area8": { "es": "Proyectos Open ID en investigación", "en": "Open ID research projects" },
+  "area9": { "es": "Programas de capital humano", "en": "Human capital programs" },
+
+  "projects_title": { "es": "Colaboraciones destacadas", "en": "Selected Collaborations" },
+  "projects_intro": { "es": "<strong>Del MIT a Barcelona, de Columbia a Bogotá: dos décadas abriendo puertas que parecían cerradas.</strong> Desde el año 2002 en Global Technology Knowledge Corp. hemos participado en proyectos muy diversos que han contribuido a la internacionalización y a la creación de valor de nuestros socios estratégicos en las áreas de investigación y formación. Entre otros proyectos de relevancia citamos:", "en": "<strong>From MIT to Barcelona, from Columbia to Bogotá: two decades opening doors that looked closed.</strong> Since 2002 Global Technology Knowledge Corp. have been involved in very diverse type of projects. We have contributed since that time to the internationalization and the creation of value for our strategic partners in many areas of research and training. Among other projects:" },
+
+  "filters_aria": { "es": "Filtros de colaboraciones", "en": "Collaboration filters" },
+  "filter_all": { "es": "Todos", "en": "All" },
+  "filter_cities": { "es": "Ciudades del conocimiento", "en": "Knowledge cities" },
+  "filter_academic": { "es": "Alianzas académicas", "en": "Academic partnerships" },
+  "filter_accreditation": { "es": "Acreditación y calidad", "en": "Accreditation and quality" },
+  "filter_research": { "es": "Investigación", "en": "Research" },
+  "filter_international": { "es": "Internacionalización", "en": "Internationalization" },
+  "filter_corporate": { "es": "Universidad corporativa", "en": "Corporate university" },
+
+  "project1_title": { "es": "22@ Barcelona · b-Tec", "en": "22@ Barcelona · b-Tec" },
+  "project1_desc": { "es": "Ciudad del Conocimiento 22@ en Barcelona (España) mediante la iniciativa b-Tec (Barcelona Innovación Technológica) y la creación de sus estrategia puente de las b-Tec summer sessions, con la colaboración, entre otras entidades, del MIT, University of California y Columbia University, en las áreas de la energía y la sostenibilidad.", "en": "The 22@ Knowledge City in Barcelona (Spain) through the b-Tec initiative (Barcelona Innovació Tecnològica) and the creation of its bridging strategy, the b-Tec summer sessions, with the collaboration, among other entities, of MIT, University of California and Columbia University, in the fields of energy and sustainability." },
+
+  "project2_title": { "es": "Universidad San Pablo CEU", "en": "Universidad San Pablo CEU" },
+  "project2_desc": { "es": "La planificación de alianzas para la internacionalización académica en los EEUU de la Universidad San Pablo CEU. La Universidad San Pablo CEU es la institución académica privada más importante de España.", "en": "The planning of alliances for the academic internationalization in the USA of Universidad San Pablo CEU. Universidad San Pablo CEU is the most important private academic institution in Spain." },
+
+  "project3_title": { "es": "Màster BCNY · UB + Columbia", "en": "BCNY Master's · UB + Columbia" },
+  "project3_desc": { "es": "La implantación y co-gestión en la Universitat de Barcelona del Master de Periodisme BCNY en colaboración con la Journalism School y School of Continuing Education de la Universidad de Columbia.", "en": "The implementation and co-management at the Universitat de Barcelona of the BCNY Master in Journalism in collaboration with the Journalism School and the School of Continuing Education of Columbia University." },
+
+  "project4_title": { "es": "ACAP · Comunidad de Madrid", "en": "ACAP · Comunidad de Madrid" },
+  "project4_desc": { "es": "La internacionalización de las actividades de la Agencia de Calidad, Acreditación y Prospectiva de la Comunidad de Madrid (ACAP). Entidad dependiente del gobierno de Madrid, alcanzando acuerdos de colaboración con ABET, ABA y otras entidades acreditadoras de los EEUU.", "en": "The internationalization of the activities of the Agencia de Calidad, Acreditación y Prospectiva de la Comunidad de Madrid (ACAP). An agency of the Madrid regional government, reaching collaboration agreements with ABET, ABA and other US accrediting bodies." },
+
+  "project5_title": { "es": "MIT Industrial Liaison Program", "en": "MIT Industrial Liaison Program" },
+  "project5_desc": { "es": "El asesoramiento al Industrial Liasion Program del MIT en la creación de un Centro de Imágenes Biomédicas en España.", "en": "Advisory support to MIT's Industrial Liaison Program in the creation of a Biomedical Imaging Center in Spain." },
+
+  "project6_title": { "es": "Graham School · U. de Chicago", "en": "Graham School · U. of Chicago" },
+  "project6_desc": { "es": "El asesoramiento a la Graham School de la Universidad de Chicago en el establecimiento de una alianza estratégica en Madrid para un programa de investigación y educación en Gestión de Sistemas Complejos Socialmente Inteligentes.", "en": "Advisory support to the Graham School at the University of Chicago in establishing a strategic alliance in Madrid for a research and education program in Socially Intelligent Complex Systems Management." },
+
+  "project7_title": { "es": "Columbia · Earth Institute y CCE", "en": "Columbia · Earth Institute and CCE" },
+  "project7_desc": { "es": "El asesoramiento a Columbia University (Earth Institute y CCE) en la implantación en España de programas de Investigación en Desarrollo Urbano Sostenible y Captura de CO2 y programas educativos de Gestión de la Sostenibilidad.", "en": "Advisory support to Columbia University (Earth Institute and CCE) in implementing in Spain research programs in Sustainable Urban Development and CO2 Capture, along with educational programs in Sustainability Management." },
+
+  "project8_title": { "es": "Clinical Trials · U. de Chicago", "en": "Clinical Trials · U. of Chicago" },
+  "project8_desc": { "es": "El desarrollo de programas de Clinical Trials de la Universidad de Chicago para el mercado hispano parlante.", "en": "The development of Clinical Trials programs from the University of Chicago for the Spanish-speaking market." },
+
+  "project9_title": { "es": "UC Irvine Extension", "en": "UC Irvine Extension" },
+  "project9_desc": { "es": "Gestión para el desarrollo y la implementación en Latinoamérica de los programas en Project Management en idioma español para University of California Irvine Extension.", "en": "Management of the development and implementation in Latin America of Project Management programs in Spanish for University of California Irvine Extension." },
+
+  "project10_title": { "es": "EIN Bogotá", "en": "EIN Bogotá" },
+  "project10_desc": { "es": "La internacionalización de actividades educativas de la Escuela Internacional de Negocios de Bogotá (Colombia) en colaboración con Boston University y University of California.", "en": "The internationalization of educational activities of the Escuela Internacional de Negocios in Bogotá (Colombia) in collaboration with Boston University and University of California." },
+
+  "project11_title": { "es": "Excelsior College", "en": "Excelsior College" },
+  "project11_desc": { "es": "La creación del primer programa de estudio como «Suplemento Norteamericano al Grado» en el entorno europeo de formación (proceso de Bolonia) con Excelsior College de NY.", "en": "The creation of the first study program as a «North American Degree Supplement» within the European education framework (Bologna Process) with Excelsior College of NY." },
+
+  "project12_title": { "es": "Consorcio Madrileño del Conocimiento", "en": "Consorcio Madrileño del Conocimiento" },
+  "project12_desc": { "es": "El asesoramiento en el proyecto de internacionalización y estímulo de la competitividad del sistema universitario en la Comunidad de Madrid (Consorcio Madrileño del Conocimiento).", "en": "Advisory support for the internationalization project and the drive to boost the competitiveness of the university system in the Comunidad de Madrid (Consorcio Madrileño del Conocimiento)." },
+
+  "project13_title": { "es": "Learning outcomes en Ingeniería", "en": "Learning outcomes in Engineering" },
+  "project13_desc": { "es": "La creación de un proceso de internacionalización y homogenización de standards de learning outcomes en las diversas áreas de la Ingeniería.", "en": "The creation of an internationalization and standardization process for learning outcomes standards across the various fields of Engineering." },
+
+  "project14_title": { "es": "Universidad corporativa · sector financiero", "en": "Corporate university · financial sector" },
+  "project14_desc": { "es": "Diseño de Universidad Corporativa para el sector financiero.", "en": "Design of a Corporate University for the financial sector." },
+
+  "carousel_hint": { "es": "Deslice para ver más colaboraciones", "en": "Swipe to see more collaborations" },
+  "carousel_prev_aria": { "es": "Proyecto anterior", "en": "Previous project" },
+  "carousel_next_aria": { "es": "Siguiente proyecto", "en": "Next project" },
+
+  "clients_title": { "es": "Socios estratégicos", "en": "Strategic Partners" },
+  "clients_intro": { "es": "<strong>Instituciones que no se conforman con lo local.</strong> Gobiernos, universidades y compañías que decidieron dejar de esperar la oportunidad y salir a construirla.", "en": "<strong>Institutions that refuse to settle for local.</strong> Governments, universities and companies that stopped waiting for the opportunity and went out to build it." },
+
+  "insights_title": { "es": "Insights", "en": "Insights" },
+  "insights_intro": { "es": "<strong>Lo que aprendemos construyendo alianzas, puesto a disposici\u00f3n de quien va a construir la suya.</strong> An\u00e1lisis y notas sobre internacionalizaci\u00f3n, ecosistemas de conocimiento y educaci\u00f3n superior.", "en": "<strong>What we learn building alliances, shared with whoever is about to build their own.</strong> Analysis and notes on internationalization, knowledge ecosystems and higher education." },
+
+  "contact_region_ny": { "es": "Nueva York", "en": "New York" },
+  "contact_region_ca": { "es": "California", "en": "California" },
+  "contact_region_ma": { "es": "Massachusetts", "en": "Massachusetts" },
+
+  "form_title": { "es": "Escríbanos", "en": "Write to us" },
+  "form_intro": { "es": "<strong>Toda gran alianza empezó con una primera conversación.</strong> Cuéntenos brevemente quién es y qué necesita: le responderemos al correo que nos indique.", "en": "<strong>Every great alliance started with a first conversation.</strong> Tell us briefly who you are and what you need: we will reply to the address you provide." },
+  "form_name_label": { "es": "¿Quién consulta?", "en": "Who is enquiring?" },
+  "form_name_ph": { "es": "Nombre y organización", "en": "Name and organisation" },
+  "form_email_label": { "es": "Correo de respuesta", "en": "Reply address" },
+  "form_email_ph": { "es": "nombre@organizacion.com", "en": "name@organisation.com" },
+  "form_subject_label": { "es": "Objeto de la consulta", "en": "Subject of the enquiry" },
+  "form_subject_ph": { "es": "Alianza académica, proyecto, acreditación…", "en": "Academic alliance, project, accreditation…" },
+  "form_message_label": { "es": "Texto para definir el interés", "en": "Text describing your interest" },
+  "form_message_ph": { "es": "Describa el contexto y el alcance de su consulta.", "en": "Describe the context and scope of your enquiry." },
+  "form_submit": { "es": "Enviar consulta", "en": "Send enquiry" },
+  "form_sending": { "es": "Enviando…", "en": "Sending…" },
+  "form_success": { "es": "Gracias. Hemos recibido su consulta y le responderemos en breve.", "en": "Thank you. We have received your enquiry and will reply shortly." },
+  "form_error": { "es": "No se ha podido enviar. Inténtelo de nuevo o escríbanos a info@globaltk.com.", "en": "It could not be sent. Please try again or email us at info@globaltk.com." },
+  "form_required": { "es": "Este campo es obligatorio.", "en": "This field is required." },
+  "form_email_invalid": { "es": "Introduzca un correo válido.", "en": "Please enter a valid email address." },
+
+  "footer_claim": { "es": "Higher Education", "en": "Higher Education" },
+  "footer_tagline": { "es": "Global Technology Knowledge Corp. · Union City, New Jersey · Desde 2002", "en": "Global Technology Knowledge Corp. · Union City, New Jersey · Since 2002" },
+  "footer_rights": { "es": "Todos los derechos reservados.", "en": "All rights reserved." },
+  "footer_top": { "es": "Volver arriba", "en": "Back to top" },
+
+  "meta_title": { "es": "GTK – Global Technology Knowledge Corp. | Consultora de ecosistemas de conocimiento", "en": "GTK – Global Technology Knowledge Corp. | Knowledge Ecosystems Consultancy" },
+  "meta_description": { "es": "GTK, Global Technology Knowledge Corp., consultora fundada en 2002 en Union City, Nueva Jersey, especializada en ecosistemas de conocimiento, alianzas académicas internacionales y estrategias MECE.", "en": "GTK, Global Technology Knowledge Corp., a consultancy founded in 2002 in Union City, New Jersey, specialized in knowledge ecosystems, international academic alliances and MECE strategies." }
+}

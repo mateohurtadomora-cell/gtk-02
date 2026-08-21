@@ -1,0 +1,321 @@
+/* ---------- Tokens ---------- */
+:root{
+  --navy:#0A2540; --accent:#1D4E77; --accent-ink:#123A5C;
+  --bg:#F2F3F5; --surface:#FFFFFF; --surface-2:#F8F9FA;
+  --text:#16202B; --text-2:#5B6774; --border:#DFE3E8;
+  --tint:rgba(29,78,119,.08); --navy-soft:rgba(10,37,64,.06);
+  --logo-a:#0A2540; --logo-b:#A8B2BD;
+  --glass:rgba(255,255,255,.72); --rail-bg:rgba(255,255,255,.78);
+  --shadow-s:0 1px 2px rgba(11,42,74,.05), 0 6px 18px rgba(11,42,74,.06);
+  --shadow-m:0 2px 8px rgba(11,42,74,.05), 0 20px 48px rgba(11,42,74,.09);
+  --map-land:#EDEEF2; --map-block:#DDDFE6; --map-water:#CFE3F7; --map-road:#F7F8FA;
+  --r-s:14px; --r-m:18px; --r-l:26px; --rail:264px;
+  --danger:#B3261E;
+  --sans:"SF Pro Display",-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --navy:#9BB6D0; --accent:#5B8CB8; --accent-ink:#8DAECD;
+    --bg:#0C1116; --surface:#161D24; --surface-2:#111820;
+    --text:#EDF1F5; --text-2:#95A3B1; --border:#2C3742;
+    --tint:rgba(91,140,184,.18); --navy-soft:rgba(255,255,255,.06);
+    --glass:rgba(18,24,30,.78); --rail-bg:rgba(18,24,30,.84);
+    --shadow-s:0 1px 2px rgba(0,0,0,.5); --shadow-m:0 18px 44px rgba(0,0,0,.6);
+    --map-land:#1A1A1E; --map-block:#26262C; --map-water:#123049; --map-road:#34343C;
+    --logo-a:#E4EBF2; --logo-b:#78838F;
+  }
+}
+
+/* ---------- Reset ---------- */
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);font-size:17px;line-height:1.55;letter-spacing:-.01em;-webkit-font-smoothing:antialiased}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+ul,ol{margin:0;padding:0;list-style:none}
+h1,h2,h3,p{margin:0}
+address{font-style:normal}
+input,textarea{font:inherit;color:inherit}
+
+h1,h2{font-weight:800;letter-spacing:-.026em}
+h1{font-size:clamp(38px,6vw,72px);line-height:1.04}
+h2{position:relative;font-size:clamp(28px,3.4vw,44px);line-height:1.1;margin-bottom:.7em}
+.h2mark{position:absolute;left:0;top:0;width:0;height:3px;border-radius:3px;background:var(--accent-ink);opacity:0;transition:opacity .3s ease}
+/* Section lead-in. The opening claim is wrapped in <strong> so it reads as a
+   headline over the explanatory sentence that follows it. */
+.lede{max-width:68ch;color:var(--text-2);font-size:18px;margin-bottom:32px}
+.lede strong{display:block;margin-bottom:6px;color:var(--text);font-size:clamp(19px,2.1vw,23px);font-weight:700;line-height:1.28;letter-spacing:-.012em}
+
+/* Gutters widen with the viewport so the display-size h1 never sits flush
+   against the left edge; every section shares .wrap, so hero and body copy
+   stay on the same optical margin. */
+.wrap{width:min(1140px,100% - 48px);margin-inline:auto}
+@media (min-width:768px){.wrap{width:min(1140px,100% - 96px)}}
+section{padding:clamp(52px,6.5vw,96px) 0}
+section[id]{scroll-margin-top:calc(70px + env(safe-area-inset-top))}
+
+.skip-link{position:fixed;top:-100px;left:12px;z-index:200;background:var(--surface);color:var(--text);padding:12px 18px;border-radius:var(--r-s);box-shadow:var(--shadow-m);transition:top .2s}
+.skip-link:focus{top:12px}
+
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+.sprite{position:absolute}
+
+/* ---------- Buttons / pills ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;height:48px;padding:0 26px;border-radius:100px;font-weight:600;white-space:nowrap}
+.btn--primary{background:var(--accent);color:#fff;box-shadow:var(--shadow-s)}
+.btn--primary:hover{background:var(--accent-ink)}
+.btn--ghost{background:var(--surface);border:1px solid var(--border);color:var(--text)}
+.btn--ghost:hover{border-color:var(--accent)}
+
+.pill{display:inline-flex;align-items:center;gap:8px;padding:7px 16px;border-radius:100px;background:var(--tint);font-size:14px;font-weight:600;color:var(--accent-ink)}
+.pill__dot{width:8px;height:8px;border-radius:50%;background:#3F7D5A;flex:none}
+
+/* ---------- Layout: rail / topbar / tabbar ---------- */
+.brand{display:inline-flex;align-items:center;gap:12px}
+.brand__mark{flex:none}
+.brand__text{display:flex;flex-direction:column;line-height:1.15}
+.brand__text strong{font-size:16px;letter-spacing:.02em}
+.brand__text small{font-size:11px;color:var(--text-2);white-space:nowrap}
+
+.langswitch{display:inline-flex;border:1px solid var(--border);border-radius:100px;padding:3px;gap:2px}
+.lang__btn{padding:6px 12px;border-radius:100px;font-size:12px;font-weight:700;letter-spacing:.02em;color:var(--text-2)}
+.lang__btn[aria-pressed="true"]{background:var(--accent);color:#fff}
+
+.rail{position:fixed;top:0;left:0;bottom:0;width:var(--rail);display:none;flex-direction:column;justify-content:space-between;padding:28px 22px;backdrop-filter:saturate(180%) blur(22px);-webkit-backdrop-filter:saturate(180%) blur(22px);background:var(--rail-bg);border-right:1px solid var(--border);z-index:100}
+.rail__nav{display:flex;flex-direction:column;gap:2px;margin-top:44px}
+.rail__nav a{display:flex;align-items:center;gap:14px;line-height:1.25;padding:11px 12px;border-radius:var(--r-s);color:var(--text-2);font-weight:600;font-size:15px}
+.rail__nav a:hover{background:var(--navy-soft);color:var(--text)}
+.rail__nav a.is-active{background:var(--tint);color:var(--accent-ink)}
+.rail__nav a svg{flex:none}
+.rail__foot{display:flex;flex-direction:column;gap:16px}
+.rail__foot address{font-size:12.5px;color:var(--text-2);line-height:1.6}
+.rail__foot address a{color:var(--text-2)}
+.rail__foot address a:hover{color:var(--accent-ink)}
+
+.topbar,.tabbar{display:flex}
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;align-items:center;justify-content:space-between;padding:14px 20px;padding-top:calc(14px + env(safe-area-inset-top));backdrop-filter:saturate(180%) blur(22px);-webkit-backdrop-filter:saturate(180%) blur(22px);background:var(--rail-bg);border-bottom:1px solid var(--border)}
+.tabbar{position:fixed;bottom:0;left:0;right:0;z-index:100;justify-content:space-around;padding:6px 8px;padding-bottom:calc(6px + env(safe-area-inset-bottom));backdrop-filter:saturate(180%) blur(22px);-webkit-backdrop-filter:saturate(180%) blur(22px);background:var(--rail-bg);border-top:1px solid var(--border)}
+.tabbar a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-width:52px;min-height:48px;padding:4px 4px;border-radius:var(--r-s);color:var(--text-2);font-size:10px;font-weight:600}
+.tabbar a span{white-space:nowrap}
+.tabbar a.is-active{color:var(--accent-ink)}
+
+body{padding-top:calc(70px + env(safe-area-inset-top));padding-bottom:calc(64px + env(safe-area-inset-bottom))}
+
+@media (min-width:1024px){
+  .rail{display:flex}
+  .topbar,.tabbar{display:none}
+  body{padding-top:0;padding-bottom:0;padding-left:var(--rail)}
+  section[id]{scroll-margin-top:20px}
+}
+
+/* ---------- Network background (fixed, whole page) ---------- */
+.net-bg{position:fixed;inset:0;z-index:-1;overflow:hidden;display:flex;align-items:center;justify-content:center;pointer-events:none}
+/* flex-shrink/max-width override an "img,svg{max-width:100%}" reset that
+   otherwise clamps this decorative background down to its container's
+   width. The scroll animation only rotates a few degrees (see app.js),
+   so this modest overscan is enough to never expose a square corner. */
+.net-bg svg{flex-shrink:0;max-width:none;width:min(1400px,130%);height:auto;transform:translate3d(0,0,0) rotate(0deg) scale(1);will-change:transform}
+.net-bg .edges,.net-bg .nodes{opacity:.16}
+.net-bg .markers{opacity:.85}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;min-height:clamp(360px,54vh,520px);display:flex;align-items:center;padding-top:calc(70px + env(safe-area-inset-top));padding-bottom:0}
+/* No width here: it would override .wrap's gutter (same specificity, later in
+   the cascade) and pin the display-size h1 flush to the viewport edge. */
+.hero__grid{position:relative;z-index:1}
+.hero__copy{position:relative;max-width:720px}
+.hero__copy::before{content:"";position:absolute;inset:-56px -60px;background:radial-gradient(closest-side,var(--bg) 52%,transparent 100%);z-index:-1;pointer-events:none}
+/* Same navy as the footer band (--navy is .foot's background), so the display
+   headline and the "Higher Education" block close the page on one colour. */
+.hero h1{margin:0 0 12px;color:var(--navy);font-size:clamp(34px,5.4vw,64px)}
+.hero__accent{color:var(--accent)}
+/* Subtitle: clearly subordinate to the company name, and a single flat tone --
+   the two-tone accent now lives in the h1, and repeating it on both lines
+   reads as noise. */
+.hero__sub{margin:0 0 22px;font-size:clamp(19px,2.3vw,29px);line-height:1.18;font-weight:700;letter-spacing:-.018em;color:var(--accent)}
+.hero__sub .hero__accent{color:inherit}
+.hero__lead{max-width:52ch;color:var(--text-2);font-size:19px}
+.hero__lead strong{display:block;margin-bottom:6px;color:var(--text);font-weight:700}
+
+@media (min-width:1024px){
+  .hero{padding-top:0}
+}
+
+/* Pulls "Bienvenidos a GTK" up towards the hero: the two read as one opening
+   block instead of being separated by a full section gap. */
+#gtk{padding-top:clamp(28px,3.4vw,52px)}
+
+.net-bg .node{fill:var(--navy)}
+.net-bg .node--hub{fill:var(--accent)}
+.net-bg .node--marker{fill:var(--accent-ink);transition:opacity .4s ease}
+.net-bg .node__halo{fill:var(--accent);opacity:.14;animation:halo 4.5s ease-in-out infinite;animation-delay:var(--d,0s)}
+.net-bg .node__halo--marker{fill:var(--accent-ink);opacity:.3;animation-duration:3.6s;transition:opacity .4s ease}
+.net-bg .node--marker.is-spent,.net-bg .node__halo--marker.is-spent{opacity:0!important}
+.net-bg .edge{stroke:var(--navy);stroke-opacity:.12;fill:none;animation:edge 9s ease-in-out infinite;animation-delay:var(--d,0s)}
+.net-bg .node--anim{animation:float var(--t,9s) ease-in-out infinite;animation-delay:var(--d,0s)}
+@keyframes edge{0%,100%{stroke-opacity:.12}50%{stroke-opacity:.34}}
+@keyframes float{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(0,-7px,0)}}
+@keyframes halo{0%,100%{transform:scale(1)}50%{transform:scale(1.16)}}
+
+/* Marker dot -> title underline "flight" */
+.net-fly{position:absolute;z-index:60;background:var(--accent-ink);pointer-events:none;transition:left .65s cubic-bezier(.22,1,.36,1),top .65s cubic-bezier(.22,1,.36,1),width .65s cubic-bezier(.22,1,.36,1),height .65s cubic-bezier(.22,1,.36,1),border-radius .65s cubic-bezier(.22,1,.36,1)}
+
+/* ---------- Data band ---------- */
+.databand{padding:0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface)}
+.databand__grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)}
+.databand__cell{position:relative;background:var(--surface);padding:clamp(32px,4vw,48px) 20px clamp(28px,4vw,44px);display:flex;flex-direction:column;gap:6px;overflow:hidden}
+.databand__cell strong{font-size:clamp(22px,2.6vw,32px);font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.databand__cell span{color:var(--text-2);font-size:14px}
+.databand__accent{position:absolute;top:0;left:20px;height:2px;width:0;border-radius:2px;background:linear-gradient(90deg,var(--accent),var(--accent-ink));transition:width .9s cubic-bezier(.16,1,.3,1) .1s}
+html.js .databand__cell.rv{transform:translateY(18px) scale(.95)}
+html.js .databand__cell.rv.is-in{transform:none}
+.databand__cell.is-in .databand__accent{width:38px}
+@media (min-width:768px){.databand__grid{grid-template-columns:repeat(4,1fr)}}
+
+/* ---------- GTK / accordion ---------- */
+.group{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-l);box-shadow:var(--shadow-s);overflow:hidden}
+.row{border-bottom:1px solid var(--border)}
+.row:last-child{border-bottom:0}
+.row summary{list-style:none;display:flex;align-items:center;gap:16px;padding:20px 24px;cursor:pointer}
+.row summary::-webkit-details-marker{display:none}
+.row__num{flex:none;width:30px;height:30px;border-radius:9px;background:var(--tint);color:var(--accent-ink);font-family:var(--mono);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.row__num--accent{background:var(--accent);color:#fff}
+.row__title{flex:1;font-weight:700;font-size:16.5px}
+.badge{font-size:11px;font-weight:700;color:var(--accent-ink);background:var(--surface);border:1px solid var(--border);padding:4px 10px;border-radius:100px}
+.row__chev{flex:none;color:var(--text-2);transition:transform .25s ease}
+.row[open] .row__chev{transform:rotate(90deg)}
+.row__body{margin:0 24px 24px 66px;color:var(--text-2)}
+.row--mece{background:linear-gradient(180deg,var(--tint),transparent)}
+
+/* ---------- Areas ---------- */
+.areas li{border-bottom:1px solid var(--border)}
+.areas li:first-child{border-top:1px solid var(--border)}
+.areas a{display:flex;align-items:center;gap:20px;padding:22px 4px;transition:transform .2s ease,color .2s ease}
+.areas a:hover,.areas a:focus-visible{transform:translateX(14px);color:var(--accent-ink)}
+.areas__num{flex:none;font-family:var(--mono);color:var(--accent-ink);font-size:14px}
+.areas__title{flex:1;font-size:clamp(18px,2.1vw,26px);font-weight:600}
+.areas__arrow{flex:none;opacity:0;transition:opacity .2s ease}
+.areas a:hover .areas__arrow,.areas a:focus-visible .areas__arrow{opacity:1}
+
+/* ---------- Projects ---------- */
+.projects{background:var(--surface-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.projects__intro{max-width:70ch;color:var(--text-2);margin-bottom:28px}
+.filters{display:flex;gap:10px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:6px;margin-bottom:8px}
+.filters::-webkit-scrollbar{display:none}
+.pill--filter{flex:none;background:var(--surface);border:1px solid var(--border);color:var(--text-2)}
+.pill--filter.is-active{background:var(--accent);color:#fff;border-color:var(--accent)}
+@media (min-width:768px){.filters{flex-wrap:wrap;overflow:visible}}
+
+.carousel__outer{width:100%;margin-top:28px}
+.carousel{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-block:4px;
+  --gutter:max(20px, calc((100% - 1140px) / 2));
+  padding-inline:var(--gutter);scroll-padding-left:var(--gutter)}
+.carousel::-webkit-scrollbar{display:none}
+.carousel__spacer{flex:none;width:1px}
+.card{flex:none;width:clamp(268px,80vw,372px);scroll-snap-align:start;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-m);padding:24px;box-shadow:var(--shadow-s);transition:transform .2s ease,box-shadow .2s ease}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow-m)}
+.card.is-target{border-color:var(--accent);box-shadow:0 0 0 3px var(--tint)}
+.card__top{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.card__cat{font-size:12px;font-weight:700;color:var(--accent-ink);background:var(--tint);padding:5px 11px;border-radius:100px}
+.card__i{font-family:var(--mono);color:var(--text-2);font-size:13px}
+.card__title{font-size:20px;font-weight:700;margin-bottom:10px}
+.card__desc{color:var(--text-2);font-size:15px}
+
+.carousel__controls{display:flex;align-items:center;justify-content:space-between;margin-top:22px}
+.carousel__hint{color:var(--text-2);font-size:14px}
+.carousel__btns{display:none;gap:10px}
+.circle-btn{width:44px;height:44px;border-radius:50%;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text)}
+.circle-btn:hover{border-color:var(--accent);color:var(--accent-ink)}
+@media (min-width:768px){.carousel__btns{display:flex}}
+
+/* ---------- Clients ribbon ---------- */
+.ribbon{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.ribbon__track{display:flex;width:max-content;gap:20px;animation:slide 46s linear infinite}
+.ribbon:hover .ribbon__track,.ribbon:focus-within .ribbon__track{animation-play-state:paused}
+@keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+/* The tile keeps a white plate in both themes: the client logos are
+   full-colour marks drawn for white, and several are dark ink on transparent,
+   so they would disappear against the dark surface. */
+.logo__btn{flex:none;height:76px;min-width:150px;max-width:260px;display:flex;align-items:center;justify-content:center;padding:14px 22px;border:1px solid var(--border);border-radius:var(--r-s);background:#fff;color:var(--text);font-weight:700;font-size:14px;text-align:center;filter:grayscale(1);opacity:.72;transition:opacity .2s ease,filter .2s ease,border-color .2s ease,transform .2s ease}
+/* width:auto lets a wide lockup use the tile's full max-width instead of being
+   capped at its own attribute width; the height cap does the real sizing. */
+.logo__img{width:auto;max-width:100%;height:100%;max-height:48px;object-fit:contain;object-position:center}
+button.logo__btn:hover,button.logo__btn:focus-visible{filter:grayscale(0);opacity:1;border-color:var(--accent);transform:translateY(-2px)}
+.logo__btn.is-static{cursor:default}
+
+@media (max-width:767px){
+  .ribbon{-webkit-mask-image:none;mask-image:none}
+  .ribbon__track{animation:none;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .ribbon__track .logo__btn{filter:none;opacity:1}
+  .ribbon__track .logo__dup{display:none}
+}
+
+/* ---------- Contact form ---------- */
+.contact{background:var(--surface-2);border-top:1px solid var(--border)}
+.contact__wrap{max-width:760px}
+.contact__intro{color:var(--text-2);margin-bottom:32px;max-width:58ch}
+.form{display:flex;flex-direction:column;gap:20px}
+.form__row{display:grid;grid-template-columns:1fr;gap:20px}
+.form__field{display:flex;flex-direction:column;gap:7px}
+.form__label{font-size:14px;font-weight:600}
+.form input,.form textarea{width:100%;padding:13px 15px;border:1px solid var(--border);border-radius:var(--r-s);background:var(--surface);color:var(--text);font-size:16px;transition:border-color .2s ease,box-shadow .2s ease}
+.form input:focus,.form textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--tint)}
+.form textarea{resize:vertical;min-height:120px}
+.form__field.is-invalid input,.form__field.is-invalid textarea{border-color:var(--danger)}
+.form__err{font-size:13px;color:var(--danger);min-height:0}
+.form__submit{align-self:flex-start;margin-top:4px}
+.form__submit[disabled]{opacity:.6;cursor:progress}
+.form__status{font-size:15px;font-weight:600;margin:0}
+.form__status.is-ok{color:var(--accent-ink)}
+.form__status.is-err{color:var(--danger)}
+@media (min-width:640px){.form__row{grid-template-columns:1fr 1fr}}
+
+/* ---------- Footer ---------- */
+.foot{background:var(--navy);color:#fff;padding:clamp(52px,7vw,96px) 0 32px;--logo-a:#fff;--logo-b:rgba(255,255,255,.55)}
+@media (prefers-color-scheme: dark){.foot{background:#08192B}}
+.foot__mark{margin-bottom:24px}
+.foot__claim{font-size:clamp(40px,8vw,104px);line-height:.95;font-weight:800;letter-spacing:-.03em;margin-bottom:18px}
+.foot__tagline{color:rgba(255,255,255,.7);margin-bottom:36px}
+.foot__contact{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:48px}
+.foot__phone,.foot__email{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border:1px solid rgba(255,255,255,.2);border-radius:100px;font-weight:600;font-size:14px;color:#fff}
+.foot__phone span{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.55);font-weight:700}
+.foot__phone:hover,.foot__email:hover{border-color:#fff}
+.foot__bar{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center;padding-top:24px;border-top:1px solid rgba(255,255,255,.15)}
+.foot__rights{color:rgba(255,255,255,.6);font-size:13px}
+.foot__top{display:inline-flex;align-items:center;gap:6px;color:rgba(255,255,255,.85);font-weight:600;font-size:13px}
+.foot__top:hover{color:#fff}
+
+/* ---------- Reveal on scroll ---------- */
+html.js .rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+html.js .rv.is-in{opacity:1;transform:translateY(0)}
+
+/* ---------- Insights ----------
+   Article grid for the Insights section. The section and its two nav entries
+   are stripped from the generated pages while $insights in build.ps1 is empty,
+   so this only ever paints with real articles behind it. */
+.insights{list-style:none;display:grid;gap:20px;grid-template-columns:repeat(auto-fill,minmax(280px,1fr))}
+.insight{display:flex;flex-direction:column;gap:10px;height:100%;padding:26px 24px;border:1px solid var(--border);border-radius:var(--r-m);background:var(--surface);box-shadow:var(--shadow-s);transition:border-color .2s ease,transform .2s ease,box-shadow .2s ease}
+.insight:hover,.insight:focus-within{border-color:var(--accent);transform:translateY(-2px);box-shadow:var(--shadow-m)}
+.insight__meta{display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-size:11.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text-2)}
+.insight__tag{color:var(--accent-ink)}
+.insight__title{margin:0;font-size:19px;line-height:1.3;letter-spacing:-.012em}
+/* Whole-card target: the link stretches over the tile so the hit area is the
+   tile itself, not just the words in the heading. */
+.insight__title a{color:var(--text)}
+.insight__title a::after{content:"";position:absolute;inset:0}
+.insight:has(.insight__title a){position:relative}
+.insight__body{margin:0;color:var(--text-2);font-size:15px}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  .edge,.node--anim,.node__halo,.ribbon__track,.map__pulse{animation:none!important}
+  html.js .rv{opacity:1!important;transform:none!important;transition:none!important}
+  .net-bg svg{transform:none!important}
+  .net-fly{display:none!important}
+  .h2mark{transition:none!important}
+  .databand__accent{transition:none!important;width:38px!important}
+}
