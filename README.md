@@ -46,3 +46,25 @@ El `canonical`, `hreflang`, Open Graph, JSON-LD, `sitemap.xml` y `robots.txt`
 usan `https://www.globaltk.com` como dominio de referencia. Si el dominio real
 es otro, actualízalo en `build/content.json` / `build/build.ps1` y en
 `sitemap.xml` / `robots.txt`, y vuelve a generar las páginas.
+
+## Socios estrategicos pendientes de logo
+
+Seis entidades ya figuran en la cinta de socios como placa de texto, a la
+espera del logo oficial del cliente. Para activarlas: dejar el fichero en
+`assets/logos/` y rellenar el campo `file` de la entrada correspondiente en
+el array `$clients` de `../build/build.ps1`, luego regenerar.
+
+- UCLA Extension
+- UC Davis
+- Camara de Comercio de Alava
+- Shanghai International University (SISU) DongFang
+- Universidad Politecnica de Madrid
+- Global Alumni
+
+**Denominacion por confirmar:** la sigla SISU corresponde a *Shanghai
+International Studies University*; "Shanghai International University" no
+existe con ese nombre. Confirmar con el cliente la denominacion exacta y si
+"DongFang" designa un college concreto de esa universidad.
+
+Al incorporarlas, la banda de datos pasa a anunciar 21 socios
+(`data-count` en `../build/template.html`).
