@@ -128,6 +128,38 @@ idioma no se puedan desincronizar. `url` vacio deja la tarjeta sin enlace.
 Ya estan escritos el titulo y la entradilla de la seccion (`insights_title`,
 `insights_intro`); son **texto propuesto, pendiente de validar** con el cliente.
 
+## Terminos de uso (revision juridica pendiente)
+
+El pie tiene un boton «Terminos de uso» que abre una ventana modal con el
+texto completo, en ES y EN. Las claves son `terms_link`, `terms_title`,
+`terms_updated`, `terms_close_aria` y doce pares `terms_sN_title` /
+`terms_sN_body` en `build/content.json`.
+
+**El texto es un articulado estandar de terminos de uso de sitio web, no
+asesoramiento juridico.** Esta redactado para una sociedad estadounidense
+(Global Technology Knowledge Corp., Union City, Nueva Jersey) y somete el
+acuerdo a la ley de Nueva Jersey y a los tribunales del condado de Hudson.
+Debe revisarlo un abogado de la empresa antes de publicarlo en el dominio
+definitivo. Puntos que conviene que confirme:
+
+- La ley aplicable y el foro (Nueva Jersey / condado de Hudson).
+- La clausula 4, que declara que los logotipos de la cinta de socios
+  pertenecen a sus titulares y se muestran con fines identificativos, sin
+  implicar patrocinio. Es la que cubre el uso de esas marcas.
+- La clausula 7, que describe lo que hace hoy el sitio: no instala cookies ni
+  guarda nada en el navegador, el formulario se transmite por un proveedor
+  externo (Formspree) y las tipografias se cargan desde Google Fonts. **Si
+  cambia cualquiera de esas tres cosas, hay que actualizar la clausula.**
+- Si la empresa necesita ademas una politica de privacidad separada; aqui solo
+  hay la mencion minima dentro de los terminos.
+
+La fecha de `terms_updated` se edita a mano al cambiar el texto.
+
+El dialogo es generico: cualquier elemento con `data-modal-open="<id>"` abre
+el contenedor con ese id, y cualquier `data-modal-close` dentro de el (o el
+fondo, o la tecla Escape) lo cierra. El foco se lleva al panel al abrir, queda
+atrapado dentro mientras esta abierto y vuelve al boton de origen al cerrar.
+
 ## Socios estrategicos pendientes de logo
 
 Seis entidades ya figuran en la cinta de socios como placa de texto, a la

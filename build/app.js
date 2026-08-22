@@ -544,4 +544,86 @@
     });
   }
 
+  /* Modal dialogs. Generic on purpose: any [data-modal-open="id"] opens the
+     container with that id, and any [data-modal-close] inside it (plus the
+     scrim, plus Escape) closes it. Today the only one is the terms of use. */
+  var openModal = null;
+  var modalOpener = null;
+
+  var FOCUSABLE = 'a[href],button:not([disabled]),input:not([disabled]),' +
+                  'select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
+
+  function modalFocusables(modal){
+    var all = modal.querySelectorAll(FOCUSABLE);
+    var out = [];
+    for(var i=0;i<all.length;i++){
+      /* offsetParent is null for anything display:none inside the panel */
+      if(all[i].offsetParent !== null || all[i] === document.activeElement){ out.push(all[i]); }
+    }
+    return out;
+  }
+
+  function showModal(modal){
+    if(openModal){ hideModal(); }
+    modalOpener = document.activeElement;
+    modal.hidden = false;
+    document.body.classList.add('is-modal');
+    openModal = modal;
+    var panel = modal.querySelector('.modal__panel');
+    /* Focus the panel itself rather than the close button: a screen reader
+       then announces the dialog title before anything else. */
+    if(panel){ panel.focus(); }
+  }
+
+  function hideModal(){
+    if(!openModal){ return; }
+    openModal.hidden = true;
+    document.body.classList.remove('is-modal');
+    openModal = null;
+    /* Send the focus back where it came from, not to the top of the page. */
+    if(modalOpener && modalOpener.focus){ modalOpener.focus(); }
+    modalOpener = null;
+  }
+
+  document.addEventListener('click', function(e){
+    var opener = findElAttr(e.target, 'data-modal-open');
+    if(opener){
+      var target = document.getElementById(opener.getAttribute('data-modal-open'));
+      if(target){ e.preventDefault(); showModal(target); }
+      return;
+    }
+    if(openModal && findElAttr(e.target, 'data-modal-close')){
+      e.preventDefault();
+      hideModal();
+    }
+  });
+
+  document.addEventListener('keydown', function(e){
+    if(!openModal){ return; }
+    if(e.key === 'Escape' || e.keyCode === 27){
+      hideModal();
+      return;
+    }
+    if(e.key !== 'Tab' && e.keyCode !== 9){ return; }
+    /* Keep Tab inside the dialog: without this the focus walks off into the
+       page behind the scrim, which is still there but not operable. */
+    var items = modalFocusables(openModal);
+    if(!items.length){ e.preventDefault(); return; }
+    var first = items[0], last = items[items.length-1];
+    var active = document.activeElement;
+    if(e.shiftKey && (active === first || active === openModal.querySelector('.modal__panel'))){
+      e.preventDefault(); last.focus();
+    } else if(!e.shiftKey && active === last){
+      e.preventDefault(); first.focus();
+    }
+  });
+
+  function findElAttr(el, attr){
+    while(el && el !== document){
+      if(el.nodeType === 1 && el.hasAttribute(attr)){ return el; }
+      el = el.parentNode;
+    }
+    return null;
+  }
+
 })();

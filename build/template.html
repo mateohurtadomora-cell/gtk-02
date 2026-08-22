@@ -102,6 +102,7 @@
   <symbol id="icon-caret" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M15 6l-6 6 6 6"/></symbol>
   <symbol id="icon-caret-r" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M9 6l6 6-6 6"/></symbol>
   <symbol id="icon-up" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M6 15l6-6 6 6"/></symbol>
+  <symbol id="icon-close" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></symbol>
 </svg>
 
 <header class="topbar">
@@ -302,8 +303,10 @@
 
 <footer class="foot" id="contacto">
   <div class="wrap">
-    <svg class="foot__mark" width="54" height="54" aria-hidden="true"><use href="#gtk-mark"/></svg>
-    <p class="foot__claim" data-i18n="footer_claim">{{t:footer_claim}}</p>
+    <div class="foot__brand">
+      <svg class="foot__mark" width="54" height="54" aria-hidden="true"><use href="#gtk-mark"/></svg>
+      <p class="foot__claim" data-i18n="footer_claim">{{t:footer_claim}}</p>
+    </div>
     <p class="foot__tagline" data-i18n="footer_tagline">{{t:footer_tagline}}</p>
     <div class="foot__contact">
       <a class="foot__phone" href="tel:+16462573791"><span data-i18n="contact_region_ny">{{t:contact_region_ny}}</span>+1 646 257-3791</a>
@@ -313,10 +316,53 @@
     </div>
     <div class="foot__bar">
       <p class="foot__rights">&copy; <span id="year"></span> GTK — Global Technology Knowledge Corp. <span data-i18n="footer_rights">{{t:footer_rights}}</span></p>
-      <a class="foot__top" href="#inicio"><svg width="16" height="16" aria-hidden="true"><use href="#icon-up"/></svg> <span data-i18n="footer_top">{{t:footer_top}}</span></a>
+      <div class="foot__meta">
+        <button type="button" class="foot__legal" data-modal-open="termsModal" data-i18n="terms_link">{{t:terms_link}}</button>
+        <a class="foot__top" href="#inicio"><svg width="16" height="16" aria-hidden="true"><use href="#icon-up"/></svg> <span data-i18n="footer_top">{{t:footer_top}}</span></a>
+      </div>
     </div>
   </div>
 </footer>
+
+<!-- Terminos de uso. Vive fuera de <main> a proposito: es contenido legal
+     accesorio, no parte del documento principal, y al abrirse se lleva el
+     foco dentro del panel hasta que se cierra. -->
+<div class="modal" id="termsModal" hidden>
+  <div class="modal__scrim" data-modal-close></div>
+  <div class="modal__panel" role="dialog" aria-modal="true" aria-labelledby="termsTitle" tabindex="-1">
+    <div class="modal__head">
+      <h2 class="modal__title" id="termsTitle" data-i18n="terms_title">{{t:terms_title}}</h2>
+      <button type="button" class="modal__close" data-modal-close data-i18n-aria="terms_close_aria" aria-label="{{a:terms_close_aria}}"><svg width="20" height="20" aria-hidden="true"><use href="#icon-close"/></svg></button>
+    </div>
+    <div class="modal__body">
+      <p class="modal__updated" data-i18n="terms_updated">{{t:terms_updated}}</p>
+      <h3 data-i18n="terms_s1_title">{{t:terms_s1_title}}</h3>
+      <p data-i18n-html="terms_s1_body">{{h:terms_s1_body}}</p>
+      <h3 data-i18n="terms_s2_title">{{t:terms_s2_title}}</h3>
+      <p data-i18n-html="terms_s2_body">{{h:terms_s2_body}}</p>
+      <h3 data-i18n="terms_s3_title">{{t:terms_s3_title}}</h3>
+      <p data-i18n-html="terms_s3_body">{{h:terms_s3_body}}</p>
+      <h3 data-i18n="terms_s4_title">{{t:terms_s4_title}}</h3>
+      <p data-i18n-html="terms_s4_body">{{h:terms_s4_body}}</p>
+      <h3 data-i18n="terms_s5_title">{{t:terms_s5_title}}</h3>
+      <p data-i18n-html="terms_s5_body">{{h:terms_s5_body}}</p>
+      <h3 data-i18n="terms_s6_title">{{t:terms_s6_title}}</h3>
+      <p data-i18n-html="terms_s6_body">{{h:terms_s6_body}}</p>
+      <h3 data-i18n="terms_s7_title">{{t:terms_s7_title}}</h3>
+      <p data-i18n-html="terms_s7_body">{{h:terms_s7_body}}</p>
+      <h3 data-i18n="terms_s8_title">{{t:terms_s8_title}}</h3>
+      <p data-i18n-html="terms_s8_body">{{h:terms_s8_body}}</p>
+      <h3 data-i18n="terms_s9_title">{{t:terms_s9_title}}</h3>
+      <p data-i18n-html="terms_s9_body">{{h:terms_s9_body}}</p>
+      <h3 data-i18n="terms_s10_title">{{t:terms_s10_title}}</h3>
+      <p data-i18n-html="terms_s10_body">{{h:terms_s10_body}}</p>
+      <h3 data-i18n="terms_s11_title">{{t:terms_s11_title}}</h3>
+      <p data-i18n-html="terms_s11_body">{{h:terms_s11_body}}</p>
+      <h3 data-i18n="terms_s12_title">{{t:terms_s12_title}}</h3>
+      <p data-i18n-html="terms_s12_body">{{h:terms_s12_body}}</p>
+    </div>
+  </div>
+</div>
 
 <nav class="tabbar" aria-label="Main">
   <a href="#gtk" data-section="gtk"><svg width="22" height="22" aria-hidden="true"><use href="#icon-gtk"/></svg><span data-i18n="tab_gtk">{{t:tab_gtk}}</span></a>

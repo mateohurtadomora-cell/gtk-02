@@ -352,8 +352,9 @@ button.logo__btn:hover,button.logo__btn:focus-visible{filter:grayscale(0);opacit
 /* ---------- Footer ---------- */
 .foot{background:var(--navy);color:#fff;padding:clamp(52px,7vw,96px) 0 32px;--logo-a:#fff;--logo-b:rgba(255,255,255,.55)}
 @media (prefers-color-scheme: dark){.foot{background:#08192B}}
-.foot__mark{margin-bottom:24px}
-.foot__claim{font-size:clamp(40px,8vw,104px);line-height:.95;font-weight:800;letter-spacing:-.03em;margin-bottom:18px}
+.foot__brand{display:flex;align-items:center;gap:16px;margin-bottom:22px;--foot-brand:clamp(34px,6.2vw,54px)}
+.foot__mark{flex:none;width:var(--foot-brand);height:var(--foot-brand)}
+.foot__claim{margin:0;font-size:var(--foot-brand);line-height:1;font-weight:800;letter-spacing:-.03em}
 .foot__tagline{color:rgba(255,255,255,.7);margin-bottom:36px}
 .foot__contact{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:48px}
 .foot__phone,.foot__email{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border:1px solid rgba(255,255,255,.2);border-radius:100px;font-weight:600;font-size:14px;color:#fff}
@@ -363,6 +364,9 @@ button.logo__btn:hover,button.logo__btn:focus-visible{filter:grayscale(0);opacit
 .foot__rights{color:rgba(255,255,255,.6);font-size:13px}
 .foot__top{display:inline-flex;align-items:center;gap:6px;color:rgba(255,255,255,.85);font-weight:600;font-size:13px}
 .foot__top:hover{color:#fff}
+.foot__meta{display:inline-flex;flex-wrap:wrap;align-items:center;gap:22px}
+.foot__legal{color:rgba(255,255,255,.85);font-weight:600;font-size:13px;text-decoration:underline;text-underline-offset:3px}
+.foot__legal:hover{color:#fff}
 
 /* ---------- Reveal on scroll ---------- */
 html.js .rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
@@ -385,6 +389,32 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
 .insight:has(.insight__title a){position:relative}
 .insight__body{margin:0;color:var(--text-2);font-size:15px}
 
+/* ---------- Modal ----------
+   Un unico dialogo (terminos de uso), pero el comportamiento en app.js es
+   generico: cualquier [data-modal-open="id"] abre el contenedor con ese id. */
+.modal{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:20px}
+/* La regla de agente de usuario para [hidden] es display:none, pero la de
+   arriba gana por especificidad: hay que repetirla aqui. */
+.modal[hidden]{display:none}
+.modal__scrim{position:absolute;inset:0;background:rgba(10,37,64,.55);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+.modal__panel{position:relative;display:flex;flex-direction:column;width:min(760px,100%);max-height:min(85vh,780px);background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:var(--r-l);box-shadow:var(--shadow-m);overflow:hidden}
+html.js .modal__panel{animation:modalIn .22s ease both}
+@keyframes modalIn{from{opacity:0;transform:translateY(12px) scale(.985)}to{opacity:1;transform:none}}
+.modal__head{flex:none;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 26px;border-bottom:1px solid var(--border)}
+.modal__title{margin:0;font-size:22px;font-weight:800;letter-spacing:-.02em}
+.modal__close{flex:none;display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;border:1px solid var(--border);background:var(--surface-2);color:var(--text-2);transition:color .2s ease,border-color .2s ease}
+.modal__close:hover{color:var(--text);border-color:var(--accent)}
+/* El cuerpo es lo unico que scrollea: la cabecera con el boton de cerrar
+   queda siempre visible por larga que sea la lista de clausulas. */
+.modal__body{overflow-y:auto;padding:24px 26px 32px;-webkit-overflow-scrolling:touch}
+.modal__updated{margin:0 0 24px;font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text-2)}
+.modal__body h3{margin:24px 0 8px;font-size:15px;font-weight:700;letter-spacing:-.008em}
+.modal__body h3:first-of-type{margin-top:0}
+.modal__body p{margin:0;color:var(--text-2);font-size:14.5px;line-height:1.65}
+.modal__body a{color:var(--accent-ink);text-decoration:underline;text-underline-offset:2px}
+/* Bloquea el scroll del fondo mientras el dialogo esta abierto. */
+body.is-modal{overflow:hidden}
+
 /* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce){
   html{scroll-behavior:auto}
@@ -393,6 +423,7 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
   .net-bg svg{transform:none!important}
   .net-fly{display:none!important}
   .h2mark{transition:none!important}
+  .modal__panel{animation:none!important}
   .databand__accent{transition:none!important;width:38px!important}
 }
 </style>
@@ -423,6 +454,7 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
   <symbol id="icon-caret" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M15 6l-6 6 6 6"/></symbol>
   <symbol id="icon-caret-r" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M9 6l6 6-6 6"/></symbol>
   <symbol id="icon-up" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M6 15l6-6 6 6"/></symbol>
+  <symbol id="icon-close" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></symbol>
 </svg>
 
 <header class="topbar">
@@ -475,27 +507,27 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
     <p class="lede rv" data-i18n-html="gtk_intro"><strong>Knowledge creates no value on its own: it creates value when it connects.</strong> Connecting is precisely our craft, and we have been practising it across two continents for over twenty years.</p>
     <div class="group rv">
       <details class="row" open>
-        <summary><span class="row__num">01</span><span class="row__title" data-i18n="row1_title">01 Knowledge ecosystems</span><svg class="row__chev" width="20" height="20" aria-hidden="true"><use href="#icon-chevron"/></svg></summary>
+        <summary><span class="row__num">01</span><span class="row__title" data-i18n="row1_title">Knowledge ecosystems</span><svg class="row__chev" width="20" height="20" aria-hidden="true"><use href="#icon-chevron"/></svg></summary>
         <p class="row__body" data-i18n="row1_body">At Global Technology Knowledge Corp. we create knowledge ecosystems at local, regional, national and global levels. We reach full optimization through a well-balanced combination of knowledge engineering and the addition of the best suited agents and engines to each project and to each phase.</p>
       </details>
       <details class="row">
-        <summary><span class="row__num">02</span><span class="row__title" data-i18n="row2_title">02 Institutional alliances</span><svg class="row__chev" width="20" height="20" aria-hidden="true"><use href="#icon-chevron"/></svg></summary>
+        <summary><span class="row__num">02</span><span class="row__title" data-i18n="row2_title">Institutional alliances</span><svg class="row__chev" width="20" height="20" aria-hidden="true"><use href="#icon-chevron"/></svg></summary>
         <p class="row__body" data-i18n="row2_body">We have firm alliances and agreements with some of the most prestigious research centers and higher education institutions in the world and with some of the most powerful high-tech companies in the educational sector.</p>
       </details>
       <details class="row row--mece" open>
-        <summary><span class="row__num row__num--accent">03</span><span class="row__title" data-i18n="row5_title">03 MECE strategies</span><span class="badge" data-i18n="row5_badge">Signature line</span><svg class="row__chev" width="20" height="20" aria-hidden="true"><use href="#icon-chevron"/></svg></summary>
+        <summary><span class="row__num row__num--accent">03</span><span class="row__title" data-i18n="row5_title">MECE strategies</span><span class="badge" data-i18n="row5_badge">Signature line</span><svg class="row__chev" width="20" height="20" aria-hidden="true"><use href="#icon-chevron"/></svg></summary>
         <p class="row__body" data-i18n="row5_body">We emphasize our line of developments for multilevel association and partnership strategies MECE (Mutually-Exclusive/Collectively-Exhaustive) as an integral part of the added-value work conducted by Global Technology Knowledge for its strategic partners.</p>
       </details>
       <details class="row">
-        <summary><span class="row__num">04</span><span class="row__title" data-i18n="row3_title">04 Team and talent</span><svg class="row__chev" width="20" height="20" aria-hidden="true"><use href="#icon-chevron"/></svg></summary>
+        <summary><span class="row__num">04</span><span class="row__title" data-i18n="row3_title">Team and talent</span><svg class="row__chev" width="20" height="20" aria-hidden="true"><use href="#icon-chevron"/></svg></summary>
         <p class="row__body" data-i18n="row3_body">Our team brings together highly specialized human talent, all of them experts in the creation, management, coordination, implementation and development of complex projects.</p>
       </details>
       <details class="row">
-        <summary><span class="row__num">05</span><span class="row__title" data-i18n="row4_title">05 Value creation</span><svg class="row__chev" width="20" height="20" aria-hidden="true"><use href="#icon-chevron"/></svg></summary>
+        <summary><span class="row__num">05</span><span class="row__title" data-i18n="row4_title">Value creation</span><svg class="row__chev" width="20" height="20" aria-hidden="true"><use href="#icon-chevron"/></svg></summary>
         <p class="row__body" data-i18n="row4_body">Global Technology Knowledge Corp. is specialized in creating and adding value associated to the integration of activities and intangible assets whose origins are intelligence and knowledge put into interactions with information and technology. These developments converge on the so-called Knowledge Society.</p>
       </details>
       <details class="row">
-        <summary><span class="row__num">06</span><span class="row__title" data-i18n="row6_title">06 Who works with us</span><svg class="row__chev" width="20" height="20" aria-hidden="true"><use href="#icon-chevron"/></svg></summary>
+        <summary><span class="row__num">06</span><span class="row__title" data-i18n="row6_title">Who works with us</span><svg class="row__chev" width="20" height="20" aria-hidden="true"><use href="#icon-chevron"/></svg></summary>
         <p class="row__body" data-i18n="row6_body">We work alongside governments, regional communities, municipalities, multinational companies, universities, research centers, quality agencies and financial institutions and investors.</p>
       </details>
     </div>
@@ -609,8 +641,10 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
 
 <footer class="foot" id="contacto">
   <div class="wrap">
-    <svg class="foot__mark" width="54" height="54" aria-hidden="true"><use href="#gtk-mark"/></svg>
-    <p class="foot__claim" data-i18n="footer_claim">Higher Education</p>
+    <div class="foot__brand">
+      <svg class="foot__mark" width="54" height="54" aria-hidden="true"><use href="#gtk-mark"/></svg>
+      <p class="foot__claim" data-i18n="footer_claim">Higher Education</p>
+    </div>
     <p class="foot__tagline" data-i18n="footer_tagline">Global Technology Knowledge Corp. · Union City, New Jersey · Since 2002</p>
     <div class="foot__contact">
       <a class="foot__phone" href="tel:+16462573791"><span data-i18n="contact_region_ny">New York</span>+1 646 257-3791</a>
@@ -620,10 +654,53 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
     </div>
     <div class="foot__bar">
       <p class="foot__rights">&copy; <span id="year"></span> GTK — Global Technology Knowledge Corp. <span data-i18n="footer_rights">All rights reserved.</span></p>
-      <a class="foot__top" href="#inicio"><svg width="16" height="16" aria-hidden="true"><use href="#icon-up"/></svg> <span data-i18n="footer_top">Back to top</span></a>
+      <div class="foot__meta">
+        <button type="button" class="foot__legal" data-modal-open="termsModal" data-i18n="terms_link">Terms of Use</button>
+        <a class="foot__top" href="#inicio"><svg width="16" height="16" aria-hidden="true"><use href="#icon-up"/></svg> <span data-i18n="footer_top">Back to top</span></a>
+      </div>
     </div>
   </div>
 </footer>
+
+<!-- Terminos de uso. Vive fuera de <main> a proposito: es contenido legal
+     accesorio, no parte del documento principal, y al abrirse se lleva el
+     foco dentro del panel hasta que se cierra. -->
+<div class="modal" id="termsModal" hidden>
+  <div class="modal__scrim" data-modal-close></div>
+  <div class="modal__panel" role="dialog" aria-modal="true" aria-labelledby="termsTitle" tabindex="-1">
+    <div class="modal__head">
+      <h2 class="modal__title" id="termsTitle" data-i18n="terms_title">Terms of Use</h2>
+      <button type="button" class="modal__close" data-modal-close data-i18n-aria="terms_close_aria" aria-label="Close the terms of use"><svg width="20" height="20" aria-hidden="true"><use href="#icon-close"/></svg></button>
+    </div>
+    <div class="modal__body">
+      <p class="modal__updated" data-i18n="terms_updated">Last updated: August 22, 2026</p>
+      <h3 data-i18n="terms_s1_title">1. Acceptance of these Terms</h3>
+      <p data-i18n-html="terms_s1_body">By accessing and using this website, you agree to be bound by these Terms of Use. If you do not agree with them, please do not use the site.</p>
+      <h3 data-i18n="terms_s2_title">2. Who we are</h3>
+      <p data-i18n-html="terms_s2_body">This website is owned and operated by Global Technology Knowledge Corp. (“GTK”), a corporation organized in the United States of America with offices at 512, 35th Street, Union City, New Jersey 07087. You may contact us at <a href='mailto:info@globaltk.com'>info@globaltk.com</a>.</p>
+      <h3 data-i18n="terms_s3_title">3. Permitted use of the site</h3>
+      <p data-i18n-html="terms_s3_body">You may view, download and print the content of this site for your personal use or for the internal use of your organization. You may not: (a) use the site for any unlawful purpose or in breach of these Terms; (b) extract its content by automated means (<em>scraping</em>, bulk indexing or similar) without our written consent; (c) attempt to gain unauthorized access to the systems serving the site or interfere with its operation; (d) reproduce, distribute or commercially exploit the content without authorization.</p>
+      <h3 data-i18n="terms_s4_title">4. Intellectual property</h3>
+      <p data-i18n-html="terms_s4_body">The text, design, code, graphics and other elements of this site are owned by GTK or used under license, and are protected by United States intellectual property law and by applicable international treaties. The names, trademarks and logos of the institutions shown in the strategic partners section belong to their respective owners and are displayed solely to identify and describe past collaborations; their presence does not imply sponsorship or endorsement by those institutions.</p>
+      <h3 data-i18n="terms_s5_title">5. Informational purposes only</h3>
+      <p data-i18n-html="terms_s5_body">The content of this site is provided for informational purposes only. It does not constitute professional, legal, financial or academic advice, nor a binding offer of services. Any engagement will be governed by the agreement signed in each case.</p>
+      <h3 data-i18n="terms_s6_title">6. Third-party links</h3>
+      <p data-i18n-html="terms_s6_body">This site may contain links to third-party websites. We do not control their content or their practices and accept no responsibility for them. Access to those sites is at your own risk.</p>
+      <h3 data-i18n="terms_s7_title">7. Information you send us</h3>
+      <p data-i18n-html="terms_s7_body">The contact form collects the name, email address and message you choose to provide, and we use them solely to answer your enquiry. Submissions are transmitted through a third-party form provider and delivered to our email; we do not sell them or share them with third parties for commercial purposes. Please do not send confidential or sensitive information through this channel. This site sets no cookies and stores no data in your browser; typefaces are loaded from Google Fonts, which involves a request to Google’s servers that discloses your IP address.</p>
+      <h3 data-i18n="terms_s8_title">8. Disclaimer of warranties</h3>
+      <p data-i18n-html="terms_s8_body">The site and its content are provided “as is” and “as available”. To the fullest extent permitted by law, GTK makes no warranties of any kind, express or implied, including merchantability, fitness for a particular purpose and non-infringement, and does not warrant that the site will be error-free or uninterrupted, or that the information is current at all times.</p>
+      <h3 data-i18n="terms_s9_title">9. Limitation of liability</h3>
+      <p data-i18n-html="terms_s9_body">To the fullest extent permitted by law, neither GTK nor its officers, employees or contractors shall be liable for any indirect, incidental, special, punitive or consequential damages, nor for loss of profits or data, arising out of the access to or use of this site, even if advised of that possibility.</p>
+      <h3 data-i18n="terms_s10_title">10. Indemnification</h3>
+      <p data-i18n-html="terms_s10_body">You agree to indemnify and hold GTK harmless from any claim, damage or expense, including reasonable attorneys’ fees, arising out of your use of the site in breach of these Terms or of applicable law.</p>
+      <h3 data-i18n="terms_s11_title">11. Governing law and jurisdiction</h3>
+      <p data-i18n-html="terms_s11_body">These Terms are governed by the laws of the State of New Jersey, United States of America, without giving effect to its conflict-of-laws rules. Any dispute shall be brought before the state or federal courts located in Hudson County, New Jersey, and you consent to their personal jurisdiction.</p>
+      <h3 data-i18n="terms_s12_title">12. Changes and contact</h3>
+      <p data-i18n-html="terms_s12_body">We may amend these Terms at any time; the version in force is the one published on this page, bearing the update date shown above. If you have questions about them, write to us at <a href='mailto:info@globaltk.com'>info@globaltk.com</a>.</p>
+    </div>
+  </div>
+</div>
 
 <nav class="tabbar" aria-label="Main">
   <a href="#gtk" data-section="gtk"><svg width="22" height="22" aria-hidden="true"><use href="#icon-gtk"/></svg><span data-i18n="tab_gtk">GTK</span></a>
@@ -665,18 +742,18 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
     data_4_label: "Oficinas",
     gtk_title: "Sobre GTK",
     gtk_intro: "<strong>El conocimiento no genera valor por sí solo: lo genera cuando se conecta.</strong> Conectar es exactamente nuestro oficio, y llevamos más de veinte años ejerciéndolo entre dos continentes.",
-    row1_title: "01 Ecosistemas de conocimiento",
+    row1_title: "Ecosistemas de conocimiento",
     row1_body: "En GTK creamos ecosistemas de conocimiento locales, regionales, nacionales y globales con la agregación de los agentes y dinamizadores más adecuados a cada proyecto y a cada fase del mismo.",
-    row2_title: "02 Alianzas institucionales",
+    row2_title: "Alianzas institucionales",
     row2_body: "Contamos con acuerdos de colaboración estables con algunas de las instituciones de educación superior y de investigación más potentes del mundo al igual que con los mejores socios tecnológicos en IT para el sector educativo.",
-    row3_title: "04 Equipo y talento",
+    row3_title: "Equipo y talento",
     row3_body: "Nuestro equipo de gestión y coordinación de proyectos posee una experiencia única y singular en la creación, implantación y el desarrollo de proyectos complejos.",
-    row4_title: "05 Creación de valor",
+    row4_title: "Creación de valor",
     row4_body: "Estamos especializados en la creación de valor derivada de la integración de actividades, recursos y activos intangibles cuyos orígenes son inteligencia y conocimiento puestos en interacción con información y desarrollos de tecnología para converger en la llamada Sociedad del Conocimiento.",
-    row5_title: "03 Estrategias MECE",
+    row5_title: "Estrategias MECE",
     row5_badge: "Línea propia",
     row5_body: "Destacamos nuestra línea de desarrollo de estrategias MECE de asociación multinivel (Mutually-Exclusive/Collectively-Exhaustive) como parte integral de la actividad desarrollada por Global Technology Knowledge para sus socios estratégicos.",
-    row6_title: "06 Quién confía en GTK",
+    row6_title: "Quién confía en GTK",
     row6_body: "Trabajamos con gobiernos, comunidades regionales, municipalidades, compañías multinacionales, universidades, centros de investigación, agencias de calidad y entidades financieras e inversoras.",
     areas_title: "Áreas de especialización",
     areas_intro: "<strong>Nueve frentes, un mismo objetivo: que su institución juegue en la liga internacional.</strong> Elija el que le interesa y hablamos.",
@@ -757,6 +834,34 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
     footer_tagline: "Global Technology Knowledge Corp. · Union City, New Jersey · Desde 2002",
     footer_rights: "Todos los derechos reservados.",
     footer_top: "Volver arriba",
+    terms_link: "Términos de uso",
+    terms_title: "Términos de uso",
+    terms_updated: "Última actualización: 22 de agosto de 2026",
+    terms_close_aria: "Cerrar los términos de uso",
+    terms_s1_title: "1. Aceptación de estos términos",
+    terms_s1_body: "Al acceder a este sitio web y utilizarlo, usted acepta quedar vinculado por estos Términos de uso. Si no está de acuerdo con ellos, le rogamos que no utilice el sitio.",
+    terms_s2_title: "2. Quiénes somos",
+    terms_s2_body: "Este sitio es propiedad de Global Technology Knowledge Corp. («GTK»), sociedad constituida en los Estados Unidos de América con domicilio en 512, 35th Street, Union City, Nueva Jersey 07087, y está operado por ella. Puede escribirnos a <a href='mailto:info@globaltk.com'>info@globaltk.com</a>.",
+    terms_s3_title: "3. Uso permitido del sitio",
+    terms_s3_body: "Puede consultar, descargar e imprimir el contenido de este sitio para su uso personal o para el uso interno de su organización. No está permitido: (a) utilizar el sitio con fines ilícitos o contrarios a estos términos; (b) extraer su contenido por medios automatizados (<em>scraping</em>, indexación masiva o similares) sin nuestro consentimiento escrito; (c) intentar acceder sin autorización a los sistemas que dan servicio al sitio o interferir en su funcionamiento; (d) reproducir, distribuir o explotar comercialmente el contenido sin autorización.",
+    terms_s4_title: "4. Propiedad intelectual",
+    terms_s4_body: "Los textos, el diseño, el código, los gráficos y los demás elementos de este sitio son propiedad de GTK o se utilizan con licencia, y están protegidos por la legislación de propiedad intelectual de los Estados Unidos y por los tratados internacionales aplicables. Los nombres, marcas y logotipos de las instituciones que figuran en la sección de socios estratégicos pertenecen a sus respectivos titulares y se muestran únicamente para identificar y describir colaboraciones realizadas; su presencia no implica patrocinio ni respaldo por parte de dichas instituciones.",
+    terms_s5_title: "5. Carácter informativo del contenido",
+    terms_s5_body: "El contenido de este sitio tiene carácter exclusivamente informativo. No constituye asesoramiento profesional, jurídico, financiero ni académico, ni una oferta vinculante de servicios. Cualquier encargo se regirá por el contrato que se suscriba en cada caso.",
+    terms_s6_title: "6. Enlaces a sitios de terceros",
+    terms_s6_body: "Este sitio puede contener enlaces a sitios web de terceros. No controlamos su contenido ni sus prácticas y no asumimos responsabilidad alguna por ellos. El acceso a esos sitios es por su cuenta y riesgo.",
+    terms_s7_title: "7. Información que nos envía",
+    terms_s7_body: "El formulario de contacto recoge el nombre, la dirección de correo y el mensaje que usted decida facilitar, y los utilizamos únicamente para responder a su consulta. Los envíos se transmiten a través de un proveedor externo de formularios y se entregan en nuestro correo; no los vendemos ni los cedemos a terceros con fines comerciales. Le rogamos que no envíe por este medio información confidencial o sensible. Este sitio no instala cookies ni almacena datos en su navegador; las tipografías se cargan desde Google Fonts, lo que supone una petición a los servidores de Google que revela su dirección IP.",
+    terms_s8_title: "8. Exención de garantías",
+    terms_s8_body: "El sitio y su contenido se ofrecen «tal cual» y «según disponibilidad». En la máxima medida permitida por la ley, GTK no otorga garantías de ningún tipo, expresas o implícitas, incluidas las de comerciabilidad, idoneidad para un fin determinado y no infracción, ni garantiza que el sitio esté libre de errores o interrupciones ni que la información esté actualizada en todo momento.",
+    terms_s9_title: "9. Limitación de responsabilidad",
+    terms_s9_body: "En la máxima medida permitida por la ley, ni GTK ni sus directivos, empleados o colaboradores responderán de daños indirectos, incidentales, especiales, punitivos o consecuenciales, ni del lucro cesante o la pérdida de datos, derivados del acceso a este sitio o de su uso, aun cuando se hubiera advertido de esa posibilidad.",
+    terms_s10_title: "10. Indemnidad",
+    terms_s10_body: "Usted se compromete a mantener indemne a GTK frente a cualquier reclamación, daño o gasto, incluidos honorarios razonables de abogados, que se derive del uso que haga del sitio incumpliendo estos términos o la ley aplicable.",
+    terms_s11_title: "11. Ley aplicable y jurisdicción",
+    terms_s11_body: "Estos términos se rigen por las leyes del Estado de Nueva Jersey (Estados Unidos de América), sin dar efecto a sus normas sobre conflicto de leyes. Cualquier controversia se someterá a los tribunales estatales o federales competentes del condado de Hudson, Nueva Jersey, y usted acepta su jurisdicción personal.",
+    terms_s12_title: "12. Modificaciones y contacto",
+    terms_s12_body: "Podemos modificar estos términos en cualquier momento; la versión vigente es la publicada en esta página, con la fecha de actualización que figura arriba. Si tiene dudas sobre ellos, escríbanos a <a href='mailto:info@globaltk.com'>info@globaltk.com</a>.",
     meta_title: "GTK – Global Technology Knowledge Corp. | Consultora de ecosistemas de conocimiento",
     meta_description: "GTK, Global Technology Knowledge Corp., consultora fundada en 2002 en Union City, Nueva Jersey, especializada en ecosistemas de conocimiento, alianzas académicas internacionales y estrategias MECE."
   },
@@ -788,18 +893,18 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
     data_4_label: "Offices",
     gtk_title: "About GTK",
     gtk_intro: "<strong>Knowledge creates no value on its own: it creates value when it connects.</strong> Connecting is precisely our craft, and we have been practising it across two continents for over twenty years.",
-    row1_title: "01 Knowledge ecosystems",
+    row1_title: "Knowledge ecosystems",
     row1_body: "At Global Technology Knowledge Corp. we create knowledge ecosystems at local, regional, national and global levels. We reach full optimization through a well-balanced combination of knowledge engineering and the addition of the best suited agents and engines to each project and to each phase.",
-    row2_title: "02 Institutional alliances",
+    row2_title: "Institutional alliances",
     row2_body: "We have firm alliances and agreements with some of the most prestigious research centers and higher education institutions in the world and with some of the most powerful high-tech companies in the educational sector.",
-    row3_title: "04 Team and talent",
+    row3_title: "Team and talent",
     row3_body: "Our team brings together highly specialized human talent, all of them experts in the creation, management, coordination, implementation and development of complex projects.",
-    row4_title: "05 Value creation",
+    row4_title: "Value creation",
     row4_body: "Global Technology Knowledge Corp. is specialized in creating and adding value associated to the integration of activities and intangible assets whose origins are intelligence and knowledge put into interactions with information and technology. These developments converge on the so-called Knowledge Society.",
-    row5_title: "03 MECE strategies",
+    row5_title: "MECE strategies",
     row5_badge: "Signature line",
     row5_body: "We emphasize our line of developments for multilevel association and partnership strategies MECE (Mutually-Exclusive/Collectively-Exhaustive) as an integral part of the added-value work conducted by Global Technology Knowledge for its strategic partners.",
-    row6_title: "06 Who works with us",
+    row6_title: "Who works with us",
     row6_body: "We work alongside governments, regional communities, municipalities, multinational companies, universities, research centers, quality agencies and financial institutions and investors.",
     areas_title: "Areas of Expertise",
     areas_intro: "<strong>Nine fronts, one single goal: to put your institution in the international league.</strong> Pick the one you care about and let's talk.",
@@ -880,6 +985,34 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
     footer_tagline: "Global Technology Knowledge Corp. · Union City, New Jersey · Since 2002",
     footer_rights: "All rights reserved.",
     footer_top: "Back to top",
+    terms_link: "Terms of Use",
+    terms_title: "Terms of Use",
+    terms_updated: "Last updated: August 22, 2026",
+    terms_close_aria: "Close the terms of use",
+    terms_s1_title: "1. Acceptance of these Terms",
+    terms_s1_body: "By accessing and using this website, you agree to be bound by these Terms of Use. If you do not agree with them, please do not use the site.",
+    terms_s2_title: "2. Who we are",
+    terms_s2_body: "This website is owned and operated by Global Technology Knowledge Corp. (“GTK”), a corporation organized in the United States of America with offices at 512, 35th Street, Union City, New Jersey 07087. You may contact us at <a href='mailto:info@globaltk.com'>info@globaltk.com</a>.",
+    terms_s3_title: "3. Permitted use of the site",
+    terms_s3_body: "You may view, download and print the content of this site for your personal use or for the internal use of your organization. You may not: (a) use the site for any unlawful purpose or in breach of these Terms; (b) extract its content by automated means (<em>scraping</em>, bulk indexing or similar) without our written consent; (c) attempt to gain unauthorized access to the systems serving the site or interfere with its operation; (d) reproduce, distribute or commercially exploit the content without authorization.",
+    terms_s4_title: "4. Intellectual property",
+    terms_s4_body: "The text, design, code, graphics and other elements of this site are owned by GTK or used under license, and are protected by United States intellectual property law and by applicable international treaties. The names, trademarks and logos of the institutions shown in the strategic partners section belong to their respective owners and are displayed solely to identify and describe past collaborations; their presence does not imply sponsorship or endorsement by those institutions.",
+    terms_s5_title: "5. Informational purposes only",
+    terms_s5_body: "The content of this site is provided for informational purposes only. It does not constitute professional, legal, financial or academic advice, nor a binding offer of services. Any engagement will be governed by the agreement signed in each case.",
+    terms_s6_title: "6. Third-party links",
+    terms_s6_body: "This site may contain links to third-party websites. We do not control their content or their practices and accept no responsibility for them. Access to those sites is at your own risk.",
+    terms_s7_title: "7. Information you send us",
+    terms_s7_body: "The contact form collects the name, email address and message you choose to provide, and we use them solely to answer your enquiry. Submissions are transmitted through a third-party form provider and delivered to our email; we do not sell them or share them with third parties for commercial purposes. Please do not send confidential or sensitive information through this channel. This site sets no cookies and stores no data in your browser; typefaces are loaded from Google Fonts, which involves a request to Google’s servers that discloses your IP address.",
+    terms_s8_title: "8. Disclaimer of warranties",
+    terms_s8_body: "The site and its content are provided “as is” and “as available”. To the fullest extent permitted by law, GTK makes no warranties of any kind, express or implied, including merchantability, fitness for a particular purpose and non-infringement, and does not warrant that the site will be error-free or uninterrupted, or that the information is current at all times.",
+    terms_s9_title: "9. Limitation of liability",
+    terms_s9_body: "To the fullest extent permitted by law, neither GTK nor its officers, employees or contractors shall be liable for any indirect, incidental, special, punitive or consequential damages, nor for loss of profits or data, arising out of the access to or use of this site, even if advised of that possibility.",
+    terms_s10_title: "10. Indemnification",
+    terms_s10_body: "You agree to indemnify and hold GTK harmless from any claim, damage or expense, including reasonable attorneys’ fees, arising out of your use of the site in breach of these Terms or of applicable law.",
+    terms_s11_title: "11. Governing law and jurisdiction",
+    terms_s11_body: "These Terms are governed by the laws of the State of New Jersey, United States of America, without giving effect to its conflict-of-laws rules. Any dispute shall be brought before the state or federal courts located in Hudson County, New Jersey, and you consent to their personal jurisdiction.",
+    terms_s12_title: "12. Changes and contact",
+    terms_s12_body: "We may amend these Terms at any time; the version in force is the one published on this page, bearing the update date shown above. If you have questions about them, write to us at <a href='mailto:info@globaltk.com'>info@globaltk.com</a>.",
     meta_title: "GTK – Global Technology Knowledge Corp. | Knowledge Ecosystems Consultancy",
     meta_description: "GTK, Global Technology Knowledge Corp., a consultancy founded in 2002 in Union City, New Jersey, specialized in knowledge ecosystems, international academic alliances and MECE strategies."
   }
@@ -1425,6 +1558,88 @@ html.js .rv.is-in{opacity:1;transform:translateY(0)}
         submitBtn.disabled = false;
       });
     });
+  }
+
+  /* Modal dialogs. Generic on purpose: any [data-modal-open="id"] opens the
+     container with that id, and any [data-modal-close] inside it (plus the
+     scrim, plus Escape) closes it. Today the only one is the terms of use. */
+  var openModal = null;
+  var modalOpener = null;
+
+  var FOCUSABLE = 'a[href],button:not([disabled]),input:not([disabled]),' +
+                  'select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
+
+  function modalFocusables(modal){
+    var all = modal.querySelectorAll(FOCUSABLE);
+    var out = [];
+    for(var i=0;i<all.length;i++){
+      /* offsetParent is null for anything display:none inside the panel */
+      if(all[i].offsetParent !== null || all[i] === document.activeElement){ out.push(all[i]); }
+    }
+    return out;
+  }
+
+  function showModal(modal){
+    if(openModal){ hideModal(); }
+    modalOpener = document.activeElement;
+    modal.hidden = false;
+    document.body.classList.add('is-modal');
+    openModal = modal;
+    var panel = modal.querySelector('.modal__panel');
+    /* Focus the panel itself rather than the close button: a screen reader
+       then announces the dialog title before anything else. */
+    if(panel){ panel.focus(); }
+  }
+
+  function hideModal(){
+    if(!openModal){ return; }
+    openModal.hidden = true;
+    document.body.classList.remove('is-modal');
+    openModal = null;
+    /* Send the focus back where it came from, not to the top of the page. */
+    if(modalOpener && modalOpener.focus){ modalOpener.focus(); }
+    modalOpener = null;
+  }
+
+  document.addEventListener('click', function(e){
+    var opener = findElAttr(e.target, 'data-modal-open');
+    if(opener){
+      var target = document.getElementById(opener.getAttribute('data-modal-open'));
+      if(target){ e.preventDefault(); showModal(target); }
+      return;
+    }
+    if(openModal && findElAttr(e.target, 'data-modal-close')){
+      e.preventDefault();
+      hideModal();
+    }
+  });
+
+  document.addEventListener('keydown', function(e){
+    if(!openModal){ return; }
+    if(e.key === 'Escape' || e.keyCode === 27){
+      hideModal();
+      return;
+    }
+    if(e.key !== 'Tab' && e.keyCode !== 9){ return; }
+    /* Keep Tab inside the dialog: without this the focus walks off into the
+       page behind the scrim, which is still there but not operable. */
+    var items = modalFocusables(openModal);
+    if(!items.length){ e.preventDefault(); return; }
+    var first = items[0], last = items[items.length-1];
+    var active = document.activeElement;
+    if(e.shiftKey && (active === first || active === openModal.querySelector('.modal__panel'))){
+      e.preventDefault(); last.focus();
+    } else if(!e.shiftKey && active === last){
+      e.preventDefault(); first.focus();
+    }
+  });
+
+  function findElAttr(el, attr){
+    while(el && el !== document){
+      if(el.nodeType === 1 && el.hasAttribute(attr)){ return el; }
+      el = el.parentNode;
+    }
+    return null;
   }
 
 })();
