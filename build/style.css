@@ -251,8 +251,12 @@ html.js .databand__cell.rv.is-in{transform:none}
 @media (min-width:768px){.carousel__btns{display:flex}}
 
 /* ---------- Clients ribbon ---------- */
+/* 65s no es un numero suelto: es lo que tarda la mitad del carril en
+   recorrerse a la misma velocidad que tenia con quince logos (unos 65 px/s).
+   Al anadir socios el carril se alarga, asi que hay que subir la duracion en
+   proporcion o la cinta acelera. */
 .ribbon{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
-.ribbon__track{display:flex;width:max-content;gap:20px;animation:slide 46s linear infinite}
+.ribbon__track{display:flex;width:max-content;gap:20px;animation:slide 65s linear infinite}
 .ribbon:hover .ribbon__track,.ribbon:focus-within .ribbon__track{animation-play-state:paused}
 @keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 /* The tile keeps a white plate in both themes: the client logos are

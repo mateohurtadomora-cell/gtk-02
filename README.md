@@ -195,30 +195,48 @@ el contenedor con ese id, y cualquier `data-modal-close` dentro de el (o el
 fondo, o la tecla Escape) lo cierra. El foco se lleva al panel al abrir, queda
 atrapado dentro mientras esta abierto y vuelve al boton de origen al cerrar.
 
-## Socios estrategicos pendientes de logo
+## Socios estrategicos: logos
 
-Seis entidades ya figuran en la cinta de socios como placa de texto, a la
-espera del logo oficial del cliente. Para activarlas: dejar el fichero en
-`assets/logos/` y rellenar el campo `file` de la entrada correspondiente en
-el array `$clients` de `build/build.ps1`, luego regenerar.
+Los veintiun socios de la cinta tienen ya su logo. La banda de datos anuncia
+esa misma cifra (`data-count` en `build/template.html`); si se anade o quita
+un socio hay que actualizarla a mano.
 
-| Entidad (como se muestra) | Denominacion oficial | Estado |
-|---------------------------|----------------------|--------|
-| UCLA Extension | UCLA Extension (University of California, Los Angeles) | Nombre correcto |
-| UC Davis | University of California, Davis | Nombre correcto |
-| Camara de Comercio de Alava | Camara de Comercio, Industria y Servicios de Alava / Arabako Merkataritza, Industria eta Zerbitzu Ganbera | Se muestra el nombre comercial, que es el que usa la propia entidad |
-| Shanghai International University (SISU) DongFang | **Sin verificar** | Ver abajo |
-| Universidad Politecnica de Madrid | Universidad Politecnica de Madrid (UPM) | Nombre correcto |
-| Global Alumni | Global Alumni | Nombre correcto |
+Para incorporar uno nuevo: dejar el fichero en `assets/logos/` y rellenar el
+campo `file` de su entrada en el array `$clients` de `build/build.ps1`, luego
+regenerar. El ancho y el alto intrinsecos se leen del propio fichero, asi que
+no hay medidas que tocar. Si `file` se deja vacio, la entrada sale como placa
+de texto en vez de dar una imagen rota.
 
-**SISU DongFang, denominacion por confirmar.** La sigla SISU corresponde a
-*Shanghai International **Studies** University*; "Shanghai International
-University" no existe con ese nombre. No se ha encontrado ningun college
+**Convencion de los ficheros.** Recortados al contenido, sin margen blanco
+propio (la tarjeta ya pone 14x22 px de aire), y con el alto normalizado a
+180 px como maximo. Los seis logos que llego en agosto de 2026 venian con
+mucho blanco alrededor -- entre el 10 % y el 65 % de la imagen era contenido
+util -- y se recortaron antes de entrar. Un logo sin recortar se ve
+diminuto en la cinta, porque `object-fit:contain` escala el fichero entero,
+blanco incluido.
+
+**SISU, denominacion por confirmar.** Se muestra como "Shanghai International
+University (SISU) DongFang", pero el sello que envio el cliente es el de
+*Shanghai International **Studies** University* (los caracteres del circulo
+son los de esa universidad, con la fecha 1949). "Shanghai International
+University" no existe con ese nombre, y no se ha encontrado ningun college
 "DongFang" adscrito a SISU: el college independiente documentado de SISU es
 *Xianda College of Economics and Humanities*, y el "Dongfang College" que si
 aparece pertenece a la Shandong University of Finance and Economics, otra
-institucion. Hay que confirmar con el cliente de que entidad se trata antes de
-publicar su logo.
+institucion. El logo ya esta publicado; lo que falta por decidir es el nombre
+con el que aparece.
 
-Al incorporarlas, la banda de datos pasa a anunciar 21 socios
-(`data-count` en `build/template.html`).
+**Camara de Comercio de Alava.** El fichero es solo el monograma (la "C" roja
+con la "a"), sin el nombre de la entidad. Pasa lo mismo con Vantage Learning.
+Funciona en la cinta porque hay un `title` con el nombre completo, pero quien
+no conozca la marca no la identifica de un vistazo.
+
+**Denominaciones verificadas.**
+
+| Entidad (como se muestra) | Denominacion oficial |
+|---------------------------|----------------------|
+| UCLA Extension | UCLA Extension (University of California, Los Angeles) |
+| UC Davis | University of California, Davis |
+| Camara de Comercio de Alava | Camara de Comercio, Industria y Servicios de Alava / Arabako Merkataritza, Industria eta Zerbitzu Ganbera. Se muestra el nombre comercial, que es el que usa la propia entidad |
+| Universidad Politecnica de Madrid | Universidad Politecnica de Madrid (UPM) |
+| Global Alumni | Global Alumni |

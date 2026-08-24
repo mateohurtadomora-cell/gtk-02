@@ -217,18 +217,18 @@ function Build-ClientLogos([bool]$dup){
     @{ name=('EIN Bogot' + [char]0x00E1); file='ein-bogota.png'; p=@('10') },
     @{ name='Azuero'; file='azuero.png'; p=$null },
 
-    # --- Pendientes del logo oficial del cliente -------------------------
-    # Entran ya en la cinta como placa de texto; en cuanto llegue el fichero
-    # basta con dejarlo en assets/logos y rellenar aqui 'file'. La
-    # denominacion institucional exacta esta tambien por confirmar (ver
-    # README): "Shanghai International University" no existe como tal, la
-    # sigla SISU corresponde a Shanghai International *Studies* University.
-    @{ name='UCLA Extension'; file=''; p=$null },
-    @{ name='UC Davis'; file=''; p=$null },
-    @{ name=('C' + [char]0x00E1 + 'mara de Comercio de ' + [char]0x00C1 + 'lava'); file=''; p=$null },
-    @{ name='Shanghai International University (SISU) DongFang'; file=''; p=$null },
-    @{ name=('Universidad Polit' + [char]0x00E9 + 'cnica de Madrid'); file=''; p=$null },
-    @{ name='Global Alumni'; file=''; p=$null }
+    # --- Socios incorporados en agosto de 2026 ---------------------------
+    # Los seis logos llegaron del cliente con mucho blanco alrededor y se
+    # recortaron al contenido, como los demas de la cinta. La denominacion de
+    # SISU sigue por confirmar (ver README): el sello que envio el cliente es
+    # el de Shanghai International *Studies* University, sin rastro de
+    # "DongFang".
+    @{ name='UCLA Extension'; file='ucla-extension.png'; p=$null },
+    @{ name='UC Davis'; file='uc-davis.png'; p=$null },
+    @{ name=('C' + [char]0x00E1 + 'mara de Comercio de ' + [char]0x00C1 + 'lava'); file='camara-alava.png'; p=$null },
+    @{ name='Shanghai International University (SISU) DongFang'; file='sisu.png'; p=$null },
+    @{ name=('Universidad Polit' + [char]0x00E9 + 'cnica de Madrid'); file='upm.png'; p=$null },
+    @{ name='Global Alumni'; file='global-alumni.png'; p=$null }
   )
   $sb = New-Object System.Text.StringBuilder
   foreach($c in $clients){
