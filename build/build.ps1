@@ -157,12 +157,16 @@ function Build-ProjectCards {
     'cities' = 'filter_cities'; 'academic' = 'filter_academic'; 'accreditation' = 'filter_accreditation'
     'research' = 'filter_research'; 'international' = 'filter_international'; 'corporate' = 'filter_corporate'
   }
+  # Escala del ecosistema de cada colaboracion: 0 Local, 1 Regional,
+  # 2 Nacional, 3 Global. Es la clasificacion de la propuesta A, donde los
+  # anillos ya salian con este reparto; se toca aqui y en ningun otro sitio.
+  $levels = @(0,2,3,1,0,0,2,3,3,3,3,1,3,2)
   $sb = New-Object System.Text.StringBuilder
   for($i=1; $i -le 14; $i++){
     $cat = $cats[$i-1]
     $fk = $filterKeyOf[$cat]
     $num = '{0:00}' -f $i
-    [void]$sb.Append('<article class="card" data-cat="' + $cat + '" data-i="' + $i + '">')
+    [void]$sb.Append('<article class="card" data-cat="' + $cat + '" data-level="' + $levels[$i-1] + '" data-i="' + $i + '">')
     [void]$sb.Append('<div class="card__top"><span class="card__cat" data-i18n="' + $fk + '">{{t:' + $fk + '}}</span><span class="card__i">' + $num + '</span></div>')
     [void]$sb.Append('<h3 class="card__title" data-i18n="project' + $i + '_title">{{t:project' + $i + '_title}}</h3>')
     [void]$sb.Append('<p class="card__desc" data-i18n="project' + $i + '_desc">{{t:project' + $i + '_desc}}</p>')

@@ -229,14 +229,31 @@
   <div class="wrap">
     <h2><span data-i18n="projects_title">{{t:projects_title}}</span><span class="h2mark" aria-hidden="true"></span></h2>
     <p class="projects__intro lede" data-i18n-html="projects_intro">{{h:projects_intro}}</p>
-    <div class="filters" role="group" data-i18n-aria="filters_aria" aria-label="{{a:filters_aria}}">
-      <button type="button" class="pill pill--filter is-active" data-filter="all" aria-pressed="true" data-i18n="filter_all">{{t:filter_all}}</button>
-      <button type="button" class="pill pill--filter" data-filter="cities" aria-pressed="false" data-i18n="filter_cities">{{t:filter_cities}}</button>
-      <button type="button" class="pill pill--filter" data-filter="academic" aria-pressed="false" data-i18n="filter_academic">{{t:filter_academic}}</button>
-      <button type="button" class="pill pill--filter" data-filter="accreditation" aria-pressed="false" data-i18n="filter_accreditation">{{t:filter_accreditation}}</button>
-      <button type="button" class="pill pill--filter" data-filter="research" aria-pressed="false" data-i18n="filter_research">{{t:filter_research}}</button>
-      <button type="button" class="pill pill--filter" data-filter="international" aria-pressed="false" data-i18n="filter_international">{{t:filter_international}}</button>
-      <button type="button" class="pill pill--filter" data-filter="corporate" aria-pressed="false" data-i18n="filter_corporate">{{t:filter_corporate}}</button>
+    <!-- Escala del ecosistema. Los cuatro anillos concentricos son el mismo
+         elemento de la propuesta A: de Local (el circulo interior) a Global
+         (el exterior). Al elegir una escala se encienden esa y todas las
+         interiores, porque el alcance es acumulativo. -->
+    <div class="scope" role="group" data-i18n-aria="scope_aria" aria-label="{{a:scope_aria}}">
+      <div class="scope__rings" aria-hidden="true">
+        <svg viewBox="0 0 200 200">
+          <circle class="scope__ring is-on" data-level="0" cx="100" cy="100" r="30"/>
+          <circle class="scope__ring is-on" data-level="1" cx="100" cy="100" r="52"/>
+          <circle class="scope__ring is-on" data-level="2" cx="100" cy="100" r="74"/>
+          <circle class="scope__ring is-on" data-level="3" cx="100" cy="100" r="96"/>
+          <circle class="scope__core" cx="100" cy="100" r="7"/>
+        </svg>
+      </div>
+      <div class="scope__body">
+        <p class="scope__head" data-i18n="scope_head">{{t:scope_head}}</p>
+        <div class="scope__seg" id="scopeSeg">
+        <button type="button" data-level="all" aria-pressed="true"><span data-i18n="scope_all">{{t:scope_all}}</span><span class="scope__count" aria-hidden="true"></span></button>
+        <button type="button" data-level="0" aria-pressed="false"><span data-i18n="scope_local">{{t:scope_local}}</span><span class="scope__count" aria-hidden="true"></span></button>
+        <button type="button" data-level="1" aria-pressed="false"><span data-i18n="scope_regional">{{t:scope_regional}}</span><span class="scope__count" aria-hidden="true"></span></button>
+        <button type="button" data-level="2" aria-pressed="false"><span data-i18n="scope_national">{{t:scope_national}}</span><span class="scope__count" aria-hidden="true"></span></button>
+        <button type="button" data-level="3" aria-pressed="false"><span data-i18n="scope_global">{{t:scope_global}}</span><span class="scope__count" aria-hidden="true"></span></button>
+        </div>
+        <p class="scope__copy" id="scopeCopy" aria-live="polite" data-i18n="scope_all_desc">{{t:scope_all_desc}}</p>
+      </div>
     </div>
   </div>
   <div class="carousel__outer">

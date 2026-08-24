@@ -279,11 +279,30 @@ html.js .databand__cell.rv.is-in{transform:none}
 /* ---------- Projects ---------- */
 .projects{background:var(--surface-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
 .projects__intro{max-width:70ch;color:var(--text-2);margin-bottom:28px}
-.filters{display:flex;gap:10px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:6px;margin-bottom:8px}
-.filters::-webkit-scrollbar{display:none}
-.pill--filter{flex:none;background:var(--surface);border:1px solid var(--border);color:var(--text-2)}
-.pill--filter.is-active{background:var(--accent);color:#fff;border-color:var(--accent)}
-@media (min-width:768px){.filters{flex-wrap:wrap;overflow:visible}}
+/* Escala del ecosistema: los anillos de la propuesta A como filtro de
+   colaboraciones. El SVG es un viewBox cuadrado, asi que basta con limitar el
+   ancho del contenedor para que la figura escale entera. */
+.scope{display:grid;gap:18px;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-m);box-shadow:var(--shadow-s);padding:22px}
+.scope__rings{display:grid;place-items:center}
+.scope__rings svg{width:100%;max-width:104px;height:auto}
+.scope__ring{fill:none;stroke:var(--border);stroke-width:1.5;transition:stroke .4s ease,stroke-width .4s ease}
+.scope__ring.is-on{stroke:var(--accent);stroke-width:2.5}
+.scope__core{fill:var(--navy);stroke:none}
+.scope__head{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-2)}
+.scope__seg{display:flex;flex-wrap:wrap;gap:2px;margin-top:10px;padding:3px;background:var(--surface-2);border:1px solid var(--border);border-radius:12px}
+.scope__seg button{flex:1 0 auto;display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:38px;padding:6px 12px;border-radius:10px;font-size:13.5px;font-weight:600;color:var(--text-2);white-space:nowrap;transition:background .25s ease,color .25s ease,box-shadow .25s ease}
+.scope__seg button[aria-pressed="true"]{background:var(--surface);color:var(--navy);box-shadow:var(--shadow-s)}
+.scope__count{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--text-2)}
+.scope__seg button[aria-pressed="true"] .scope__count{color:var(--accent)}
+/* min-height reservado: al cambiar de escala el texto crece o mengua y sin
+   esto la fila de tarjetas de abajo daria un salto. */
+.scope__copy{margin-top:12px;font-size:14.5px;line-height:1.55;color:var(--text-2);min-height:46px}
+@media (min-width:768px){
+  .scope{grid-template-columns:132px 1fr;gap:26px;padding:24px 28px}
+  .scope__rings svg{max-width:120px}
+  .scope__seg button{flex:1 1 0}
+  .scope__copy{min-height:24px}
+}
 
 .carousel__outer{width:100%;margin-top:28px}
 .carousel{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-block:4px;
@@ -423,6 +442,7 @@ body.is-modal{overflow:hidden}
   .net-bg svg{transform:none!important}
   .net-fly{display:none!important}
   .h2mark{transition:none!important}
+  .scope__ring{transition:none!important}
   .modal__panel{animation:none!important}
   .databand__accent{transition:none!important;width:38px!important}
 }
@@ -578,19 +598,36 @@ body.is-modal{overflow:hidden}
   <div class="wrap">
     <h2><span data-i18n="projects_title">Colaboraciones destacadas</span><span class="h2mark" aria-hidden="true"></span></h2>
     <p class="projects__intro lede" data-i18n-html="projects_intro"><strong>Del MIT a Barcelona, de Columbia a Bogotá: dos décadas abriendo puertas que parecían cerradas.</strong> Desde el año 2002 en Global Technology Knowledge Corp. hemos participado en proyectos muy diversos que han contribuido a la internacionalización y a la creación de valor de nuestros socios estratégicos en las áreas de investigación y formación. Entre otros proyectos de relevancia citamos:</p>
-    <div class="filters" role="group" data-i18n-aria="filters_aria" aria-label="Filtros de colaboraciones">
-      <button type="button" class="pill pill--filter is-active" data-filter="all" aria-pressed="true" data-i18n="filter_all">Todos</button>
-      <button type="button" class="pill pill--filter" data-filter="cities" aria-pressed="false" data-i18n="filter_cities">Ciudades del conocimiento</button>
-      <button type="button" class="pill pill--filter" data-filter="academic" aria-pressed="false" data-i18n="filter_academic">Alianzas académicas</button>
-      <button type="button" class="pill pill--filter" data-filter="accreditation" aria-pressed="false" data-i18n="filter_accreditation">Acreditación y calidad</button>
-      <button type="button" class="pill pill--filter" data-filter="research" aria-pressed="false" data-i18n="filter_research">Investigación</button>
-      <button type="button" class="pill pill--filter" data-filter="international" aria-pressed="false" data-i18n="filter_international">Internacionalización</button>
-      <button type="button" class="pill pill--filter" data-filter="corporate" aria-pressed="false" data-i18n="filter_corporate">Universidad corporativa</button>
+    <!-- Escala del ecosistema. Los cuatro anillos concentricos son el mismo
+         elemento de la propuesta A: de Local (el circulo interior) a Global
+         (el exterior). Al elegir una escala se encienden esa y todas las
+         interiores, porque el alcance es acumulativo. -->
+    <div class="scope" role="group" data-i18n-aria="scope_aria" aria-label="Escala del ecosistema">
+      <div class="scope__rings" aria-hidden="true">
+        <svg viewBox="0 0 200 200">
+          <circle class="scope__ring is-on" data-level="0" cx="100" cy="100" r="30"/>
+          <circle class="scope__ring is-on" data-level="1" cx="100" cy="100" r="52"/>
+          <circle class="scope__ring is-on" data-level="2" cx="100" cy="100" r="74"/>
+          <circle class="scope__ring is-on" data-level="3" cx="100" cy="100" r="96"/>
+          <circle class="scope__core" cx="100" cy="100" r="7"/>
+        </svg>
+      </div>
+      <div class="scope__body">
+        <p class="scope__head" data-i18n="scope_head">Filtrar por escala del ecosistema</p>
+        <div class="scope__seg" id="scopeSeg">
+        <button type="button" data-level="all" aria-pressed="true"><span data-i18n="scope_all">Todas</span><span class="scope__count" aria-hidden="true"></span></button>
+        <button type="button" data-level="0" aria-pressed="false"><span data-i18n="scope_local">Local</span><span class="scope__count" aria-hidden="true"></span></button>
+        <button type="button" data-level="1" aria-pressed="false"><span data-i18n="scope_regional">Regional</span><span class="scope__count" aria-hidden="true"></span></button>
+        <button type="button" data-level="2" aria-pressed="false"><span data-i18n="scope_national">Nacional</span><span class="scope__count" aria-hidden="true"></span></button>
+        <button type="button" data-level="3" aria-pressed="false"><span data-i18n="scope_global">Global</span><span class="scope__count" aria-hidden="true"></span></button>
+        </div>
+        <p class="scope__copy" id="scopeCopy" aria-live="polite" data-i18n="scope_all_desc">Las catorce colaboraciones, en todas las escalas. Elija una escala para ver solo las de ese ecosistema.</p>
+      </div>
     </div>
   </div>
   <div class="carousel__outer">
     <div class="carousel" id="carousel">
-      <article class="card" data-cat="cities" data-i="1"><div class="card__top"><span class="card__cat" data-i18n="filter_cities">Ciudades del conocimiento</span><span class="card__i">01</span></div><h3 class="card__title" data-i18n="project1_title">22@ Barcelona · b-Tec</h3><p class="card__desc" data-i18n="project1_desc">Ciudad del Conocimiento 22@ en Barcelona (España) mediante la iniciativa b-Tec (Barcelona Innovación Technológica) y la creación de sus estrategia puente de las b-Tec summer sessions, con la colaboración, entre otras entidades, del MIT, University of California y Columbia University, en las áreas de la energía y la sostenibilidad.</p></article><article class="card" data-cat="academic" data-i="2"><div class="card__top"><span class="card__cat" data-i18n="filter_academic">Alianzas académicas</span><span class="card__i">02</span></div><h3 class="card__title" data-i18n="project2_title">Universidad San Pablo CEU</h3><p class="card__desc" data-i18n="project2_desc">La planificación de alianzas para la internacionalización académica en los EEUU de la Universidad San Pablo CEU. La Universidad San Pablo CEU es la institución académica privada más importante de España.</p></article><article class="card" data-cat="academic" data-i="3"><div class="card__top"><span class="card__cat" data-i18n="filter_academic">Alianzas académicas</span><span class="card__i">03</span></div><h3 class="card__title" data-i18n="project3_title">Màster BCNY · UB + Columbia</h3><p class="card__desc" data-i18n="project3_desc">La implantación y co-gestión en la Universitat de Barcelona del Master de Periodisme BCNY en colaboración con la Journalism School y School of Continuing Education de la Universidad de Columbia.</p></article><article class="card" data-cat="accreditation" data-i="4"><div class="card__top"><span class="card__cat" data-i18n="filter_accreditation">Acreditación y calidad</span><span class="card__i">04</span></div><h3 class="card__title" data-i18n="project4_title">ACAP · Comunidad de Madrid</h3><p class="card__desc" data-i18n="project4_desc">La internacionalización de las actividades de la Agencia de Calidad, Acreditación y Prospectiva de la Comunidad de Madrid (ACAP). Entidad dependiente del gobierno de Madrid, alcanzando acuerdos de colaboración con ABET, ABA y otras entidades acreditadoras de los EEUU.</p></article><article class="card" data-cat="research" data-i="5"><div class="card__top"><span class="card__cat" data-i18n="filter_research">Investigación</span><span class="card__i">05</span></div><h3 class="card__title" data-i18n="project5_title">MIT Industrial Liaison Program</h3><p class="card__desc" data-i18n="project5_desc">El asesoramiento al Industrial Liasion Program del MIT en la creación de un Centro de Imágenes Biomédicas en España.</p></article><article class="card" data-cat="research" data-i="6"><div class="card__top"><span class="card__cat" data-i18n="filter_research">Investigación</span><span class="card__i">06</span></div><h3 class="card__title" data-i18n="project6_title">Graham School · U. de Chicago</h3><p class="card__desc" data-i18n="project6_desc">El asesoramiento a la Graham School de la Universidad de Chicago en el establecimiento de una alianza estratégica en Madrid para un programa de investigación y educación en Gestión de Sistemas Complejos Socialmente Inteligentes.</p></article><article class="card" data-cat="research" data-i="7"><div class="card__top"><span class="card__cat" data-i18n="filter_research">Investigación</span><span class="card__i">07</span></div><h3 class="card__title" data-i18n="project7_title">Columbia · Earth Institute y CCE</h3><p class="card__desc" data-i18n="project7_desc">El asesoramiento a Columbia University (Earth Institute y CCE) en la implantación en España de programas de Investigación en Desarrollo Urbano Sostenible y Captura de CO2 y programas educativos de Gestión de la Sostenibilidad.</p></article><article class="card" data-cat="research" data-i="8"><div class="card__top"><span class="card__cat" data-i18n="filter_research">Investigación</span><span class="card__i">08</span></div><h3 class="card__title" data-i18n="project8_title">Clinical Trials · U. de Chicago</h3><p class="card__desc" data-i18n="project8_desc">El desarrollo de programas de Clinical Trials de la Universidad de Chicago para el mercado hispano parlante.</p></article><article class="card" data-cat="international" data-i="9"><div class="card__top"><span class="card__cat" data-i18n="filter_international">Internacionalización</span><span class="card__i">09</span></div><h3 class="card__title" data-i18n="project9_title">UC Irvine Extension</h3><p class="card__desc" data-i18n="project9_desc">Gestión para el desarrollo y la implementación en Latinoamérica de los programas en Project Management en idioma español para University of California Irvine Extension.</p></article><article class="card" data-cat="international" data-i="10"><div class="card__top"><span class="card__cat" data-i18n="filter_international">Internacionalización</span><span class="card__i">10</span></div><h3 class="card__title" data-i18n="project10_title">EIN Bogotá</h3><p class="card__desc" data-i18n="project10_desc">La internacionalización de actividades educativas de la Escuela Internacional de Negocios de Bogotá (Colombia) en colaboración con Boston University y University of California.</p></article><article class="card" data-cat="accreditation" data-i="11"><div class="card__top"><span class="card__cat" data-i18n="filter_accreditation">Acreditación y calidad</span><span class="card__i">11</span></div><h3 class="card__title" data-i18n="project11_title">Excelsior College</h3><p class="card__desc" data-i18n="project11_desc">La creación del primer programa de estudio como «Suplemento Norteamericano al Grado» en el entorno europeo de formación (proceso de Bolonia) con Excelsior College de NY.</p></article><article class="card" data-cat="cities" data-i="12"><div class="card__top"><span class="card__cat" data-i18n="filter_cities">Ciudades del conocimiento</span><span class="card__i">12</span></div><h3 class="card__title" data-i18n="project12_title">Consorcio Madrileño del Conocimiento</h3><p class="card__desc" data-i18n="project12_desc">El asesoramiento en el proyecto de internacionalización y estímulo de la competitividad del sistema universitario en la Comunidad de Madrid (Consorcio Madrileño del Conocimiento).</p></article><article class="card" data-cat="accreditation" data-i="13"><div class="card__top"><span class="card__cat" data-i18n="filter_accreditation">Acreditación y calidad</span><span class="card__i">13</span></div><h3 class="card__title" data-i18n="project13_title">Learning outcomes en Ingeniería</h3><p class="card__desc" data-i18n="project13_desc">La creación de un proceso de internacionalización y homogenización de standards de learning outcomes en las diversas áreas de la Ingeniería.</p></article><article class="card" data-cat="corporate" data-i="14"><div class="card__top"><span class="card__cat" data-i18n="filter_corporate">Universidad corporativa</span><span class="card__i">14</span></div><h3 class="card__title" data-i18n="project14_title">Universidad corporativa · sector financiero</h3><p class="card__desc" data-i18n="project14_desc">Diseño de Universidad Corporativa para el sector financiero.</p></article>
+      <article class="card" data-cat="cities" data-level="0" data-i="1"><div class="card__top"><span class="card__cat" data-i18n="filter_cities">Ciudades del conocimiento</span><span class="card__i">01</span></div><h3 class="card__title" data-i18n="project1_title">22@ Barcelona · b-Tec</h3><p class="card__desc" data-i18n="project1_desc">Ciudad del Conocimiento 22@ en Barcelona (España) mediante la iniciativa b-Tec (Barcelona Innovación Technológica) y la creación de sus estrategia puente de las b-Tec summer sessions, con la colaboración, entre otras entidades, del MIT, University of California y Columbia University, en las áreas de la energía y la sostenibilidad.</p></article><article class="card" data-cat="academic" data-level="2" data-i="2"><div class="card__top"><span class="card__cat" data-i18n="filter_academic">Alianzas académicas</span><span class="card__i">02</span></div><h3 class="card__title" data-i18n="project2_title">Universidad San Pablo CEU</h3><p class="card__desc" data-i18n="project2_desc">La planificación de alianzas para la internacionalización académica en los EEUU de la Universidad San Pablo CEU. La Universidad San Pablo CEU es la institución académica privada más importante de España.</p></article><article class="card" data-cat="academic" data-level="3" data-i="3"><div class="card__top"><span class="card__cat" data-i18n="filter_academic">Alianzas académicas</span><span class="card__i">03</span></div><h3 class="card__title" data-i18n="project3_title">Màster BCNY · UB + Columbia</h3><p class="card__desc" data-i18n="project3_desc">La implantación y co-gestión en la Universitat de Barcelona del Master de Periodisme BCNY en colaboración con la Journalism School y School of Continuing Education de la Universidad de Columbia.</p></article><article class="card" data-cat="accreditation" data-level="1" data-i="4"><div class="card__top"><span class="card__cat" data-i18n="filter_accreditation">Acreditación y calidad</span><span class="card__i">04</span></div><h3 class="card__title" data-i18n="project4_title">ACAP · Comunidad de Madrid</h3><p class="card__desc" data-i18n="project4_desc">La internacionalización de las actividades de la Agencia de Calidad, Acreditación y Prospectiva de la Comunidad de Madrid (ACAP). Entidad dependiente del gobierno de Madrid, alcanzando acuerdos de colaboración con ABET, ABA y otras entidades acreditadoras de los EEUU.</p></article><article class="card" data-cat="research" data-level="0" data-i="5"><div class="card__top"><span class="card__cat" data-i18n="filter_research">Investigación</span><span class="card__i">05</span></div><h3 class="card__title" data-i18n="project5_title">MIT Industrial Liaison Program</h3><p class="card__desc" data-i18n="project5_desc">El asesoramiento al Industrial Liasion Program del MIT en la creación de un Centro de Imágenes Biomédicas en España.</p></article><article class="card" data-cat="research" data-level="0" data-i="6"><div class="card__top"><span class="card__cat" data-i18n="filter_research">Investigación</span><span class="card__i">06</span></div><h3 class="card__title" data-i18n="project6_title">Graham School · U. de Chicago</h3><p class="card__desc" data-i18n="project6_desc">El asesoramiento a la Graham School de la Universidad de Chicago en el establecimiento de una alianza estratégica en Madrid para un programa de investigación y educación en Gestión de Sistemas Complejos Socialmente Inteligentes.</p></article><article class="card" data-cat="research" data-level="2" data-i="7"><div class="card__top"><span class="card__cat" data-i18n="filter_research">Investigación</span><span class="card__i">07</span></div><h3 class="card__title" data-i18n="project7_title">Columbia · Earth Institute y CCE</h3><p class="card__desc" data-i18n="project7_desc">El asesoramiento a Columbia University (Earth Institute y CCE) en la implantación en España de programas de Investigación en Desarrollo Urbano Sostenible y Captura de CO2 y programas educativos de Gestión de la Sostenibilidad.</p></article><article class="card" data-cat="research" data-level="3" data-i="8"><div class="card__top"><span class="card__cat" data-i18n="filter_research">Investigación</span><span class="card__i">08</span></div><h3 class="card__title" data-i18n="project8_title">Clinical Trials · U. de Chicago</h3><p class="card__desc" data-i18n="project8_desc">El desarrollo de programas de Clinical Trials de la Universidad de Chicago para el mercado hispano parlante.</p></article><article class="card" data-cat="international" data-level="3" data-i="9"><div class="card__top"><span class="card__cat" data-i18n="filter_international">Internacionalización</span><span class="card__i">09</span></div><h3 class="card__title" data-i18n="project9_title">UC Irvine Extension</h3><p class="card__desc" data-i18n="project9_desc">Gestión para el desarrollo y la implementación en Latinoamérica de los programas en Project Management en idioma español para University of California Irvine Extension.</p></article><article class="card" data-cat="international" data-level="3" data-i="10"><div class="card__top"><span class="card__cat" data-i18n="filter_international">Internacionalización</span><span class="card__i">10</span></div><h3 class="card__title" data-i18n="project10_title">EIN Bogotá</h3><p class="card__desc" data-i18n="project10_desc">La internacionalización de actividades educativas de la Escuela Internacional de Negocios de Bogotá (Colombia) en colaboración con Boston University y University of California.</p></article><article class="card" data-cat="accreditation" data-level="3" data-i="11"><div class="card__top"><span class="card__cat" data-i18n="filter_accreditation">Acreditación y calidad</span><span class="card__i">11</span></div><h3 class="card__title" data-i18n="project11_title">Excelsior College</h3><p class="card__desc" data-i18n="project11_desc">La creación del primer programa de estudio como «Suplemento Norteamericano al Grado» en el entorno europeo de formación (proceso de Bolonia) con Excelsior College de NY.</p></article><article class="card" data-cat="cities" data-level="1" data-i="12"><div class="card__top"><span class="card__cat" data-i18n="filter_cities">Ciudades del conocimiento</span><span class="card__i">12</span></div><h3 class="card__title" data-i18n="project12_title">Consorcio Madrileño del Conocimiento</h3><p class="card__desc" data-i18n="project12_desc">El asesoramiento en el proyecto de internacionalización y estímulo de la competitividad del sistema universitario en la Comunidad de Madrid (Consorcio Madrileño del Conocimiento).</p></article><article class="card" data-cat="accreditation" data-level="3" data-i="13"><div class="card__top"><span class="card__cat" data-i18n="filter_accreditation">Acreditación y calidad</span><span class="card__i">13</span></div><h3 class="card__title" data-i18n="project13_title">Learning outcomes en Ingeniería</h3><p class="card__desc" data-i18n="project13_desc">La creación de un proceso de internacionalización y homogenización de standards de learning outcomes en las diversas áreas de la Ingeniería.</p></article><article class="card" data-cat="corporate" data-level="2" data-i="14"><div class="card__top"><span class="card__cat" data-i18n="filter_corporate">Universidad corporativa</span><span class="card__i">14</span></div><h3 class="card__title" data-i18n="project14_title">Universidad corporativa · sector financiero</h3><p class="card__desc" data-i18n="project14_desc">Diseño de Universidad Corporativa para el sector financiero.</p></article>
       <div class="carousel__spacer" aria-hidden="true"></div>
     </div>
   </div>
@@ -768,8 +805,18 @@ body.is-modal{overflow:hidden}
     area9: "Programas de capital humano",
     projects_title: "Colaboraciones destacadas",
     projects_intro: "<strong>Del MIT a Barcelona, de Columbia a Bogotá: dos décadas abriendo puertas que parecían cerradas.</strong> Desde el año 2002 en Global Technology Knowledge Corp. hemos participado en proyectos muy diversos que han contribuido a la internacionalización y a la creación de valor de nuestros socios estratégicos en las áreas de investigación y formación. Entre otros proyectos de relevancia citamos:",
-    filters_aria: "Filtros de colaboraciones",
-    filter_all: "Todos",
+    scope_aria: "Escala del ecosistema",
+    scope_head: "Filtrar por escala del ecosistema",
+    scope_all: "Todas",
+    scope_local: "Local",
+    scope_regional: "Regional",
+    scope_national: "Nacional",
+    scope_global: "Global",
+    scope_all_desc: "Las catorce colaboraciones, en todas las escalas. Elija una escala para ver solo las de ese ecosistema.",
+    scope_local_desc: "Trabajos anclados en una ciudad o un campus, con los agentes del entorno inmediato: universidad, empresa y administración local.",
+    scope_regional_desc: "Comunidades y consorcios regionales que comparten infraestructura, talento y una misma agenda de I+D+I.",
+    scope_national_desc: "Programas de país: sistemas universitarios, agencias de calidad y políticas públicas de conocimiento.",
+    scope_global_desc: "Alianzas entre instituciones de referencia de distintos continentes, con socios tecnológicos del sector educativo.",
     filter_cities: "Ciudades del conocimiento",
     filter_academic: "Alianzas académicas",
     filter_accreditation: "Acreditación y calidad",
@@ -919,8 +966,18 @@ body.is-modal{overflow:hidden}
     area9: "Human capital programs",
     projects_title: "Selected Collaborations",
     projects_intro: "<strong>From MIT to Barcelona, from Columbia to Bogotá: two decades opening doors that looked closed.</strong> Since 2002 Global Technology Knowledge Corp. have been involved in very diverse type of projects. We have contributed since that time to the internationalization and the creation of value for our strategic partners in many areas of research and training. Among other projects:",
-    filters_aria: "Collaboration filters",
-    filter_all: "All",
+    scope_aria: "Ecosystem scale",
+    scope_head: "Filter by ecosystem scale",
+    scope_all: "All",
+    scope_local: "Local",
+    scope_regional: "Regional",
+    scope_national: "National",
+    scope_global: "Global",
+    scope_all_desc: "All fourteen collaborations, at every scale. Pick a scale to see only that ecosystem.",
+    scope_local_desc: "Work anchored in a single city or campus, with the agents closest to it: university, industry and local government.",
+    scope_regional_desc: "Regional communities and consortia that share infrastructure, talent and one R&D&I agenda.",
+    scope_national_desc: "Country-wide programs: university systems, quality agencies and public knowledge policy.",
+    scope_global_desc: "Alliances between leading institutions across continents, with technology partners from the education sector.",
     filter_cities: "Knowledge cities",
     filter_academic: "Academic partnerships",
     filter_accreditation: "Accreditation and quality",
@@ -1344,45 +1401,96 @@ body.is-modal{overflow:hidden}
     for(var mk2 in markedSections){ revealTitleMark(mk2); }
   }
 
-  /* Projects: filters + carousel */
+  /* Colaboraciones: escala del ecosistema (anillos) + carrusel */
   var carousel = document.getElementById('carousel');
   var cards = carousel ? carousel.querySelectorAll('.card') : [];
-  var filterRow = document.querySelector('.filters');
+  var scopeSeg = document.getElementById('scopeSeg');
+  var scopeCopy = document.getElementById('scopeCopy');
+  var scopeRings = document.querySelectorAll('.scope__ring');
   var prevBtn = document.getElementById('prevBtn');
   var nextBtn = document.getElementById('nextBtn');
   var hint = document.querySelector('.carousel__hint');
 
-  function setFilter(filter){
-    var allBtns = document.querySelectorAll('.pill--filter');
-    var i;
-    for(i=0;i<allBtns.length;i++){
-      var isActive = allBtns[i].getAttribute('data-filter') === filter;
-      allBtns[i].classList.toggle('is-active', isActive);
-      allBtns[i].setAttribute('aria-pressed', isActive ? 'true' : 'false');
+  /* Cada escala tiene su propia descripcion; la clave viaja al elemento para
+     que el conmutador de idioma sepa cual reponer. */
+  var SCOPE_DESC = { 'all':'scope_all_desc', '0':'scope_local_desc', '1':'scope_regional_desc',
+                     '2':'scope_national_desc', '3':'scope_global_desc' };
+
+  function scopeCount(level){
+    var n = 0;
+    for(var i=0;i<cards.length;i++){
+      if(level === 'all' || cards[i].getAttribute('data-level') === level){ n++; }
     }
-    for(i=0;i<cards.length;i++){
-      var cat = cards[i].getAttribute('data-cat');
-      cards[i].style.display = (filter === 'all' || cat === filter) ? '' : 'none';
+    return n;
+  }
+
+  function paintScopeCounts(){
+    if(!scopeSeg) return;
+    var btns = scopeSeg.querySelectorAll('button');
+    for(var i=0;i<btns.length;i++){
+      var span = btns[i].querySelector('.scope__count');
+      if(span){ span.textContent = scopeCount(btns[i].getAttribute('data-level')); }
     }
   }
 
-  if(filterRow){
-    filterRow.addEventListener('click', function(e){
+  function setScope(level){
+    var all = level === 'all';
+    var i;
+    /* El alcance se lee de dentro afuera: elegir Nacional enciende tambien
+       Regional y Local, porque un ecosistema nacional los contiene. */
+    for(i=0;i<scopeRings.length;i++){
+      var on = all || Number(scopeRings[i].getAttribute('data-level')) <= Number(level);
+      scopeRings[i].classList.toggle('is-on', on);
+    }
+    if(scopeSeg){
+      var btns = scopeSeg.querySelectorAll('button');
+      for(i=0;i<btns.length;i++){
+        btns[i].setAttribute('aria-pressed', btns[i].getAttribute('data-level') === level ? 'true' : 'false');
+      }
+    }
+    for(i=0;i<cards.length;i++){
+      cards[i].style.display = (all || cards[i].getAttribute('data-level') === level) ? '' : 'none';
+    }
+    if(scopeCopy){
+      var key = SCOPE_DESC[level];
+      /* Se cambia el data-i18n, no solo el texto: al cambiar de idioma se
+         traduce la descripcion de la escala elegida, no la de "todas". */
+      scopeCopy.setAttribute('data-i18n', key);
+      var dict = I18N[docEl.lang === 'en' ? 'en' : 'es'];
+      if(dict && dict[key] !== undefined){ scopeCopy.textContent = dict[key]; }
+    }
+    if(carousel){ carousel.scrollTo({ left: 0, behavior: 'smooth' }); }
+    updateHint();
+  }
+
+  if(scopeSeg){
+    paintScopeCounts();
+    scopeSeg.addEventListener('click', function(e){
       var target = e.target;
-      while(target && target !== filterRow && !target.classList.contains('pill--filter')){
+      while(target && target !== scopeSeg && target.tagName !== 'BUTTON'){
         target = target.parentNode;
       }
-      if(target && target.classList && target.classList.contains('pill--filter')){
-        setFilter(target.getAttribute('data-filter'));
+      if(target && target.tagName === 'BUTTON'){
+        setScope(target.getAttribute('data-level'));
       }
     });
   }
 
+  /* La primera tarjeta del DOM puede estar oculta por la escala elegida, y una
+     tarjeta oculta mide cero: el paso se toma de la primera visible. */
+  function firstVisibleCard(){
+    for(var i=0;i<cards.length;i++){
+      if(cards[i].style.display !== 'none'){ return cards[i]; }
+    }
+    return null;
+  }
+
   function cardStep(){
-    if(!cards.length) return 0;
+    var card = firstVisibleCard();
+    if(!card) return 0;
     var style = window.getComputedStyle(carousel);
     var gap = parseFloat(style.columnGap || style.gap || '16') || 16;
-    return cards[0].getBoundingClientRect().width + gap;
+    return card.getBoundingClientRect().width + gap;
   }
 
   if(prevBtn){
@@ -1449,7 +1557,7 @@ body.is-modal{overflow:hidden}
     var raw = btn.getAttribute('data-p');
     if(!raw) return;
     var nums = raw.split(',');
-    setFilter('all');
+    setScope('all');
     var colabs = document.getElementById('colaboraciones');
     if(colabs){ colabs.scrollIntoView({ behavior: 'smooth' }); }
     var targets = highlightProjects(nums);

@@ -203,11 +203,30 @@ html.js .databand__cell.rv.is-in{transform:none}
 /* ---------- Projects ---------- */
 .projects{background:var(--surface-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
 .projects__intro{max-width:70ch;color:var(--text-2);margin-bottom:28px}
-.filters{display:flex;gap:10px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:6px;margin-bottom:8px}
-.filters::-webkit-scrollbar{display:none}
-.pill--filter{flex:none;background:var(--surface);border:1px solid var(--border);color:var(--text-2)}
-.pill--filter.is-active{background:var(--accent);color:#fff;border-color:var(--accent)}
-@media (min-width:768px){.filters{flex-wrap:wrap;overflow:visible}}
+/* Escala del ecosistema: los anillos de la propuesta A como filtro de
+   colaboraciones. El SVG es un viewBox cuadrado, asi que basta con limitar el
+   ancho del contenedor para que la figura escale entera. */
+.scope{display:grid;gap:18px;align-items:center;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-m);box-shadow:var(--shadow-s);padding:22px}
+.scope__rings{display:grid;place-items:center}
+.scope__rings svg{width:100%;max-width:104px;height:auto}
+.scope__ring{fill:none;stroke:var(--border);stroke-width:1.5;transition:stroke .4s ease,stroke-width .4s ease}
+.scope__ring.is-on{stroke:var(--accent);stroke-width:2.5}
+.scope__core{fill:var(--navy);stroke:none}
+.scope__head{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-2)}
+.scope__seg{display:flex;flex-wrap:wrap;gap:2px;margin-top:10px;padding:3px;background:var(--surface-2);border:1px solid var(--border);border-radius:12px}
+.scope__seg button{flex:1 0 auto;display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:38px;padding:6px 12px;border-radius:10px;font-size:13.5px;font-weight:600;color:var(--text-2);white-space:nowrap;transition:background .25s ease,color .25s ease,box-shadow .25s ease}
+.scope__seg button[aria-pressed="true"]{background:var(--surface);color:var(--navy);box-shadow:var(--shadow-s)}
+.scope__count{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--text-2)}
+.scope__seg button[aria-pressed="true"] .scope__count{color:var(--accent)}
+/* min-height reservado: al cambiar de escala el texto crece o mengua y sin
+   esto la fila de tarjetas de abajo daria un salto. */
+.scope__copy{margin-top:12px;font-size:14.5px;line-height:1.55;color:var(--text-2);min-height:46px}
+@media (min-width:768px){
+  .scope{grid-template-columns:132px 1fr;gap:26px;padding:24px 28px}
+  .scope__rings svg{max-width:120px}
+  .scope__seg button{flex:1 1 0}
+  .scope__copy{min-height:24px}
+}
 
 .carousel__outer{width:100%;margin-top:28px}
 .carousel{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-block:4px;
@@ -347,6 +366,7 @@ body.is-modal{overflow:hidden}
   .net-bg svg{transform:none!important}
   .net-fly{display:none!important}
   .h2mark{transition:none!important}
+  .scope__ring{transition:none!important}
   .modal__panel{animation:none!important}
   .databand__accent{transition:none!important;width:38px!important}
 }

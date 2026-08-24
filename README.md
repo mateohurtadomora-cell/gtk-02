@@ -104,6 +104,41 @@ Notas de implementacion:
   `$sectionKeys` de `build.ps1`: los cuatro tienen que coincidir o el
   subrayado animado del titulo deja de dispararse.
 
+## Escala del ecosistema (anillos)
+
+Las colaboraciones se organizan por la escala del ecosistema en el que se
+trabajó, que es el elemento propio de la propuesta A: cuatro anillos
+concéntricos, de Local (el círculo interior) a Global (el exterior). Al elegir
+una escala se encienden esa y todas las interiores, porque el alcance es
+acumulativo: un ecosistema nacional contiene al regional y al local.
+
+Este control sustituye a la fila de píldoras temáticas que había antes. La
+categoría no se ha perdido: sigue impresa en cada tarjeta (`card__cat`), y sus
+textos siguen siendo las claves `filter_*` de `content.json`. Se descartó
+mantener los dos filtros a la vez porque catorce colaboraciones repartidas
+entre seis categorías y cuatro escalas dejan casi todas las combinaciones
+vacías.
+
+El reparto vive en una sola línea de `build/build.ps1`, dentro de
+`Build-ProjectCards`:
+
+```powershell
+$levels = @(0,2,3,1,0,0,2,3,3,3,3,1,3,2)
+```
+
+Es el orden de las colaboraciones 01 a 14, con `0` Local, `1` Regional,
+`2` Nacional y `3` Global. Sale de la clasificación que ya llevaba la propuesta
+A; **conviene que el cliente la revise**, porque es un criterio editorial, no
+un dato. Cambiar un número y regenerar es todo lo que hace falta: los
+contadores de cada botón se calculan solos a partir de las tarjetas.
+
+Reparto actual: Local 3, Regional 2, Nacional 3, Global 6.
+
+Los textos son las claves `scope_*` de `content.json`. Cada escala tiene su
+propia descripción (`scope_local_desc`, `scope_regional_desc`, ...); al elegir
+una, el párrafo cambia de `data-i18n`, de modo que el conmutador de idioma
+repone la descripción de la escala elegida y no la de «todas».
+
 ## Insights
 
 La seccion existe en `template.html` pero **no se publica todavia**: no hay

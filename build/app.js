@@ -328,45 +328,96 @@
     for(var mk2 in markedSections){ revealTitleMark(mk2); }
   }
 
-  /* Projects: filters + carousel */
+  /* Colaboraciones: escala del ecosistema (anillos) + carrusel */
   var carousel = document.getElementById('carousel');
   var cards = carousel ? carousel.querySelectorAll('.card') : [];
-  var filterRow = document.querySelector('.filters');
+  var scopeSeg = document.getElementById('scopeSeg');
+  var scopeCopy = document.getElementById('scopeCopy');
+  var scopeRings = document.querySelectorAll('.scope__ring');
   var prevBtn = document.getElementById('prevBtn');
   var nextBtn = document.getElementById('nextBtn');
   var hint = document.querySelector('.carousel__hint');
 
-  function setFilter(filter){
-    var allBtns = document.querySelectorAll('.pill--filter');
-    var i;
-    for(i=0;i<allBtns.length;i++){
-      var isActive = allBtns[i].getAttribute('data-filter') === filter;
-      allBtns[i].classList.toggle('is-active', isActive);
-      allBtns[i].setAttribute('aria-pressed', isActive ? 'true' : 'false');
+  /* Cada escala tiene su propia descripcion; la clave viaja al elemento para
+     que el conmutador de idioma sepa cual reponer. */
+  var SCOPE_DESC = { 'all':'scope_all_desc', '0':'scope_local_desc', '1':'scope_regional_desc',
+                     '2':'scope_national_desc', '3':'scope_global_desc' };
+
+  function scopeCount(level){
+    var n = 0;
+    for(var i=0;i<cards.length;i++){
+      if(level === 'all' || cards[i].getAttribute('data-level') === level){ n++; }
     }
-    for(i=0;i<cards.length;i++){
-      var cat = cards[i].getAttribute('data-cat');
-      cards[i].style.display = (filter === 'all' || cat === filter) ? '' : 'none';
+    return n;
+  }
+
+  function paintScopeCounts(){
+    if(!scopeSeg) return;
+    var btns = scopeSeg.querySelectorAll('button');
+    for(var i=0;i<btns.length;i++){
+      var span = btns[i].querySelector('.scope__count');
+      if(span){ span.textContent = scopeCount(btns[i].getAttribute('data-level')); }
     }
   }
 
-  if(filterRow){
-    filterRow.addEventListener('click', function(e){
+  function setScope(level){
+    var all = level === 'all';
+    var i;
+    /* El alcance se lee de dentro afuera: elegir Nacional enciende tambien
+       Regional y Local, porque un ecosistema nacional los contiene. */
+    for(i=0;i<scopeRings.length;i++){
+      var on = all || Number(scopeRings[i].getAttribute('data-level')) <= Number(level);
+      scopeRings[i].classList.toggle('is-on', on);
+    }
+    if(scopeSeg){
+      var btns = scopeSeg.querySelectorAll('button');
+      for(i=0;i<btns.length;i++){
+        btns[i].setAttribute('aria-pressed', btns[i].getAttribute('data-level') === level ? 'true' : 'false');
+      }
+    }
+    for(i=0;i<cards.length;i++){
+      cards[i].style.display = (all || cards[i].getAttribute('data-level') === level) ? '' : 'none';
+    }
+    if(scopeCopy){
+      var key = SCOPE_DESC[level];
+      /* Se cambia el data-i18n, no solo el texto: al cambiar de idioma se
+         traduce la descripcion de la escala elegida, no la de "todas". */
+      scopeCopy.setAttribute('data-i18n', key);
+      var dict = I18N[docEl.lang === 'en' ? 'en' : 'es'];
+      if(dict && dict[key] !== undefined){ scopeCopy.textContent = dict[key]; }
+    }
+    if(carousel){ carousel.scrollTo({ left: 0, behavior: 'smooth' }); }
+    updateHint();
+  }
+
+  if(scopeSeg){
+    paintScopeCounts();
+    scopeSeg.addEventListener('click', function(e){
       var target = e.target;
-      while(target && target !== filterRow && !target.classList.contains('pill--filter')){
+      while(target && target !== scopeSeg && target.tagName !== 'BUTTON'){
         target = target.parentNode;
       }
-      if(target && target.classList && target.classList.contains('pill--filter')){
-        setFilter(target.getAttribute('data-filter'));
+      if(target && target.tagName === 'BUTTON'){
+        setScope(target.getAttribute('data-level'));
       }
     });
   }
 
+  /* La primera tarjeta del DOM puede estar oculta por la escala elegida, y una
+     tarjeta oculta mide cero: el paso se toma de la primera visible. */
+  function firstVisibleCard(){
+    for(var i=0;i<cards.length;i++){
+      if(cards[i].style.display !== 'none'){ return cards[i]; }
+    }
+    return null;
+  }
+
   function cardStep(){
-    if(!cards.length) return 0;
+    var card = firstVisibleCard();
+    if(!card) return 0;
     var style = window.getComputedStyle(carousel);
     var gap = parseFloat(style.columnGap || style.gap || '16') || 16;
-    return cards[0].getBoundingClientRect().width + gap;
+    return card.getBoundingClientRect().width + gap;
   }
 
   if(prevBtn){
@@ -433,7 +484,7 @@
     var raw = btn.getAttribute('data-p');
     if(!raw) return;
     var nums = raw.split(',');
-    setFilter('all');
+    setScope('all');
     var colabs = document.getElementById('colaboraciones');
     if(colabs){ colabs.scrollIntoView({ behavior: 'smooth' }); }
     var targets = highlightProjects(nums);
