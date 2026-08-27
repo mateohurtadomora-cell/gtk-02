@@ -68,6 +68,24 @@ formulario con destino `info@globaltk.com`, copiar el id real y sustituir
 regenerar las páginas. Hasta entonces el formulario valida correctamente
 pero los envíos no llegan a ningún buzón.
 
+**Aceptación de los términos.** Junto al botón de envío hay una casilla que
+hay que marcar para poder enviar. Se valida como un campo más (por eso su
+contenedor lleva la clase `form__field`), pero con dos particularidades: se
+comprueba `checked` en lugar del texto, y solo al marcarla o desmarcarla, no
+al perder el foco, porque si no daría error por el mero hecho de tabular
+sobre ella. El enlace a los términos vive fuera del `<label>` a propósito:
+dentro, pulsarlo marcaría la casilla en vez de abrir el modal. El envío
+incluye el campo `acepta_terminos`, de modo que en Formspree queda constancia
+de la aceptación.
+
+## Contacto en el pie
+
+El pie no publica teléfonos: el único contacto directo es
+`info@globaltk.com`. Los tres números que había (NY, CA, MA) se retiraron a
+petición del cliente, y con ellos las claves `contact_region_*` de
+`content.json` y los `ContactPoint` telefónicos del JSON-LD, que ahora
+declaran solo el correo.
+
 ## Dominio
 
 El `canonical`, `hreflang`, Open Graph, JSON-LD, `sitemap.xml` y `robots.txt`

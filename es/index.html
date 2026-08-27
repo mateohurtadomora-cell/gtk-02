@@ -46,13 +46,10 @@
         "postalCode": "07087",
         "addressCountry": "US"
       },
-      "telephone": "+1-646-257-3791",
       "contactPoint": [
-        { "@type": "ContactPoint", "telephone": "+1-646-257-3791", "contactType": "customer service", "areaServed": "US-NY", "availableLanguage": ["Spanish","English"] },
-        { "@type": "ContactPoint", "telephone": "+1-510-962-4767", "contactType": "customer service", "areaServed": "US-CA", "availableLanguage": ["Spanish","English"] },
-        { "@type": "ContactPoint", "telephone": "+1-617-606-3297", "contactType": "customer service", "areaServed": "US-MA", "availableLanguage": ["Spanish","English"] }
+        { "@type": "ContactPoint", "email": "info@globaltk.com", "contactType": "customer service", "availableLanguage": ["Spanish","English"] }
       ],
-      "areaServed": ["United States","Europe"],
+      "areaServed": ["United States","China","Europe"],
       "knowsLanguage": ["es","en"]
     },
     {
@@ -117,7 +114,7 @@ input,textarea{font:inherit;color:inherit}
 
 h1,h2{font-weight:800;letter-spacing:-.026em}
 h1{font-size:clamp(38px,6vw,72px);line-height:1.04}
-h2{position:relative;font-size:clamp(28px,3.4vw,44px);line-height:1.1;margin-bottom:.7em}
+h2{position:relative;font-size:clamp(28px,3.4vw,44px);line-height:1.1;margin-bottom:.45em}
 .h2mark{position:absolute;left:0;top:0;width:0;height:3px;border-radius:3px;background:var(--accent-ink);opacity:0;transition:opacity .3s ease}
 /* Section lead-in. The opening claim is wrapped in <strong> so it reads as a
    headline over the explanatory sentence that follows it. */
@@ -206,7 +203,7 @@ body{padding-top:calc(70px + env(safe-area-inset-top));padding-bottom:calc(64px 
 .hero__copy::before{content:"";position:absolute;inset:-56px -60px;background:radial-gradient(closest-side,var(--bg) 52%,transparent 100%);z-index:-1;pointer-events:none}
 /* Same navy as the footer band (--navy is .foot's background), so the display
    headline and the "Higher Education" block close the page on one colour. */
-.hero h1{margin:0 0 12px;color:var(--navy);font-size:clamp(34px,5.4vw,64px)}
+.hero h1{margin:0 0 12px;color:var(--navy);font-size:clamp(28px,3.4vw,44px)}
 .hero__accent{color:var(--accent)}
 /* Subtitle: clearly subordinate to the company name, and a single flat tone --
    the two-tone accent now lives in the h1, and repeating it on both lines
@@ -223,6 +220,8 @@ body{padding-top:calc(70px + env(safe-area-inset-top));padding-bottom:calc(64px 
 /* Pulls "Bienvenidos a GTK" up towards the hero: the two read as one opening
    block instead of being separated by a full section gap. */
 #gtk{padding-top:clamp(28px,3.4vw,52px)}
+#areas{padding-bottom:clamp(24px,3vw,40px)}
+#socios{padding-top:0}
 
 .net-bg .node{fill:var(--navy)}
 .net-bg .node--hub{fill:var(--accent)}
@@ -260,7 +259,6 @@ html.js .databand__cell.rv.is-in{transform:none}
 .row__num{flex:none;width:30px;height:30px;border-radius:9px;background:var(--tint);color:var(--accent-ink);font-family:var(--mono);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
 .row__num--accent{background:var(--accent);color:#fff}
 .row__title{flex:1;font-weight:700;font-size:16.5px}
-.badge{font-size:11px;font-weight:700;color:var(--accent-ink);background:var(--surface);border:1px solid var(--border);padding:4px 10px;border-radius:100px}
 .row__chev{flex:none;color:var(--text-2);transition:transform .25s ease}
 .row[open] .row__chev{transform:rotate(90deg)}
 .row__body{margin:0 24px 24px 66px;color:var(--text-2)}
@@ -365,7 +363,19 @@ button.logo__btn:hover,button.logo__btn:focus-visible{filter:grayscale(0);opacit
 .form textarea{resize:vertical;min-height:120px}
 .form__field.is-invalid input,.form__field.is-invalid textarea{border-color:var(--danger)}
 .form__err{font-size:13px;color:var(--danger);min-height:0}
-.form__submit{align-self:flex-start;margin-top:4px}
+/* Envio: la casilla de terminos y el boton comparten fila cuando hay ancho.
+   La casilla va antes en el DOM porque es lo que hay que hacer antes de
+   pulsar enviar, y en movil cae encima del boton por ese mismo orden. */
+.form__actions{display:flex;flex-direction:column;align-items:flex-start;gap:16px;margin-top:4px}
+.form__actions .form__submit{align-self:auto;flex:none;margin-top:0}
+.form__consent{gap:6px}
+.form__consent-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:14.5px;color:var(--text-2)}
+.form__consent input[type="checkbox"]{width:19px;height:19px;flex:none;padding:0;margin:0;accent-color:var(--accent);cursor:pointer}
+.form__consent label{cursor:pointer}
+.form__terms{font-size:14.5px;font-weight:600;color:var(--accent-ink);text-decoration:underline;text-underline-offset:3px}
+.form__terms:hover{color:var(--navy)}
+.form__field.is-invalid input[type="checkbox"]{outline:2px solid var(--danger);outline-offset:2px}
+@media (min-width:768px){.form__actions{flex-direction:row;align-items:center;gap:24px}}
 .form__submit[disabled]{opacity:.6;cursor:progress}
 .form__status{font-size:15px;font-weight:600;margin:0}
 .form__status.is-ok{color:var(--accent-ink)}
@@ -377,12 +387,11 @@ button.logo__btn:hover,button.logo__btn:focus-visible{filter:grayscale(0);opacit
 @media (prefers-color-scheme: dark){.foot{background:#08192B}}
 .foot__brand{display:flex;align-items:center;gap:16px;margin-bottom:22px;--foot-brand:clamp(34px,6.2vw,54px)}
 .foot__mark{flex:none;width:var(--foot-brand);height:var(--foot-brand)}
-.foot__claim{margin:0;font-size:var(--foot-brand);line-height:1;font-weight:800;letter-spacing:-.03em}
+.foot__claim{margin:0;max-width:22ch;font-size:clamp(16px,2.1vw,24px);line-height:1.2;font-weight:800;letter-spacing:-.02em}
 .foot__tagline{color:rgba(255,255,255,.7);margin-bottom:36px}
 .foot__contact{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:48px}
-.foot__phone,.foot__email{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border:1px solid rgba(255,255,255,.2);border-radius:100px;font-weight:600;font-size:14px;color:#fff}
-.foot__phone span{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.55);font-weight:700}
-.foot__phone:hover,.foot__email:hover{border-color:#fff}
+.foot__email{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border:1px solid rgba(255,255,255,.2);border-radius:100px;font-weight:600;font-size:14px;color:#fff}
+.foot__email:hover{border-color:#fff}
 .foot__bar{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center;padding-top:24px;border-top:1px solid rgba(255,255,255,.15)}
 .foot__rights{color:rgba(255,255,255,.6);font-size:13px}
 .foot__top{display:inline-flex;align-items:center;gap:6px;color:rgba(255,255,255,.85);font-weight:600;font-size:13px}
@@ -520,7 +529,7 @@ body.is-modal{overflow:hidden}
     <div class="hero__copy">
       <h1 data-i18n="hero_name">Global Technology Knowledge Corp.</h1>
       <p class="hero__sub" data-i18n-html="hero_h1">Ecosistemas de conocimiento <span class="hero__accent">que conectan mundos</span></p>
-      <p class="hero__lead" data-i18n-html="hero_lead"><strong>Donde otros ven instituciones separadas, nosotros trazamos el puente.</strong> Desde 2002 diseñamos y activamos alianzas entre universidades, gobiernos y empresas para convertir el conocimiento en valor real.</p>
+      <p class="hero__lead" data-i18n-html="hero_lead">Desde 2002 diseñamos y activamos alianzas entre universidades, centros de investigación, gobiernos, entidades y empresas para convertir el conocimiento en valor real.</p>
     </div>
   </div>
 </section>
@@ -528,31 +537,31 @@ body.is-modal{overflow:hidden}
 <section id="gtk">
   <div class="wrap">
     <h2 data-i18n="gtk_title">Sobre GTK</h2>
-    <p class="lede rv" data-i18n-html="gtk_intro"><strong>El conocimiento no genera valor por sí solo: lo genera cuando se conecta.</strong> Conectar es exactamente nuestro oficio, y llevamos más de veinte años ejerciéndolo entre dos continentes.</p>
+    <p class="lede rv" data-i18n-html="gtk_intro"><strong>El conocimiento no genera valor por sí solo: lo genera cuando se conecta.</strong> Generar alianzas es exactamente nuestro oficio, y llevamos más de veinte años creando valor en la internacionalización entre América, Europa y Asia.</p>
     <div class="group rv">
       <details class="row" open>
         <summary><span class="row__num">01</span><span class="row__title" data-i18n="row1_title">Ecosistemas de conocimiento</span><svg class="row__chev" width="20" height="20" aria-hidden="true"><use href="#icon-chevron"/></svg></summary>
-        <p class="row__body" data-i18n="row1_body">En GTK creamos ecosistemas de conocimiento locales, regionales, nacionales y globales con la agregación de los agentes y dinamizadores más adecuados a cada proyecto y a cada fase del mismo.</p>
+        <p class="row__body" data-i18n="row1_body">En GTK creamos ecosistemas de conocimiento a nivel local, regional, nacional y global, con la agregación de los agentes y dinamizadores más adecuados para cada proyecto y cada fase del mismo.</p>
       </details>
       <details class="row">
         <summary><span class="row__num">02</span><span class="row__title" data-i18n="row2_title">Alianzas institucionales</span><svg class="row__chev" width="20" height="20" aria-hidden="true"><use href="#icon-chevron"/></svg></summary>
-        <p class="row__body" data-i18n="row2_body">Contamos con acuerdos de colaboración estables con algunas de las instituciones de educación superior y de investigación más potentes del mundo al igual que con los mejores socios tecnológicos en IT para el sector educativo.</p>
+        <p class="row__body" data-i18n="row2_body">Contamos con acuerdos de colaboración estables con algunas de las instituciones de educación superior y de investigación más importantes del mundo, al igual que con los mejores socios tecnológicos en IA e IT en los sectores de investigación y educación superior.</p>
       </details>
       <details class="row row--mece" open>
-        <summary><span class="row__num row__num--accent">03</span><span class="row__title" data-i18n="row5_title">Estrategias MECE</span><span class="badge" data-i18n="row5_badge">Línea propia</span><svg class="row__chev" width="20" height="20" aria-hidden="true"><use href="#icon-chevron"/></svg></summary>
+        <summary><span class="row__num row__num--accent">03</span><span class="row__title" data-i18n="row5_title">Estrategias MECE</span><svg class="row__chev" width="20" height="20" aria-hidden="true"><use href="#icon-chevron"/></svg></summary>
         <p class="row__body" data-i18n="row5_body">Destacamos nuestra línea de desarrollo de estrategias MECE de asociación multinivel (Mutually-Exclusive/Collectively-Exhaustive) como parte integral de la actividad desarrollada por Global Technology Knowledge para sus socios estratégicos.</p>
       </details>
       <details class="row">
         <summary><span class="row__num">04</span><span class="row__title" data-i18n="row3_title">Equipo y talento</span><svg class="row__chev" width="20" height="20" aria-hidden="true"><use href="#icon-chevron"/></svg></summary>
-        <p class="row__body" data-i18n="row3_body">Nuestro equipo de gestión y coordinación de proyectos posee una experiencia única y singular en la creación, implantación y el desarrollo de proyectos complejos.</p>
+        <p class="row__body" data-i18n="row3_body">Nuestro equipo de gestión y coordinación de proyectos posee una experiencia única y singular en la identificación de los socios más relevantes para la creación, implantación y desarrollo de los proyectos complejos.</p>
       </details>
       <details class="row">
         <summary><span class="row__num">05</span><span class="row__title" data-i18n="row4_title">Creación de valor</span><svg class="row__chev" width="20" height="20" aria-hidden="true"><use href="#icon-chevron"/></svg></summary>
-        <p class="row__body" data-i18n="row4_body">Estamos especializados en la creación de valor derivada de la integración de actividades, recursos y activos intangibles cuyos orígenes son inteligencia y conocimiento puestos en interacción con información y desarrollos de tecnología para converger en la llamada Sociedad del Conocimiento.</p>
+        <p class="row__body" data-i18n="row4_body">Estamos especializados en la creación de valor derivada de la integración de actividades, recursos y activos intangibles cuyos orígenes son inteligencia, investigación básica y aplicada y conocimiento, puestos en interacción con información y desarrollos de tecnología para converger en la llamada Sociedad del Conocimiento.</p>
       </details>
       <details class="row">
         <summary><span class="row__num">06</span><span class="row__title" data-i18n="row6_title">Quién confía en GTK</span><svg class="row__chev" width="20" height="20" aria-hidden="true"><use href="#icon-chevron"/></svg></summary>
-        <p class="row__body" data-i18n="row6_body">Trabajamos con gobiernos, comunidades regionales, municipalidades, compañías multinacionales, universidades, centros de investigación, agencias de calidad y entidades financieras e inversoras.</p>
+        <p class="row__body" data-i18n="row6_body">Trabajamos con gobiernos, comunidades regionales, municipalidades, cámaras de comercio, compañías multinacionales, universidades, centros de investigación, agencias de calidad y entidades financieras e inversoras.</p>
       </details>
     </div>
   </div>
@@ -561,7 +570,7 @@ body.is-modal{overflow:hidden}
 <section class="databand">
   <div class="wrap databand__grid">
     <div class="databand__cell rv"><span class="databand__accent" aria-hidden="true"></span><strong data-count="2002">2002</strong><span data-i18n="data_1_label">Año de fundación</span></div>
-    <div class="databand__cell rv"><span class="databand__accent" aria-hidden="true"></span><strong data-i18n="data_2_value">EE. UU. y Europa</strong><span data-i18n="data_2_label">Ámbito de trabajo</span></div>
+    <div class="databand__cell rv"><span class="databand__accent" aria-hidden="true"></span><strong data-i18n="data_2_value">EE. UU., China y Europa</strong><span data-i18n="data_2_label">Ámbito de trabajo</span></div>
     <div class="databand__cell rv"><span class="databand__accent" aria-hidden="true"></span><strong data-count="21">21</strong><span data-i18n="data_3_label">Socios estratégicos</span></div>
     <div class="databand__cell rv"><span class="databand__accent" aria-hidden="true"></span><strong>NY · CA · MA</strong><span data-i18n="data_4_label">Oficinas</span></div>
   </div>
@@ -570,17 +579,17 @@ body.is-modal{overflow:hidden}
 <section id="areas">
   <div class="wrap">
     <h2><span data-i18n="areas_title">Áreas de especialización</span><span class="h2mark" aria-hidden="true"></span></h2>
-    <p class="lede rv" data-i18n-html="areas_intro"><strong>Nueve frentes, un mismo objetivo: que su institución juegue en la liga internacional.</strong> Elija el que le interesa y hablamos.</p>
+    <p class="lede rv" data-i18n-html="areas_intro"><strong>Nueve frentes, un mismo objetivo: incrementar la competitividad de su institución para que juegue en la liga internacional.</strong> Compártanos su necesidad y hablamos.</p>
     <ol class="areas">
       <li class="rv"><a href="#escribenos"><span class="areas__num">01</span><span class="areas__title" data-i18n="area1">Ciudades del Conocimiento</span><svg class="areas__arrow" width="20" height="20" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li>
-      <li class="rv"><a href="#escribenos"><span class="areas__num">02</span><span class="areas__title" data-i18n="area2">Alianzas internacionales para universidades y centros de investigación</span><svg class="areas__arrow" width="20" height="20" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li>
-      <li class="rv"><a href="#escribenos"><span class="areas__num">03</span><span class="areas__title" data-i18n="area3">Estrategias internacionales en I+D+I</span><svg class="areas__arrow" width="20" height="20" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li>
-      <li class="rv"><a href="#escribenos"><span class="areas__num">04</span><span class="areas__title" data-i18n="area4">Incremento de la competitividad</span><svg class="areas__arrow" width="20" height="20" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li>
-      <li class="rv"><a href="#escribenos"><span class="areas__num">05</span><span class="areas__title" data-i18n="area5">Alianzas en economías del conocimiento</span><svg class="areas__arrow" width="20" height="20" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li>
-      <li class="rv"><a href="#escribenos"><span class="areas__num">06</span><span class="areas__title" data-i18n="area6">Universidades corporativas</span><svg class="areas__arrow" width="20" height="20" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li>
-      <li class="rv"><a href="#escribenos"><span class="areas__num">07</span><span class="areas__title" data-i18n="area7">Alianzas y operadores dominantes</span><svg class="areas__arrow" width="20" height="20" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li>
+      <li class="rv"><a href="#escribenos"><span class="areas__num">02</span><span class="areas__title" data-i18n="area2">Alianzas internacionales con universidades y centros de investigación</span><svg class="areas__arrow" width="20" height="20" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li>
+      <li class="rv"><a href="#escribenos"><span class="areas__num">03</span><span class="areas__title" data-i18n="area3">Estrategias de internacionalización</span><svg class="areas__arrow" width="20" height="20" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li>
+      <li class="rv"><a href="#escribenos"><span class="areas__num">04</span><span class="areas__title" data-i18n="area4">Estrategias para el incremento de la competitividad funcional y/o geográfica</span><svg class="areas__arrow" width="20" height="20" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li>
+      <li class="rv"><a href="#escribenos"><span class="areas__num">05</span><span class="areas__title" data-i18n="area5">Alianzas internacionales basadas en la economía del conocimiento</span><svg class="areas__arrow" width="20" height="20" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li>
+      <li class="rv"><a href="#escribenos"><span class="areas__num">06</span><span class="areas__title" data-i18n="area6">Alianzas internacionales para universidades corporativas</span><svg class="areas__arrow" width="20" height="20" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li>
+      <li class="rv"><a href="#escribenos"><span class="areas__num">07</span><span class="areas__title" data-i18n="area7">Alianzas de transferencia de conocimiento con operadores dominantes</span><svg class="areas__arrow" width="20" height="20" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li>
       <li class="rv"><a href="#escribenos"><span class="areas__num">08</span><span class="areas__title" data-i18n="area8">Proyectos Open ID en investigación</span><svg class="areas__arrow" width="20" height="20" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li>
-      <li class="rv"><a href="#escribenos"><span class="areas__num">09</span><span class="areas__title" data-i18n="area9">Programas de capital humano</span><svg class="areas__arrow" width="20" height="20" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li>
+      <li class="rv"><a href="#escribenos"><span class="areas__num">09</span><span class="areas__title" data-i18n="area9">Programas internacionales de capital humano</span><svg class="areas__arrow" width="20" height="20" aria-hidden="true"><use href="#icon-arrow"/></svg></a></li>
     </ol>
   </div>
 </section>
@@ -601,7 +610,7 @@ body.is-modal{overflow:hidden}
 <section id="colaboraciones" class="projects">
   <div class="wrap">
     <h2><span data-i18n="projects_title">Colaboraciones destacadas</span><span class="h2mark" aria-hidden="true"></span></h2>
-    <p class="projects__intro lede" data-i18n-html="projects_intro"><strong>Del MIT a Barcelona, de Columbia a Bogotá: dos décadas abriendo puertas que parecían cerradas.</strong> Desde el año 2002 en Global Technology Knowledge Corp. hemos participado en proyectos muy diversos que han contribuido a la internacionalización y a la creación de valor de nuestros socios estratégicos en las áreas de investigación y formación. Entre otros proyectos de relevancia citamos:</p>
+    <p class="projects__intro lede" data-i18n-html="projects_intro">Desde el año 2002 en Global Technology Knowledge Corp. hemos participado en proyectos muy diversos que han contribuido a la internacionalización y a la creación de valor de nuestros socios estratégicos en las áreas de investigación y formación. Entre otros proyectos de relevancia citamos:</p>
     <!-- Escala del ecosistema. Los cuatro anillos concentricos son el mismo
          elemento de la propuesta A: de Local (el circulo interior) a Global
          (el exterior). Al elegir una escala se encienden esa y todas las
@@ -668,11 +677,26 @@ body.is-modal{overflow:hidden}
         <span class="form__err" aria-live="polite"></span>
       </label>
       <label class="form__field">
-        <span class="form__label" data-i18n="form_message_label">Texto para definir el interés</span>
+        <span class="form__label" data-i18n="form_message_label">Cuéntenos su idea y/o proyecto</span>
         <textarea name="mensaje" rows="5" required data-i18n-ph="form_message_ph" placeholder="Describa el contexto y el alcance de su consulta."></textarea>
         <span class="form__err" aria-live="polite"></span>
       </label>
-      <button type="submit" class="btn btn--primary form__submit" data-i18n="form_submit">Enviar consulta</button>
+      <!-- Aceptacion de los terminos. Lleva la clase form__field para que la
+           validacion del formulario la trate como un campo mas y pueda pintar
+           su error en el .form__err de abajo. El enlace a los terminos queda
+           fuera del <label> a proposito: dentro, pulsarlo marcaria la casilla
+           en vez de abrir el modal. -->
+      <div class="form__actions">
+        <div class="form__field form__consent">
+          <div class="form__consent-row">
+            <input type="checkbox" id="formTerms" name="acepta_terminos" required>
+            <label for="formTerms" data-i18n="form_terms_label">He leído y acepto los</label>
+            <button type="button" class="form__terms" data-modal-open="termsModal" data-i18n="terms_link">Términos de uso</button>
+          </div>
+          <span class="form__err" aria-live="polite"></span>
+        </div>
+        <button type="submit" class="btn btn--primary form__submit" data-i18n="form_submit">Enviar consulta</button>
+      </div>
       <p class="form__status" role="status" aria-live="polite"></p>
     </form>
   </div>
@@ -684,13 +708,10 @@ body.is-modal{overflow:hidden}
   <div class="wrap">
     <div class="foot__brand">
       <svg class="foot__mark" width="54" height="54" aria-hidden="true"><use href="#gtk-mark"/></svg>
-      <p class="foot__claim" data-i18n="footer_claim">Higher Education</p>
+      <p class="foot__claim" data-i18n="footer_claim">The Leader for International Alliances in Research and Higher Education</p>
     </div>
     <p class="foot__tagline" data-i18n="footer_tagline">Global Technology Knowledge Corp. · Union City, New Jersey · Desde 2002</p>
     <div class="foot__contact">
-      <a class="foot__phone" href="tel:+16462573791"><span data-i18n="contact_region_ny">Nueva York</span>+1 646 257-3791</a>
-      <a class="foot__phone" href="tel:+15109624767"><span data-i18n="contact_region_ca">California</span>+1 510 962-4767</a>
-      <a class="foot__phone" href="tel:+16176063297"><span data-i18n="contact_region_ma">Massachusetts</span>+1 617 606-3297</a>
       <a class="foot__email" href="mailto:info@globaltk.com">info@globaltk.com</a>
     </div>
     <div class="foot__bar">
@@ -774,41 +795,40 @@ body.is-modal{overflow:hidden}
     lang_en_aria: "Cambiar a inglés",
     hero_name: "Global Technology Knowledge Corp.",
     hero_h1: "Ecosistemas de conocimiento <span class=\"hero__accent\">que conectan mundos</span>",
-    hero_lead: "<strong>Donde otros ven instituciones separadas, nosotros trazamos el puente.</strong> Desde 2002 diseñamos y activamos alianzas entre universidades, gobiernos y empresas para convertir el conocimiento en valor real.",
+    hero_lead: "Desde 2002 diseñamos y activamos alianzas entre universidades, centros de investigación, gobiernos, entidades y empresas para convertir el conocimiento en valor real.",
     hero_svg_title: "Red de conocimiento e instituciones conectadas de GTK",
     data_1_label: "Año de fundación",
-    data_2_value: "EE. UU. y Europa",
+    data_2_value: "EE. UU., China y Europa",
     data_2_label: "Ámbito de trabajo",
     data_3_label: "Socios estratégicos",
     data_4_label: "Oficinas",
     gtk_title: "Sobre GTK",
-    gtk_intro: "<strong>El conocimiento no genera valor por sí solo: lo genera cuando se conecta.</strong> Conectar es exactamente nuestro oficio, y llevamos más de veinte años ejerciéndolo entre dos continentes.",
+    gtk_intro: "<strong>El conocimiento no genera valor por sí solo: lo genera cuando se conecta.</strong> Generar alianzas es exactamente nuestro oficio, y llevamos más de veinte años creando valor en la internacionalización entre América, Europa y Asia.",
     row1_title: "Ecosistemas de conocimiento",
-    row1_body: "En GTK creamos ecosistemas de conocimiento locales, regionales, nacionales y globales con la agregación de los agentes y dinamizadores más adecuados a cada proyecto y a cada fase del mismo.",
+    row1_body: "En GTK creamos ecosistemas de conocimiento a nivel local, regional, nacional y global, con la agregación de los agentes y dinamizadores más adecuados para cada proyecto y cada fase del mismo.",
     row2_title: "Alianzas institucionales",
-    row2_body: "Contamos con acuerdos de colaboración estables con algunas de las instituciones de educación superior y de investigación más potentes del mundo al igual que con los mejores socios tecnológicos en IT para el sector educativo.",
+    row2_body: "Contamos con acuerdos de colaboración estables con algunas de las instituciones de educación superior y de investigación más importantes del mundo, al igual que con los mejores socios tecnológicos en IA e IT en los sectores de investigación y educación superior.",
     row3_title: "Equipo y talento",
-    row3_body: "Nuestro equipo de gestión y coordinación de proyectos posee una experiencia única y singular en la creación, implantación y el desarrollo de proyectos complejos.",
+    row3_body: "Nuestro equipo de gestión y coordinación de proyectos posee una experiencia única y singular en la identificación de los socios más relevantes para la creación, implantación y desarrollo de los proyectos complejos.",
     row4_title: "Creación de valor",
-    row4_body: "Estamos especializados en la creación de valor derivada de la integración de actividades, recursos y activos intangibles cuyos orígenes son inteligencia y conocimiento puestos en interacción con información y desarrollos de tecnología para converger en la llamada Sociedad del Conocimiento.",
+    row4_body: "Estamos especializados en la creación de valor derivada de la integración de actividades, recursos y activos intangibles cuyos orígenes son inteligencia, investigación básica y aplicada y conocimiento, puestos en interacción con información y desarrollos de tecnología para converger en la llamada Sociedad del Conocimiento.",
     row5_title: "Estrategias MECE",
-    row5_badge: "Línea propia",
     row5_body: "Destacamos nuestra línea de desarrollo de estrategias MECE de asociación multinivel (Mutually-Exclusive/Collectively-Exhaustive) como parte integral de la actividad desarrollada por Global Technology Knowledge para sus socios estratégicos.",
     row6_title: "Quién confía en GTK",
-    row6_body: "Trabajamos con gobiernos, comunidades regionales, municipalidades, compañías multinacionales, universidades, centros de investigación, agencias de calidad y entidades financieras e inversoras.",
+    row6_body: "Trabajamos con gobiernos, comunidades regionales, municipalidades, cámaras de comercio, compañías multinacionales, universidades, centros de investigación, agencias de calidad y entidades financieras e inversoras.",
     areas_title: "Áreas de especialización",
-    areas_intro: "<strong>Nueve frentes, un mismo objetivo: que su institución juegue en la liga internacional.</strong> Elija el que le interesa y hablamos.",
+    areas_intro: "<strong>Nueve frentes, un mismo objetivo: incrementar la competitividad de su institución para que juegue en la liga internacional.</strong> Compártanos su necesidad y hablamos.",
     area1: "Ciudades del Conocimiento",
-    area2: "Alianzas internacionales para universidades y centros de investigación",
-    area3: "Estrategias internacionales en I+D+I",
-    area4: "Incremento de la competitividad",
-    area5: "Alianzas en economías del conocimiento",
-    area6: "Universidades corporativas",
-    area7: "Alianzas y operadores dominantes",
+    area2: "Alianzas internacionales con universidades y centros de investigación",
+    area3: "Estrategias de internacionalización",
+    area4: "Estrategias para el incremento de la competitividad funcional y/o geográfica",
+    area5: "Alianzas internacionales basadas en la economía del conocimiento",
+    area6: "Alianzas internacionales para universidades corporativas",
+    area7: "Alianzas de transferencia de conocimiento con operadores dominantes",
     area8: "Proyectos Open ID en investigación",
-    area9: "Programas de capital humano",
+    area9: "Programas internacionales de capital humano",
     projects_title: "Colaboraciones destacadas",
-    projects_intro: "<strong>Del MIT a Barcelona, de Columbia a Bogotá: dos décadas abriendo puertas que parecían cerradas.</strong> Desde el año 2002 en Global Technology Knowledge Corp. hemos participado en proyectos muy diversos que han contribuido a la internacionalización y a la creación de valor de nuestros socios estratégicos en las áreas de investigación y formación. Entre otros proyectos de relevancia citamos:",
+    projects_intro: "Desde el año 2002 en Global Technology Knowledge Corp. hemos participado en proyectos muy diversos que han contribuido a la internacionalización y a la creación de valor de nuestros socios estratégicos en las áreas de investigación y formación. Entre otros proyectos de relevancia citamos:",
     scope_aria: "Escala del ecosistema",
     scope_head: "Filtrar por escala del ecosistema",
     scope_all: "Todas",
@@ -862,9 +882,6 @@ body.is-modal{overflow:hidden}
     clients_intro: "<strong>Instituciones que no se conforman con lo local.</strong> Gobiernos, universidades y compañías que decidieron dejar de esperar la oportunidad y salir a construirla.",
     insights_title: "Insights",
     insights_intro: "<strong>Lo que aprendemos construyendo alianzas, puesto a disposición de quien va a construir la suya.</strong> Análisis y notas sobre internacionalización, ecosistemas de conocimiento y educación superior.",
-    contact_region_ny: "Nueva York",
-    contact_region_ca: "California",
-    contact_region_ma: "Massachusetts",
     form_title: "Escríbanos",
     form_intro: "<strong>Toda gran alianza empezó con una primera conversación.</strong> Cuéntenos brevemente quién es y qué necesita: le responderemos al correo que nos indique.",
     form_name_label: "¿Quién consulta?",
@@ -873,15 +890,17 @@ body.is-modal{overflow:hidden}
     form_email_ph: "nombre@organizacion.com",
     form_subject_label: "Objeto de la consulta",
     form_subject_ph: "Alianza académica, proyecto, acreditación…",
-    form_message_label: "Texto para definir el interés",
+    form_message_label: "Cuéntenos su idea y/o proyecto",
     form_message_ph: "Describa el contexto y el alcance de su consulta.",
     form_submit: "Enviar consulta",
+    form_terms_label: "He leído y acepto los",
+    form_terms_required: "Debe aceptar los términos de uso para enviar la consulta.",
     form_sending: "Enviando…",
     form_success: "Gracias. Hemos recibido su consulta y le responderemos en breve.",
     form_error: "No se ha podido enviar. Inténtelo de nuevo o escríbanos a info@globaltk.com.",
     form_required: "Este campo es obligatorio.",
     form_email_invalid: "Introduzca un correo válido.",
-    footer_claim: "Higher Education",
+    footer_claim: "The Leader for International Alliances in Research and Higher Education",
     footer_tagline: "Global Technology Knowledge Corp. · Union City, New Jersey · Desde 2002",
     footer_rights: "Todos los derechos reservados.",
     footer_top: "Volver arriba",
@@ -935,41 +954,40 @@ body.is-modal{overflow:hidden}
     lang_en_aria: "Switch to English",
     hero_name: "Global Technology Knowledge Corp.",
     hero_h1: "Knowledge ecosystems <span class=\"hero__accent\">that connect worlds</span>",
-    hero_lead: "<strong>Where others see separate institutions, we build the bridge.</strong> Since 2002 we have designed and activated alliances between universities, governments and companies to turn knowledge into real value.",
+    hero_lead: "Since 2002 we have designed and activated alliances between universities, research centers, governments, institutions and companies to turn knowledge into real value.",
     hero_svg_title: "GTK's connected knowledge and institutions network",
     data_1_label: "Year founded",
-    data_2_value: "United States and Europe",
+    data_2_value: "United States, China and Europe",
     data_2_label: "Scope of work",
     data_3_label: "Strategic partners",
     data_4_label: "Offices",
     gtk_title: "About GTK",
-    gtk_intro: "<strong>Knowledge creates no value on its own: it creates value when it connects.</strong> Connecting is precisely our craft, and we have been practising it across two continents for over twenty years.",
+    gtk_intro: "<strong>Knowledge creates no value on its own: it creates value when it connects.</strong> Building alliances is precisely our craft, and for more than twenty years we have been creating value in internationalization across America, Europe and Asia.",
     row1_title: "Knowledge ecosystems",
-    row1_body: "At Global Technology Knowledge Corp. we create knowledge ecosystems at local, regional, national and global levels. We reach full optimization through a well-balanced combination of knowledge engineering and the addition of the best suited agents and engines to each project and to each phase.",
+    row1_body: "At GTK we create knowledge ecosystems at local, regional, national and global level, aggregating the agents and drivers best suited to each project and to each of its phases.",
     row2_title: "Institutional alliances",
-    row2_body: "We have firm alliances and agreements with some of the most prestigious research centers and higher education institutions in the world and with some of the most powerful high-tech companies in the educational sector.",
+    row2_body: "We have stable collaboration agreements with some of the most important higher education and research institutions in the world, as well as with the best technology partners in AI and IT in the research and higher education sectors.",
     row3_title: "Team and talent",
-    row3_body: "Our team brings together highly specialized human talent, all of them experts in the creation, management, coordination, implementation and development of complex projects.",
+    row3_body: "Our project management and coordination team has unique and singular experience in identifying the most relevant partners for the creation, implementation and development of complex projects.",
     row4_title: "Value creation",
-    row4_body: "Global Technology Knowledge Corp. is specialized in creating and adding value associated to the integration of activities and intangible assets whose origins are intelligence and knowledge put into interactions with information and technology. These developments converge on the so-called Knowledge Society.",
+    row4_body: "We are specialized in the creation of value derived from the integration of activities, resources and intangible assets whose origins are intelligence, basic and applied research and knowledge, put into interaction with information and technology developments to converge on the so-called Knowledge Society.",
     row5_title: "MECE strategies",
-    row5_badge: "Signature line",
     row5_body: "We emphasize our line of developments for multilevel association and partnership strategies MECE (Mutually-Exclusive/Collectively-Exhaustive) as an integral part of the added-value work conducted by Global Technology Knowledge for its strategic partners.",
     row6_title: "Who works with us",
-    row6_body: "We work alongside governments, regional communities, municipalities, multinational companies, universities, research centers, quality agencies and financial institutions and investors.",
+    row6_body: "We work alongside governments, regional communities, municipalities, chambers of commerce, multinational companies, universities, research centers, quality agencies and financial institutions and investors.",
     areas_title: "Areas of Expertise",
-    areas_intro: "<strong>Nine fronts, one single goal: to put your institution in the international league.</strong> Pick the one you care about and let's talk.",
+    areas_intro: "<strong>Nine fronts, one single goal: to increase your institution's competitiveness so that it plays in the international league.</strong> Share your need with us and let's talk.",
     area1: "Knowledge Cities",
-    area2: "International alliances for universities and research centers",
-    area3: "International R&D&I strategies",
-    area4: "Increasing competitiveness",
-    area5: "Alliances in knowledge economies",
-    area6: "Corporate universities",
-    area7: "Alliances with leading operators",
+    area2: "International alliances with universities and research centers",
+    area3: "Internationalization strategies",
+    area4: "Strategies for increasing functional and/or geographic competitiveness",
+    area5: "International alliances based on the knowledge economy",
+    area6: "International alliances for corporate universities",
+    area7: "Knowledge transfer alliances with dominant operators",
     area8: "Open ID research projects",
-    area9: "Human capital programs",
+    area9: "International human capital programs",
     projects_title: "Selected Collaborations",
-    projects_intro: "<strong>From MIT to Barcelona, from Columbia to Bogotá: two decades opening doors that looked closed.</strong> Since 2002 Global Technology Knowledge Corp. have been involved in very diverse type of projects. We have contributed since that time to the internationalization and the creation of value for our strategic partners in many areas of research and training. Among other projects:",
+    projects_intro: "Since 2002 Global Technology Knowledge Corp. have been involved in very diverse type of projects. We have contributed since that time to the internationalization and the creation of value for our strategic partners in many areas of research and training. Among other projects:",
     scope_aria: "Ecosystem scale",
     scope_head: "Filter by ecosystem scale",
     scope_all: "All",
@@ -1023,9 +1041,6 @@ body.is-modal{overflow:hidden}
     clients_intro: "<strong>Institutions that refuse to settle for local.</strong> Governments, universities and companies that stopped waiting for the opportunity and went out to build it.",
     insights_title: "Insights",
     insights_intro: "<strong>What we learn building alliances, shared with whoever is about to build their own.</strong> Analysis and notes on internationalization, knowledge ecosystems and higher education.",
-    contact_region_ny: "New York",
-    contact_region_ca: "California",
-    contact_region_ma: "Massachusetts",
     form_title: "Write to us",
     form_intro: "<strong>Every great alliance started with a first conversation.</strong> Tell us briefly who you are and what you need: we will reply to the address you provide.",
     form_name_label: "Who is enquiring?",
@@ -1034,15 +1049,17 @@ body.is-modal{overflow:hidden}
     form_email_ph: "name@organisation.com",
     form_subject_label: "Subject of the enquiry",
     form_subject_ph: "Academic alliance, project, accreditation…",
-    form_message_label: "Text describing your interest",
+    form_message_label: "Tell us about your idea and/or project",
     form_message_ph: "Describe the context and scope of your enquiry.",
     form_submit: "Send enquiry",
+    form_terms_label: "I have read and accept the",
+    form_terms_required: "You must accept the terms of use to send your enquiry.",
     form_sending: "Sending…",
     form_success: "Thank you. We have received your enquiry and will reply shortly.",
     form_error: "It could not be sent. Please try again or email us at info@globaltk.com.",
     form_required: "This field is required.",
     form_email_invalid: "Please enter a valid email address.",
-    footer_claim: "Higher Education",
+    footer_claim: "The Leader for International Alliances in Research and Higher Education",
     footer_tagline: "Global Technology Knowledge Corp. · Union City, New Jersey · Since 2002",
     footer_rights: "All rights reserved.",
     footer_top: "Back to top",
@@ -1609,6 +1626,13 @@ body.is-modal{overflow:hidden}
     }
 
     function validateInput(input){
+      /* La casilla de terminos no tiene texto que comprobar: lo que se valida
+         es que este marcada, y su mensaje de error es propio. */
+      if(input.type === 'checkbox'){
+        if(!input.checked){ setFieldError(input, t('form_terms_required')); return false; }
+        setFieldError(input, '');
+        return true;
+      }
       var value = input.value.replace(/^\s+|\s+$/g, '');
       if(!value){ setFieldError(input, t('form_required')); return false; }
       if(input.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)){
@@ -1622,6 +1646,12 @@ body.is-modal{overflow:hidden}
     var fields = contactForm.querySelectorAll('input, textarea');
     for(var fi=0; fi<fields.length; fi++){
       (function(input){
+        /* La casilla se revisa solo al marcarla o desmarcarla: hacerlo al
+           perder el foco daria error por el mero hecho de tabular sobre ella. */
+        if(input.type === 'checkbox'){
+          input.addEventListener('change', function(){ validateInput(input); });
+          return;
+        }
         input.addEventListener('blur', function(){ validateInput(input); });
         input.addEventListener('input', function(){
           if(fieldOf(input) && fieldOf(input).classList.contains('is-invalid')){ validateInput(input); }

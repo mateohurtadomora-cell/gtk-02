@@ -46,13 +46,10 @@
         "postalCode": "07087",
         "addressCountry": "US"
       },
-      "telephone": "+1-646-257-3791",
       "contactPoint": [
-        { "@type": "ContactPoint", "telephone": "+1-646-257-3791", "contactType": "customer service", "areaServed": "US-NY", "availableLanguage": ["Spanish","English"] },
-        { "@type": "ContactPoint", "telephone": "+1-510-962-4767", "contactType": "customer service", "areaServed": "US-CA", "availableLanguage": ["Spanish","English"] },
-        { "@type": "ContactPoint", "telephone": "+1-617-606-3297", "contactType": "customer service", "areaServed": "US-MA", "availableLanguage": ["Spanish","English"] }
+        { "@type": "ContactPoint", "email": "info@globaltk.com", "contactType": "customer service", "availableLanguage": ["Spanish","English"] }
       ],
-      "areaServed": ["United States","Europe"],
+      "areaServed": ["United States","China","Europe"],
       "knowsLanguage": ["es","en"]
     },
     {
@@ -166,7 +163,7 @@
         <p class="row__body" data-i18n="row2_body">{{t:row2_body}}</p>
       </details>
       <details class="row row--mece" open>
-        <summary><span class="row__num row__num--accent">03</span><span class="row__title" data-i18n="row5_title">{{t:row5_title}}</span><span class="badge" data-i18n="row5_badge">{{t:row5_badge}}</span><svg class="row__chev" width="20" height="20" aria-hidden="true"><use href="#icon-chevron"/></svg></summary>
+        <summary><span class="row__num row__num--accent">03</span><span class="row__title" data-i18n="row5_title">{{t:row5_title}}</span><svg class="row__chev" width="20" height="20" aria-hidden="true"><use href="#icon-chevron"/></svg></summary>
         <p class="row__body" data-i18n="row5_body">{{t:row5_body}}</p>
       </details>
       <details class="row">
@@ -310,7 +307,22 @@
         <textarea name="mensaje" rows="5" required data-i18n-ph="form_message_ph" placeholder="{{a:form_message_ph}}"></textarea>
         <span class="form__err" aria-live="polite"></span>
       </label>
-      <button type="submit" class="btn btn--primary form__submit" data-i18n="form_submit">{{t:form_submit}}</button>
+      <!-- Aceptacion de los terminos. Lleva la clase form__field para que la
+           validacion del formulario la trate como un campo mas y pueda pintar
+           su error en el .form__err de abajo. El enlace a los terminos queda
+           fuera del <label> a proposito: dentro, pulsarlo marcaria la casilla
+           en vez de abrir el modal. -->
+      <div class="form__actions">
+        <div class="form__field form__consent">
+          <div class="form__consent-row">
+            <input type="checkbox" id="formTerms" name="acepta_terminos" required>
+            <label for="formTerms" data-i18n="form_terms_label">{{t:form_terms_label}}</label>
+            <button type="button" class="form__terms" data-modal-open="termsModal" data-i18n="terms_link">{{t:terms_link}}</button>
+          </div>
+          <span class="form__err" aria-live="polite"></span>
+        </div>
+        <button type="submit" class="btn btn--primary form__submit" data-i18n="form_submit">{{t:form_submit}}</button>
+      </div>
       <p class="form__status" role="status" aria-live="polite"></p>
     </form>
   </div>
@@ -326,9 +338,6 @@
     </div>
     <p class="foot__tagline" data-i18n="footer_tagline">{{t:footer_tagline}}</p>
     <div class="foot__contact">
-      <a class="foot__phone" href="tel:+16462573791"><span data-i18n="contact_region_ny">{{t:contact_region_ny}}</span>+1 646 257-3791</a>
-      <a class="foot__phone" href="tel:+15109624767"><span data-i18n="contact_region_ca">{{t:contact_region_ca}}</span>+1 510 962-4767</a>
-      <a class="foot__phone" href="tel:+16176063297"><span data-i18n="contact_region_ma">{{t:contact_region_ma}}</span>+1 617 606-3297</a>
       <a class="foot__email" href="mailto:info@globaltk.com">info@globaltk.com</a>
     </div>
     <div class="foot__bar">

@@ -532,6 +532,13 @@
     }
 
     function validateInput(input){
+      /* La casilla de terminos no tiene texto que comprobar: lo que se valida
+         es que este marcada, y su mensaje de error es propio. */
+      if(input.type === 'checkbox'){
+        if(!input.checked){ setFieldError(input, t('form_terms_required')); return false; }
+        setFieldError(input, '');
+        return true;
+      }
       var value = input.value.replace(/^\s+|\s+$/g, '');
       if(!value){ setFieldError(input, t('form_required')); return false; }
       if(input.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)){
@@ -545,6 +552,12 @@
     var fields = contactForm.querySelectorAll('input, textarea');
     for(var fi=0; fi<fields.length; fi++){
       (function(input){
+        /* La casilla se revisa solo al marcarla o desmarcarla: hacerlo al
+           perder el foco daria error por el mero hecho de tabular sobre ella. */
+        if(input.type === 'checkbox'){
+          input.addEventListener('change', function(){ validateInput(input); });
+          return;
+        }
         input.addEventListener('blur', function(){ validateInput(input); });
         input.addEventListener('input', function(){
           if(fieldOf(input) && fieldOf(input).classList.contains('is-invalid')){ validateInput(input); }
