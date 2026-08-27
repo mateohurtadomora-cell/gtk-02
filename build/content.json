@@ -135,7 +135,7 @@
   "insights_intro": { "es": "<strong>Lo que aprendemos construyendo alianzas, puesto a disposici\u00f3n de quien va a construir la suya.</strong> An\u00e1lisis y notas sobre internacionalizaci\u00f3n, ecosistemas de conocimiento y educaci\u00f3n superior.", "en": "<strong>What we learn building alliances, shared with whoever is about to build their own.</strong> Analysis and notes on internationalization, knowledge ecosystems and higher education." },
 
   "form_title": { "es": "Escríbanos", "en": "Write to us" },
-  "form_intro": { "es": "<strong>Toda gran alianza empezó con una primera conversación.</strong> Cuéntenos brevemente quién es y qué necesita: le responderemos al correo que nos indique.", "en": "<strong>Every great alliance started with a first conversation.</strong> Tell us briefly who you are and what you need: we will reply to the address you provide." },
+  "form_intro": { "es": "<strong>Toda gran alianza empezó con una primera conversación.</strong> Cuéntenos brevemente quién es usted y cuál es su idea.", "en": "<strong>Every great alliance started with a first conversation.</strong> Tell us briefly who you are and what your idea is." },
   "form_name_label": { "es": "¿Quién consulta?", "en": "Who is enquiring?" },
   "form_name_ph": { "es": "Nombre y organización", "en": "Name and organisation" },
   "form_email_label": { "es": "Correo de respuesta", "en": "Reply address" },
