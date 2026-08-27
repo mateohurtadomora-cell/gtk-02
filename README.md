@@ -167,6 +167,30 @@ propia descripción (`scope_local_desc`, `scope_regional_desc`, ...); al elegir
 una, el párrafo cambia de `data-i18n`, de modo que el conmutador de idioma
 repone la descripción de la escala elegida y no la de «todas».
 
+## Paleta
+
+Los dos temas viven en variables CSS al principio de `build/style.css`: el
+claro en `:root` y el oscuro en el bloque `@media (prefers-color-scheme:
+dark)`. No hay conmutador manual; se sigue la preferencia del sistema.
+
+En agosto de 2026 se bajó de tono el tema claro y se subió el oscuro, a
+petición del cliente. Al mover una paleta entera hay dos sitios donde el
+contraste se rompe con facilidad:
+
+- **Rellenos de acento con texto encima.** `.btn--primary`,
+  `.lang__btn[aria-pressed="true"]` y `.row__num--accent` pintan blanco sobre
+  `--accent`. En el tema oscuro el acento es un azul claro, así que ahí el
+  texto pasa a tinta oscura mediante una regla propia. Con blanco daba 2,9:1.
+- **`--danger`.** El rojo del tema claro sobre las superficies aclaradas del
+  oscuro se quedaba en 2,5:1, así que el tema oscuro tiene su propio rojo
+  claro. Es la única variable que existía solo en `:root`.
+
+Si se vuelve a tocar la paleta conviene repasar los dos temas con un medidor
+de contraste, incluidos el modal de términos abierto y el formulario con los
+errores pintados, que son estados que no se ven en la primera pantalla. La
+referencia actual: el peor par del tema claro está en 5,8:1 y el del oscuro
+en 5,2:1, ambos por encima del 4,5:1 que pide WCAG AA.
+
 ## Insights
 
 La seccion existe en `template.html` pero **no se publica todavia**: no hay

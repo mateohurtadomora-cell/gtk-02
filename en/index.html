@@ -73,15 +73,15 @@
 </script>
 <style>/* ---------- Tokens ---------- */
 :root{
-  --navy:#0A2540; --accent:#1D4E77; --accent-ink:#123A5C;
-  --bg:#F2F3F5; --surface:#FFFFFF; --surface-2:#F8F9FA;
-  --text:#16202B; --text-2:#5B6774; --border:#DFE3E8;
-  --tint:rgba(29,78,119,.08); --navy-soft:rgba(10,37,64,.06);
-  --logo-a:#0A2540; --logo-b:#A8B2BD;
-  --glass:rgba(255,255,255,.72); --rail-bg:rgba(255,255,255,.78);
-  --shadow-s:0 1px 2px rgba(11,42,74,.05), 0 6px 18px rgba(11,42,74,.06);
-  --shadow-m:0 2px 8px rgba(11,42,74,.05), 0 20px 48px rgba(11,42,74,.09);
-  --map-land:#EDEEF2; --map-block:#DDDFE6; --map-water:#CFE3F7; --map-road:#F7F8FA;
+  --navy:#061A2E; --accent:#17405F; --accent-ink:#0E3049;
+  --bg:#E6E9ED; --surface:#F9FAFC; --surface-2:#F0F2F6;
+  --text:#0D151E; --text-2:#48525F; --border:#D0D6DE;
+  --tint:rgba(23,64,95,.10); --navy-soft:rgba(6,26,46,.07);
+  --logo-a:#061A2E; --logo-b:#98A3AF;
+  --glass:rgba(249,250,252,.74); --rail-bg:rgba(249,250,252,.80);
+  --shadow-s:0 1px 2px rgba(6,26,46,.07), 0 6px 18px rgba(6,26,46,.08);
+  --shadow-m:0 2px 8px rgba(6,26,46,.07), 0 20px 48px rgba(6,26,46,.12);
+  --map-land:#E1E4EA; --map-block:#CDD2DA; --map-water:#BCD4EE; --map-road:#ECEEF2;
   --r-s:14px; --r-m:18px; --r-l:26px; --rail:312px;
   /* Altura de la barra superior en movil: marca (52) + sus 14 px de padding
      arriba y abajo + el borde. La usan el hueco del body, el scroll-margin de
@@ -93,14 +93,17 @@
 }
 @media (prefers-color-scheme: dark){
   :root{
-    --navy:#9BB6D0; --accent:#5B8CB8; --accent-ink:#8DAECD;
-    --bg:#0C1116; --surface:#161D24; --surface-2:#111820;
-    --text:#EDF1F5; --text-2:#95A3B1; --border:#2C3742;
-    --tint:rgba(91,140,184,.18); --navy-soft:rgba(255,255,255,.06);
-    --glass:rgba(18,24,30,.78); --rail-bg:rgba(18,24,30,.84);
-    --shadow-s:0 1px 2px rgba(0,0,0,.5); --shadow-m:0 18px 44px rgba(0,0,0,.6);
-    --map-land:#1A1A1E; --map-block:#26262C; --map-water:#123049; --map-road:#34343C;
-    --logo-a:#E4EBF2; --logo-b:#78838F;
+    --navy:#B0C7DD; --accent:#6D9DC7; --accent-ink:#A2BFDA;
+    --bg:#151B22; --surface:#202832; --surface-2:#1A212A;
+    --text:#F3F7FB; --text-2:#A6B3C0; --border:#38434F;
+    --tint:rgba(109,157,199,.20); --navy-soft:rgba(255,255,255,.08);
+    --glass:rgba(32,40,50,.80); --rail-bg:rgba(32,40,50,.86);
+    --shadow-s:0 1px 2px rgba(0,0,0,.42); --shadow-m:0 18px 44px rgba(0,0,0,.5);
+    --map-land:#24252A; --map-block:#31323A; --map-water:#1A3D5B; --map-road:#41424A;
+    --logo-a:#EFF4F9; --logo-b:#8A95A2;
+    /* El rojo del modo claro daba 2,5:1 sobre las superficies aclaradas: aqui
+       el aviso de error va en rojo claro. */
+    --danger:#EE9B94;
   }
 }
 
@@ -272,6 +275,12 @@ html.js .databand__cell.rv.is-in{transform:none}
 .row summary::-webkit-details-marker{display:none}
 .row__num{flex:none;width:30px;height:30px;border-radius:9px;background:var(--tint);color:var(--accent-ink);font-family:var(--mono);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
 .row__num--accent{background:var(--accent);color:#fff}
+/* En modo oscuro el acento es un azul claro: sobre el, el texto blanco baja
+   a 2,9:1 y la tinta oscura sube a 6,5:1. Afecta a los tres rellenos de
+   acento que llevan texto encima. */
+@media (prefers-color-scheme: dark){
+  .btn--primary,.lang__btn[aria-pressed="true"],.row__num--accent{color:#0C1319}
+}
 .row__title{flex:1;font-weight:700;font-size:16.5px}
 .row__chev{flex:none;color:var(--text-2);transition:transform .25s ease}
 .row[open] .row__chev{transform:rotate(90deg)}
@@ -397,7 +406,7 @@ button.logo__btn:hover,button.logo__btn:focus-visible{filter:grayscale(0);opacit
 
 /* ---------- Footer ---------- */
 .foot{background:var(--navy);color:#fff;padding:clamp(52px,7vw,96px) 0 32px;--logo-a:#fff;--logo-b:rgba(255,255,255,.55)}
-@media (prefers-color-scheme: dark){.foot{background:#08192B}}
+@media (prefers-color-scheme: dark){.foot{background:#0E2540}}
 .foot__brand{display:flex;align-items:center;gap:16px;margin-bottom:22px;--foot-brand:clamp(34px,6.2vw,54px)}
 .foot__mark{flex:none;width:var(--foot-brand);height:var(--foot-brand)}
 /* 34ch parte la frase en dos lineas: son setenta caracteres, asi que el
