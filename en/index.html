@@ -82,7 +82,11 @@
   --shadow-s:0 1px 2px rgba(11,42,74,.05), 0 6px 18px rgba(11,42,74,.06);
   --shadow-m:0 2px 8px rgba(11,42,74,.05), 0 20px 48px rgba(11,42,74,.09);
   --map-land:#EDEEF2; --map-block:#DDDFE6; --map-water:#CFE3F7; --map-road:#F7F8FA;
-  --r-s:14px; --r-m:18px; --r-l:26px; --rail:264px;
+  --r-s:14px; --r-m:18px; --r-l:26px; --rail:312px;
+  /* Altura de la barra superior en movil: marca (52) + sus 14 px de padding
+     arriba y abajo + el borde. La usan el hueco del body, el scroll-margin de
+     las secciones y el padding de la portada, asi que se toca solo aqui. */
+  --topbar:81px;
   --danger:#B3261E;
   --sans:"SF Pro Display",-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace;
@@ -127,7 +131,7 @@ h2{position:relative;font-size:clamp(28px,3.4vw,44px);line-height:1.1;margin-bot
 .wrap{width:min(1140px,100% - 48px);margin-inline:auto}
 @media (min-width:768px){.wrap{width:min(1140px,100% - 96px)}}
 section{padding:clamp(52px,6.5vw,96px) 0}
-section[id]{scroll-margin-top:calc(70px + env(safe-area-inset-top))}
+section[id]{scroll-margin-top:calc(var(--topbar) + env(safe-area-inset-top))}
 
 .skip-link{position:fixed;top:-100px;left:12px;z-index:200;background:var(--surface);color:var(--text);padding:12px 18px;border-radius:var(--r-s);box-shadow:var(--shadow-m);transition:top .2s}
 .skip-link:focus{top:12px}
@@ -148,10 +152,18 @@ section[id]{scroll-margin-top:calc(70px + env(safe-area-inset-top))}
 
 /* ---------- Layout: rail / topbar / tabbar ---------- */
 .brand{display:inline-flex;align-items:center;gap:12px}
-.brand__mark{flex:none}
+/* El tamano manda desde aqui, no desde los atributos width/height del <svg>,
+   que se quedan como medida de reserva por si no carga la hoja de estilos. */
+.brand__mark{flex:none;width:52px;height:52px}
 .brand__text{display:flex;flex-direction:column;line-height:1.15}
-.brand__text strong{font-size:16px;letter-spacing:.02em}
-.brand__text small{font-size:11px;color:var(--text-2);white-space:nowrap}
+.brand__text strong{font-size:21px;letter-spacing:.02em}
+.brand__text small{font-size:12.5px;color:var(--text-2);white-space:nowrap}
+@media (max-width:420px){
+  :root{--topbar:75px}
+  .brand__mark{width:46px;height:46px}
+  .brand__text strong{font-size:19px}
+  .brand__text small{font-size:11px}
+}
 
 .langswitch{display:inline-flex;border:1px solid var(--border);border-radius:100px;padding:3px;gap:2px}
 .lang__btn{padding:6px 12px;border-radius:100px;font-size:12px;font-weight:700;letter-spacing:.02em;color:var(--text-2)}
@@ -175,7 +187,7 @@ section[id]{scroll-margin-top:calc(70px + env(safe-area-inset-top))}
 .tabbar a span{white-space:nowrap}
 .tabbar a.is-active{color:var(--accent-ink)}
 
-body{padding-top:calc(70px + env(safe-area-inset-top));padding-bottom:calc(64px + env(safe-area-inset-bottom))}
+body{padding-top:calc(var(--topbar) + env(safe-area-inset-top));padding-bottom:calc(64px + env(safe-area-inset-bottom))}
 
 @media (min-width:1024px){
   .rail{display:flex}
@@ -195,7 +207,7 @@ body{padding-top:calc(70px + env(safe-area-inset-top));padding-bottom:calc(64px 
 .net-bg .markers{opacity:.85}
 
 /* ---------- Hero ---------- */
-.hero{position:relative;min-height:clamp(360px,54vh,520px);display:flex;align-items:center;padding-top:calc(70px + env(safe-area-inset-top));padding-bottom:0}
+.hero{position:relative;min-height:clamp(340px,44vh,460px);display:flex;align-items:center;padding-top:calc(var(--topbar) + env(safe-area-inset-top));padding-bottom:0}
 /* No width here: it would override .wrap's gutter (same specificity, later in
    the cascade) and pin the display-size h1 flush to the viewport edge. */
 .hero__grid{position:relative;z-index:1}
@@ -203,12 +215,12 @@ body{padding-top:calc(70px + env(safe-area-inset-top));padding-bottom:calc(64px 
 .hero__copy::before{content:"";position:absolute;inset:-56px -60px;background:radial-gradient(closest-side,var(--bg) 52%,transparent 100%);z-index:-1;pointer-events:none}
 /* Same navy as the footer band (--navy is .foot's background), so the display
    headline and the "Higher Education" block close the page on one colour. */
-.hero h1{margin:0 0 12px;color:var(--navy);font-size:clamp(28px,3.4vw,44px)}
+.hero h1{margin:0 0 6px;color:var(--navy);font-size:clamp(28px,3.4vw,44px)}
 .hero__accent{color:var(--accent)}
 /* Subtitle: clearly subordinate to the company name, and a single flat tone --
    the two-tone accent now lives in the h1, and repeating it on both lines
    reads as noise. */
-.hero__sub{margin:0 0 22px;font-size:clamp(19px,2.3vw,29px);line-height:1.18;font-weight:700;letter-spacing:-.018em;color:var(--accent)}
+.hero__sub{margin:0 0 18px;font-size:clamp(19px,2.3vw,29px);line-height:1.18;font-weight:700;letter-spacing:-.018em;color:var(--accent)}
 .hero__sub .hero__accent{color:inherit}
 .hero__lead{max-width:52ch;color:var(--text-2);font-size:19px}
 .hero__lead strong{display:block;margin-bottom:6px;color:var(--text);font-weight:700}
@@ -217,11 +229,13 @@ body{padding-top:calc(70px + env(safe-area-inset-top));padding-bottom:calc(64px 
   .hero{padding-top:0}
 }
 
-/* Pulls "Bienvenidos a GTK" up towards the hero: the two read as one opening
-   block instead of being separated by a full section gap. */
-#gtk{padding-top:clamp(28px,3.4vw,52px)}
+/* Pulls "Sobre GTK" up against the hero: the two read as one opening block
+   instead of being separated by a full section gap. La portada ya deja aire
+   por debajo, porque centra su texto en el min-height. */
+#gtk{padding-top:32px}
 #areas{padding-bottom:clamp(24px,3vw,40px)}
 #socios{padding-top:0}
+@media (min-width:1024px){#gtk{padding-top:clamp(8px,1.2vw,20px)}}
 
 .net-bg .node{fill:var(--navy)}
 .net-bg .node--hub{fill:var(--accent)}
@@ -318,7 +332,6 @@ html.js .databand__cell.rv.is-in{transform:none}
 .card__desc{color:var(--text-2);font-size:15px}
 
 .carousel__controls{display:flex;align-items:center;justify-content:space-between;margin-top:22px}
-.carousel__hint{color:var(--text-2);font-size:14px}
 .carousel__btns{display:none;gap:10px}
 .circle-btn{width:44px;height:44px;border-radius:50%;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text)}
 .circle-btn:hover{border-color:var(--accent);color:var(--accent-ink)}
@@ -387,7 +400,10 @@ button.logo__btn:hover,button.logo__btn:focus-visible{filter:grayscale(0);opacit
 @media (prefers-color-scheme: dark){.foot{background:#08192B}}
 .foot__brand{display:flex;align-items:center;gap:16px;margin-bottom:22px;--foot-brand:clamp(34px,6.2vw,54px)}
 .foot__mark{flex:none;width:var(--foot-brand);height:var(--foot-brand)}
-.foot__claim{margin:0;max-width:22ch;font-size:clamp(16px,2.1vw,24px);line-height:1.2;font-weight:800;letter-spacing:-.02em}
+/* 34ch parte la frase en dos lineas: son setenta caracteres, asi que el
+   corte cae en "Alliances in". Si el claim cambia de longitud hay que
+   revisar esta medida. */
+.foot__claim{margin:0;max-width:34ch;font-size:clamp(18px,2.5vw,29px);line-height:1.2;font-weight:800;letter-spacing:-.02em}
 .foot__tagline{color:rgba(255,255,255,.7);margin-bottom:36px}
 .foot__contact{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:48px}
 .foot__email{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border:1px solid rgba(255,255,255,.2);border-radius:100px;font-weight:600;font-size:14px;color:#fff}
@@ -645,7 +661,6 @@ body.is-modal{overflow:hidden}
     </div>
   </div>
   <div class="wrap carousel__controls">
-    <p class="carousel__hint" data-i18n="carousel_hint">Swipe to see more collaborations</p>
     <div class="carousel__btns">
       <button type="button" class="circle-btn" id="prevBtn" data-i18n-aria="carousel_prev_aria" aria-label="Previous project"><svg width="18" height="18" aria-hidden="true"><use href="#icon-caret"/></svg></button>
       <button type="button" class="circle-btn" id="nextBtn" data-i18n-aria="carousel_next_aria" aria-label="Next project"><svg width="18" height="18" aria-hidden="true"><use href="#icon-caret-r"/></svg></button>
@@ -875,7 +890,6 @@ body.is-modal{overflow:hidden}
     project13_desc: "La creación de un proceso de internacionalización y homogenización de standards de learning outcomes en las diversas áreas de la Ingeniería.",
     project14_title: "Universidad corporativa · sector financiero",
     project14_desc: "Diseño de Universidad Corporativa para el sector financiero.",
-    carousel_hint: "Deslice para ver más colaboraciones",
     carousel_prev_aria: "Proyecto anterior",
     carousel_next_aria: "Siguiente proyecto",
     clients_title: "Socios estratégicos",
@@ -1034,7 +1048,6 @@ body.is-modal{overflow:hidden}
     project13_desc: "The creation of an internationalization and standardization process for learning outcomes standards across the various fields of Engineering.",
     project14_title: "Corporate university · financial sector",
     project14_desc: "Design of a Corporate University for the financial sector.",
-    carousel_hint: "Swipe to see more collaborations",
     carousel_prev_aria: "Previous project",
     carousel_next_aria: "Next project",
     clients_title: "Strategic Partners",
@@ -1430,7 +1443,6 @@ body.is-modal{overflow:hidden}
   var scopeRings = document.querySelectorAll('.scope__ring');
   var prevBtn = document.getElementById('prevBtn');
   var nextBtn = document.getElementById('nextBtn');
-  var hint = document.querySelector('.carousel__hint');
 
   /* Cada escala tiene su propia descripcion; la clave viaja al elemento para
      que el conmutador de idioma sepa cual reponer. */
@@ -1481,7 +1493,6 @@ body.is-modal{overflow:hidden}
       if(dict && dict[key] !== undefined){ scopeCopy.textContent = dict[key]; }
     }
     if(carousel){ carousel.scrollTo({ left: 0, behavior: 'smooth' }); }
-    updateHint();
   }
 
   if(scopeSeg){
@@ -1523,20 +1534,6 @@ body.is-modal{overflow:hidden}
     nextBtn.addEventListener('click', function(){
       carousel.scrollBy({ left: cardStep(), behavior: 'smooth' });
     });
-  }
-
-  function updateHint(){
-    if(!hint || !carousel || !cards.length) return;
-    var step = cardStep();
-    if(!step) return;
-    var remainingPx = carousel.scrollWidth - (carousel.scrollLeft + carousel.clientWidth);
-    var remainingCards = Math.round(remainingPx / step);
-    hint.style.visibility = remainingCards <= 2 ? 'hidden' : 'visible';
-  }
-  if(carousel){
-    carousel.addEventListener('scroll', updateHint);
-    window.addEventListener('resize', updateHint);
-    updateHint();
   }
 
   /* Clients ribbon */

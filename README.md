@@ -111,6 +111,16 @@ Notas de implementacion:
 - **No hay entrada "Inicio".** El logotipo (barra superior y rail) y el enlace
   "Volver arriba" del pie ya devuelven a `#inicio`, asi que una sexta entrada
   para lo mismo sobraba.
+- **La altura de la barra superior es la variable `--topbar`.** La usan el
+  hueco que el `body` deja arriba, el `scroll-margin-top` de cada seccion y el
+  `padding-top` de la portada, que antes repetian un `70px` suelto cada uno. Si
+  cambia el tamano de la marca hay que recalcularla: marca + 14 px de padding
+  arriba y abajo + el borde. Por debajo de 420 px la marca se reduce y la
+  variable baja con ella, porque si no la marca y el conmutador ES/EN se tocan
+  (el subtitulo va en `nowrap` y no puede encoger).
+- **El rail mide `--rail`, y su ancho depende del ancho de la marca.** Con la
+  marca a 52 px, "Global Technology Knowledge" en una linea necesita unos
+  240 px de contenido; el rail deja 268 utiles.
 - **El h2 de cada seccion repite literalmente su etiqueta de menu.** Si se
   cambia una, hay que cambiar la otra: `nav_*` y `*_title` en `content.json`.
 - **La barra inferior movil usa etiquetas cortas** (`tab_*`), porque seis

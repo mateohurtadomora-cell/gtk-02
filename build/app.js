@@ -336,7 +336,6 @@
   var scopeRings = document.querySelectorAll('.scope__ring');
   var prevBtn = document.getElementById('prevBtn');
   var nextBtn = document.getElementById('nextBtn');
-  var hint = document.querySelector('.carousel__hint');
 
   /* Cada escala tiene su propia descripcion; la clave viaja al elemento para
      que el conmutador de idioma sepa cual reponer. */
@@ -387,7 +386,6 @@
       if(dict && dict[key] !== undefined){ scopeCopy.textContent = dict[key]; }
     }
     if(carousel){ carousel.scrollTo({ left: 0, behavior: 'smooth' }); }
-    updateHint();
   }
 
   if(scopeSeg){
@@ -429,20 +427,6 @@
     nextBtn.addEventListener('click', function(){
       carousel.scrollBy({ left: cardStep(), behavior: 'smooth' });
     });
-  }
-
-  function updateHint(){
-    if(!hint || !carousel || !cards.length) return;
-    var step = cardStep();
-    if(!step) return;
-    var remainingPx = carousel.scrollWidth - (carousel.scrollLeft + carousel.clientWidth);
-    var remainingCards = Math.round(remainingPx / step);
-    hint.style.visibility = remainingCards <= 2 ? 'hidden' : 'visible';
-  }
-  if(carousel){
-    carousel.addEventListener('scroll', updateHint);
-    window.addEventListener('resize', updateHint);
-    updateHint();
   }
 
   /* Clients ribbon */
