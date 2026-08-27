@@ -173,23 +173,35 @@ Los dos temas viven en variables CSS al principio de `build/style.css`: el
 claro en `:root` y el oscuro en el bloque `@media (prefers-color-scheme:
 dark)`. No hay conmutador manual; se sigue la preferencia del sistema.
 
-En agosto de 2026 se bajó de tono el tema claro y se subió el oscuro, a
-petición del cliente. Al mover una paleta entera hay dos sitios donde el
-contraste se rompe con facilidad:
+En agosto de 2026 el cliente pidió cerrar un punto el color del tema claro y
+abrirlo un punto en el oscuro. **Lo que se mueve es el color, no el fondo.**
+El primer intento bajó también los neutros —fondo, superficies, texto,
+sombras— y el efecto no fue el pedido: en claro la página entera perdía luz y
+en oscuro la pantalla se aclaraba en bloque, en vez de aclararse el azul. Los
+neutros están en sus valores originales; solo cambian `--navy`, `--accent`,
+`--accent-ink`, `--tint`, `--navy-soft`, `--map-water` y el fondo propio del
+pie en modo oscuro.
+
+Al mover el azul, la saturación se mantiene o baja. Subirla a la vez que la
+luminosidad es lo que hace que un color parezca "más brillante" en lugar de
+"más claro".
+
+Dos sitios donde el contraste se rompe con facilidad al tocar la paleta:
 
 - **Rellenos de acento con texto encima.** `.btn--primary`,
-  `.lang__btn[aria-pressed="true"]` y `.row__num--accent` pintan blanco sobre
-  `--accent`. En el tema oscuro el acento es un azul claro, así que ahí el
-  texto pasa a tinta oscura mediante una regla propia. Con blanco daba 2,9:1.
-- **`--danger`.** El rojo del tema claro sobre las superficies aclaradas del
-  oscuro se quedaba en 2,5:1, así que el tema oscuro tiene su propio rojo
-  claro. Es la única variable que existía solo en `:root`.
+  `.lang__btn[aria-pressed="true"]` y `.row__num--accent` pintaban blanco
+  sobre `--accent`. En el tema oscuro el acento es un azul claro y el blanco
+  se queda en 3,2:1, así que ahí el texto va en tinta oscura, que da 5,9:1.
+  Ya fallaba antes de este cambio.
+- **`--danger`.** Era la única variable que existía solo en `:root`, y su rojo
+  sobre las superficies del tema oscuro se queda en 2,7:1. El tema oscuro
+  tiene ahora su propio rojo claro.
 
 Si se vuelve a tocar la paleta conviene repasar los dos temas con un medidor
 de contraste, incluidos el modal de términos abierto y el formulario con los
 errores pintados, que son estados que no se ven en la primera pantalla. La
-referencia actual: el peor par del tema claro está en 5,8:1 y el del oscuro
-en 5,2:1, ambos por encima del 4,5:1 que pide WCAG AA.
+referencia actual: el peor par del tema claro está en 5,5:1 y el del oscuro
+en 5,4:1, ambos por encima del 4,5:1 que pide WCAG AA.
 
 ## Insights
 
