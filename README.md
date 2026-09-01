@@ -279,6 +279,15 @@ util -- y se recortaron antes de entrar. Un logo sin recortar se ve
 diminuto en la cinta, porque `object-fit:contain` escala el fichero entero,
 blanco incluido.
 
+**EIN Bogota, fondo oscuro.** Es el unico logo de la cinta cuyo fondo no es
+blanco: el cliente lo envio como un cuadrado gris oscuro de 180x180 con la
+marca en blanco. El fondo forma parte del fichero, asi que no se puede quitar
+sin dejar una marca blanca invisible sobre el boton, que siempre es blanco. Lo
+que si se recorto es el aire muerto de arriba y abajo (queda 174x99): sin eso,
+`object-fit:contain` encogia el cuadrado hasta la altura del boton y la marca
+salia diminuta. El fichero anterior mostraba "International House Bogota" y se
+veia ampliado, 121x44 pintados a 128x47.
+
 **SISU, denominacion por confirmar.** Se muestra como "Shanghai International
 University (SISU) DongFang", pero el sello que envio el cliente es el de
 *Shanghai International **Studies** University* (los caracteres del circulo

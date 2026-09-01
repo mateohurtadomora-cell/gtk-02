@@ -29,12 +29,12 @@
   "data_4_label": { "es": "Oficinas", "en": "Offices" },
 
   "gtk_title": { "es": "Sobre GTK", "en": "About GTK" },
-  "gtk_intro": { "es": "<strong>El conocimiento no genera valor por sí solo: lo genera cuando se conecta.</strong> Generar alianzas es exactamente nuestro oficio, y llevamos más de veinte años creando valor en la internacionalización entre América, Europa y Asia.", "en": "<strong>Knowledge creates no value on its own: it creates value when it connects.</strong> Building alliances is precisely our craft, and for more than twenty years we have been creating value in internationalization across America, Europe and Asia." },
+  "gtk_intro": { "es": "<strong>El conocimiento no genera valor por sí mismo: lo genera cuando se conecta.</strong> Generar alianzas es exactamente nuestro oficio, y llevamos más de veinte años creando valor en la internacionalización entre América, Europa y Asia.", "en": "<strong>Knowledge creates no value on its own: it creates value when it connects.</strong> Building alliances is precisely our craft, and for more than twenty years we have been creating value in internationalization across America, Europe and Asia." },
 
   "row1_title": { "es": "Ecosistemas de conocimiento", "en": "Knowledge ecosystems" },
   "row1_body": { "es": "En GTK creamos ecosistemas de conocimiento a nivel local, regional, nacional y global, con la agregación de los agentes y dinamizadores más adecuados para cada proyecto y cada fase del mismo.", "en": "At GTK we create knowledge ecosystems at local, regional, national and global level, aggregating the agents and drivers best suited to each project and to each of its phases." },
 
-  "row2_title": { "es": "Alianzas institucionales", "en": "Institutional alliances" },
+  "row2_title": { "es": "Alianzas institucionales internacionales", "en": "International institutional alliances" },
   "row2_body": { "es": "Contamos con acuerdos de colaboración estables con algunas de las instituciones de educación superior y de investigación más importantes del mundo, al igual que con los mejores socios tecnológicos en IA e IT en los sectores de investigación y educación superior.", "en": "We have stable collaboration agreements with some of the most important higher education and research institutions in the world, as well as with the best technology partners in AI and IT in the research and higher education sectors." },
 
   "row3_title": { "es": "Equipo y talento", "en": "Team and talent" },
