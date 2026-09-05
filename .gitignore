@@ -1,2 +1,6 @@
 Thumbs.db
 .DS_Store
+
+# Material de versiones anteriores que vive en el disco pero no se publica.
+oldGTK/
+v3/
