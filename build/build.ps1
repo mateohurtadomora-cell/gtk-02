@@ -5,9 +5,9 @@ $root = Split-Path -Parent $MyInvocation.MyCommand.Path
 # en cualquier maquina y generar exactamente lo mismo.
 $site = Split-Path -Parent $root
 $domain = 'https://www.globaltk.com'
-# Formspree endpoint for the contact form. Replace FORM_ID with the real id
-# from formspree.io (free account, delivers submissions to info@globaltk.com).
-$formEndpoint = 'https://formspree.io/f/mwlkqjnz'
+# Formspree endpoint for the contact form. Live: submissions are delivered to
+# info@globaltk.com. Changing the form in formspree.io means changing this id.
+$formEndpoint = 'https://formspree.io/f/xnpqzyry'
 
 function Escape-Html([string]$s){
   if([string]::IsNullOrEmpty($s)){ return '' }

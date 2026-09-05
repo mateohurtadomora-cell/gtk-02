@@ -53,20 +53,24 @@ Para ver el resultado en local:
 powershell -NoProfile -ExecutionPolicy Bypass -File build\serve.ps1 -Port 8099
 ```
 
-## Formulario de contacto (pendiente de activar)
+## Formulario de contacto
 
-El formulario de la sección «Escríbanos» envía por AJAX a Formspree. El
-endpoint es todavía un marcador de posición:
+El formulario de la sección «Escríbanos» envía por AJAX a Formspree y está
+activo. El endpoint vive en la variable `$formEndpoint` de `build/build.ps1`:
 
 ```
-https://formspree.io/f/FORM_ID
+https://formspree.io/f/xnpqzyry
 ```
 
-Para activarlo: crear una cuenta gratuita en formspree.io, dar de alta un
-formulario con destino `info@globaltk.com`, copiar el id real y sustituir
-`FORM_ID` en la variable `$formEndpoint` de `build/build.ps1`, luego
-regenerar las páginas. Hasta entonces el formulario valida correctamente
-pero los envíos no llegan a ningún buzón.
+Los envíos se entregan en `info@globaltk.com`. Si se da de alta otro
+formulario en formspree.io hay que cambiar ese id aquí y regenerar las
+páginas: el destinatario no se configura en el código, sino en el panel de
+Formspree.
+
+El captcha del panel debe quedar **apagado**. El envío va en segundo plano,
+sin recargar la página, y no hay dónde mostrar un desafío: con el captcha
+encendido el visitante vería el aviso de error aunque lo hubiera rellenado
+todo bien.
 
 **Aceptación de los términos.** Junto al botón de envío hay una casilla que
 hay que marcar para poder enviar. Se valida como un campo más (por eso su
