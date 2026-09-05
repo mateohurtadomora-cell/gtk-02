@@ -7,7 +7,7 @@ $site = Split-Path -Parent $root
 $domain = 'https://www.globaltk.com'
 # Formspree endpoint for the contact form. Replace FORM_ID with the real id
 # from formspree.io (free account, delivers submissions to info@globaltk.com).
-$formEndpoint = 'https://formspree.io/f/FORM_ID'
+$formEndpoint = 'https://formspree.io/f/mwlkqjnz'
 
 function Escape-Html([string]$s){
   if([string]::IsNullOrEmpty($s)){ return '' }

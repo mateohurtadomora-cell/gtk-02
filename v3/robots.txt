@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+# Fuentes del generador: la plantilla se sirve como fichero estatico y
+# contiene los marcadores {{...}} sin resolver. No debe indexarse.
+Disallow: /build/
+
+Sitemap: https://www.globaltk.com/sitemap.xml
