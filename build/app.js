@@ -485,9 +485,9 @@
     });
   }
 
-  /* Contact form: in-page validation, then AJAX submit to Formspree so the
-     visitor never leaves the page. Falls back to a normal POST navigation
-     if fetch is unavailable. */
+  /* Contact form: in-page validation, then AJAX submit to our own PHP
+     handler so the visitor never leaves the page. The handler issues a
+     signed token on GET and accepts the enquiry on POST; see api/. */
   var contactForm = document.getElementById('contactForm');
   if(contactForm){
     var statusEl = contactForm.querySelector('.form__status');
@@ -533,7 +533,9 @@
       return true;
     }
 
-    var fields = contactForm.querySelectorAll('input, textarea');
+    /* Ni el campo oculto del token ni la trampa se validan: el primero no
+       lo rellena el visitante y la segunda tiene que llegar vacia. */
+    var fields = contactForm.querySelectorAll('input:not([type=hidden]):not([name=website]), textarea');
     for(var fi=0; fi<fields.length; fi++){
       (function(input){
         /* La casilla se revisa solo al marcarla o desmarcarla: hacerlo al
@@ -555,7 +557,66 @@
       statusEl.className = 'form__status' + (kind ? ' is-' + kind : '');
     }
 
+    /* El token se pide al abrir la pagina, no al pulsar enviar. Asi el
+       servidor puede exigir que entre una cosa y otra hayan pasado unos
+       segundos: una persona rellenando cuatro campos tarda mucho mas, un
+       robot que dispara al instante no pasa. */
+    var formToken = '';
+
+    function pedirToken(){
+      if(!window.fetch){ return null; }
+      return window.fetch(contactForm.action, {
+        method: 'GET',
+        headers: { 'Accept': 'application/json' },
+        credentials: 'omit'
+      }).then(function(res){
+        return res.ok ? res.json() : null;
+      }).then(function(json){
+        formToken = (json && json.t) ? json.t : '';
+        return formToken;
+      })['catch'](function(){
+        formToken = '';
+        return '';
+      });
+    }
+    pedirToken();
+
+    /* Cada rechazo del servidor tiene su explicacion. Al visitante hay que
+       decirle que puede hacer, no que ha fallado por dentro. */
+    function mensajeDeError(status){
+      if(status === 429){ return t('form_error_rate'); }
+      if(status === 422){ return t('form_error_spam'); }
+      return t('form_error');
+    }
+
+    function enviar(reintento){
+      var datos = new FormData(contactForm);
+      datos.set('_t', formToken);
+      datos.set('idioma', CURRENT_LANG);
+
+      return window.fetch(contactForm.action, {
+        method: 'POST',
+        body: datos,
+        headers: { 'Accept': 'application/json' },
+        credentials: 'omit'
+      }).then(function(res){
+        /* 409 es el token caducado de quien dejo la pestana abierta un rato
+           largo. Se pide otro y se reintenta una sola vez, en silencio. */
+        if(res.status === 409 && !reintento){
+          var p = pedirToken();
+          if(!p){ throw { status: res.status }; }
+          return p.then(function(){ return enviar(true); });
+        }
+        if(!res.ok){ throw { status: res.status }; }
+        contactForm.reset();
+        setStatus(t('form_success'), 'ok');
+        pedirToken();
+      });
+    }
+
     contactForm.addEventListener('submit', function(e){
+      e.preventDefault();
+
       var valid = true;
       var firstBad = null;
       for(var i=0;i<fields.length;i++){
@@ -565,27 +626,24 @@
         }
       }
       if(!valid){
-        e.preventDefault();
         setStatus('', '');
         if(firstBad){ firstBad.focus(); }
         return;
       }
-      if(!window.fetch){ return; } /* let the browser POST normally */
 
-      e.preventDefault();
+      /* Sin fetch no hay manera de traer el token ni de enviar sin recargar.
+         Se le remite al correo del pie en vez de dejarle enviar algo que el
+         servidor va a rechazar. */
+      if(!window.fetch){ setStatus(t('form_error'), 'err'); return; }
+
       submitBtn.disabled = true;
       setStatus(t('form_sending'), '');
 
-      window.fetch(contactForm.action, {
-        method: 'POST',
-        body: new FormData(contactForm),
-        headers: { 'Accept': 'application/json' }
-      }).then(function(res){
-        if(!res.ok){ throw new Error('bad status'); }
-        contactForm.reset();
-        setStatus(t('form_success'), 'ok');
-      }).catch(function(){
-        setStatus(t('form_error'), 'err');
+      var listo = formToken ? Promise.resolve(formToken) : pedirToken();
+      listo.then(function(){
+        return enviar(false);
+      })['catch'](function(err){
+        setStatus(mensajeDeError(err && err.status ? err.status : 0), 'err');
       }).then(function(){
         submitBtn.disabled = false;
       });

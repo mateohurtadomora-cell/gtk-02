@@ -311,6 +311,16 @@
            su error en el .form__err de abajo. El enlace a los terminos queda
            fuera del <label> a proposito: dentro, pulsarlo marcaria la casilla
            en vez de abrir el modal. -->
+      <!-- Trampa para robots. Esta fuera de la pantalla, no la ve nadie y no
+           entra en el tabulador, asi que si llega rellena quien envia no es una
+           persona: el servidor descarta el envio sin decirlo. El campo _t lleva
+           el token firmado que app.js pide al abrir la pagina. -->
+      <div class="form__hp" aria-hidden="true">
+        <label for="formWebsite">No rellene este campo</label>
+        <input type="text" id="formWebsite" name="website" tabindex="-1" autocomplete="off">
+      </div>
+      <input type="hidden" name="_t" value="">
+
       <div class="form__actions">
         <div class="form__field form__consent">
           <div class="form__consent-row">

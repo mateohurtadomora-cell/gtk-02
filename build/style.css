@@ -315,6 +315,10 @@ button.logo__btn:hover,button.logo__btn:focus-visible{filter:grayscale(0);opacit
 /* Envio: la casilla de terminos y el boton comparten fila cuando hay ancho.
    La casilla va antes en el DOM porque es lo que hay que hacer antes de
    pulsar enviar, y en movil cae encima del boton por ese mismo orden. */
+/* La trampa se saca de la pantalla en vez de ocultarla con display:none:
+   hay robots que se saltan lo que esta en display:none, y precisamente lo
+   que se busca es que la rellenen. */
+.form__hp{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
 .form__actions{display:flex;flex-direction:column;align-items:flex-start;gap:16px;margin-top:4px}
 .form__actions .form__submit{align-self:auto;flex:none;margin-top:0}
 .form__consent{gap:6px}

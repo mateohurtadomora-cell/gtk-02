@@ -5,9 +5,11 @@ $root = Split-Path -Parent $MyInvocation.MyCommand.Path
 # en cualquier maquina y generar exactamente lo mismo.
 $site = Split-Path -Parent $root
 $domain = 'https://www.globaltk.com'
-# Formspree endpoint for the contact form. Live: submissions are delivered to
-# info@globaltk.com. Changing the form in formspree.io means changing this id.
-$formEndpoint = 'https://formspree.io/f/xnpqzyry'
+# Endpoint of the contact form. It is our own PHP handler, served from the
+# same domain as the site: GET issues the signed token, POST sends the
+# enquiry. See api/ and the README. A relative path keeps it working on any
+# domain the site is deployed to.
+$formEndpoint = '/api/contact.php'
 
 function Escape-Html([string]$s){
   if([string]::IsNullOrEmpty($s)){ return '' }

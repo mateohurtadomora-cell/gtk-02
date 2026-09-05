@@ -1,0 +1,28 @@
+# Solo contact.php se atiende por web. El resto de ficheros de esta carpeta se
+# incluyen desde PHP, que los lee del disco, no por HTTP: no hay ninguna razon
+# para que sean descargables.
+#
+# Esto importa aunque PHP funcione: si manana alguien desactiva el modulo de
+# PHP, o lo desactiva una actualizacion del hosting, el servidor entrega los
+# .php como texto plano. Sin esta regla, config.php y su secreto quedarian a
+# la vista de cualquiera.
+
+<FilesMatch ".">
+  Require all denied
+</FilesMatch>
+
+<Files "contact.php">
+  Require all granted
+</Files>
+
+# Apache 2.2 y anteriores
+<IfModule !mod_authz_core.c>
+  <FilesMatch ".">
+    Order allow,deny
+    Deny from all
+  </FilesMatch>
+  <Files "contact.php">
+    Order allow,deny
+    Allow from all
+  </Files>
+</IfModule>

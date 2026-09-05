@@ -18,6 +18,13 @@ build/              fuentes del generador
   app.js              comportamiento (ES5, sin dependencias)
   build.ps1           generador
   serve.ps1           servidor local de desarrollo
+api/                formulario de contacto (PHP, requiere hosting con PHP)
+  contact.php         punto de entrada
+  mailer.php          validacion, token y limite de uso
+  transport.php       entrega del correo
+  config.sample.php   plantilla de configuracion
+  selftest.php        comprobacion de las defensas
+  data/               contador y registro (lo crea el script)
 ```
 
 `build/` está dentro del repositorio a propósito: es la única fuente de verdad
@@ -30,11 +37,18 @@ sensible ahí (el CSS y el JS ya van incrustados en las páginas publicadas y
 indexación porque `template.html` se serviría con los marcadores `{{...}}` sin
 resolver.
 
-## Publicación (GitHub Pages)
+## Publicación
 
-Esta carpeta es la raíz que sirve GitHub Pages (rama `main`, carpeta `/root`).
-Las páginas publicadas son estáticas y autocontenidas: no requieren build ni
-backend en el servidor.
+Las páginas son estáticas y autocontenidas: no hace falta ejecutar nada para
+servirlas. El formulario de contacto sí: necesita PHP.
+
+**Hosting con PHP (destino previsto).** Se sube el contenido de esta carpeta
+a la raíz del sitio, con `api/` colgando de ella, y se configura según la
+sección del formulario. Es la única forma de que el formulario funcione.
+
+**GitHub Pages.** Sirve la web perfectamente, pero **no ejecuta PHP**: el
+formulario responde error en cualquier envío. Vale para revisar diseño y
+textos, no para producción. La rama es `main` y la carpeta `/root`.
 
 ## Regeneración
 
@@ -55,22 +69,169 @@ powershell -NoProfile -ExecutionPolicy Bypass -File build\serve.ps1 -Port 8099
 
 ## Formulario de contacto
 
-El formulario de la sección «Escríbanos» envía por AJAX a Formspree y está
-activo. El endpoint vive en la variable `$formEndpoint` de `build/build.ps1`:
+El formulario de «Escríbanos» lo atiende un script PHP propio, en `api/`. No
+interviene ningún servicio de terceros: el mensaje va del navegador al
+servidor del sitio y de ahí al correo.
+
+**Requiere un hosting que ejecute PHP.** GitHub Pages solo sirve ficheros
+estáticos: mientras el sitio se publique ahí, el formulario no funciona. El
+resto de la web sí, porque sigue siendo estática.
+
+### Piezas
+
+| Fichero | Qué hace |
+| --- | --- |
+| `api/contact.php` | Punto de entrada. `GET` entrega un token firmado, `POST` valida y envía |
+| `api/mailer.php` | Tokens, validación, límite de uso y composición del mensaje |
+| `api/transport.php` | La llamada a `mail()`. Aislada para poder cambiarla por SMTP sin tocar nada más |
+| `api/config.php` | Destinatario, secreto y límites. **No está en el repositorio** |
+| `api/config.sample.php` | Plantilla del anterior, documentada campo a campo |
+| `api/selftest.php` | Comprueba las defensas. Se borra del servidor después de usarlo |
+| `api/data/` | Contador de envíos y registro. Lo crea el script solo |
+
+### Instalación
+
+1. Subir la web al hosting con PHP, con `api/` colgando de la raíz.
+2. Copiar `config.sample.php` a `config.php` y editarlo.
+3. Generar el secreto y pegarlo en `config.php`:
+
+   ```
+   php -r "echo bin2hex(random_bytes(32));"
+   ```
+
+4. Poner en `allowed_origins` los dominios reales, sin barra final.
+5. Comprobar que `api/data/` es escribible por el servidor web (permisos 700
+   si el proceso corre como el dueño; 770 si corre como otro usuario del
+   mismo grupo).
+6. Verificar la sintaxis y las defensas:
+
+   ```
+   php -l api/contact.php
+   php -l api/mailer.php
+   php api/selftest.php
+   ```
+
+7. Borrar `api/selftest.php` y `api/config.sample.php` del servidor.
+8. Enviar una consulta de prueba desde la web y comprobar que llega.
+
+### Qué defiende el script, y de qué
+
+Son capas: cada una detiene un tipo de abuso, y ninguna depende de que las
+demás funcionen.
+
+**Inyección de cabeceras.** Es el fallo clásico de los formularios de correo
+en PHP. Si el nombre o el asunto llegan al correo sin revisar, basta escribir
+`Pepe\r\nBcc: mil@direcciones` para convertir el formulario en un emisor de
+spam masivo, y el dominio acaba en las listas negras. Los tres campos de una
+línea se rechazan si contienen saltos de línea o caracteres de control. Es la
+comprobación que más importa de todo el script.
+
+**Destinatario fijo.** La dirección de entrega sale de `config.php` y no se
+lee nunca del formulario. Sin esto el script sería una pasarela abierta para
+mandar correo a quien quisiera el atacante.
+
+**Token firmado con tiempo mínimo.** Al abrir la página, el navegador pide un
+token: una marca de tiempo firmada con HMAC-SHA256. Sin secreto no se puede
+fabricar, y el servidor exige que hayan pasado al menos cuatro segundos desde
+que se emitió. Un robot que hace `POST` directamente no tiene token, y uno que
+lo pide y dispara al instante no llega al mínimo.
+
+**Trampa.** Un campo de texto fuera de la pantalla, sin tabulador y con
+`aria-hidden`. Ningún visitante lo ve; los robots que rellenan todo lo que
+encuentran, sí. Si llega con contenido, el envío se descarta y se responde
+«correcto», para que el robot no aprenda dónde ha fallado.
+
+**Origen comprobado.** Solo se aceptan envíos desde los dominios de
+`allowed_origins`.
+
+**Límite de uso, en tres niveles.** Tres envíos por IP cada quince minutos,
+diez al día, y un tope global de cuarenta a la hora. El tope global es la red
+de seguridad: aunque el atacante reparta el ataque entre cientos de IP, el
+script deja de enviar. El contador se guarda con bloqueo exclusivo, así que
+dos peticiones simultáneas no se pisan.
+
+**Filtro de contenido.** Longitudes mínimas y máximas, UTF-8 válido, correo
+con formato correcto y un tope de tres enlaces en el mensaje.
+
+**Consentimiento verificado en el servidor.** La casilla de términos se
+comprueba otra vez aquí: quien envíe saltándose el navegador no puede
+ahorrársela, y la aceptación queda escrita en el correo.
+
+**Correo en texto plano.** El cuerpo no lleva HTML, así que no hay nada que
+el lector de correo del destinatario pueda interpretar como marcado.
+
+**Nada se filtra en las respuestas.** El script responde siempre con un código
+corto (`origen`, `token`, `limite`, `datos`). Nunca devuelve el texto recibido
+ni el motivo técnico exacto: a quien envía de buena fe no le sirve, y a quien
+prueba ataques le diría qué barrera ha tocado.
+
+**Los errores de PHP no se muestran.** `display_errors` está apagado: un aviso
+en la respuesta revelaría rutas del servidor y rompería el JSON.
+
+**El directorio `api/` no se sirve por web,** salvo `contact.php`. Lo impide
+el `.htaccess`. Esto protege el secreto incluso en el peor caso: si alguien
+desactiva PHP en el hosting, el servidor entregaría los `.php` como texto
+plano y `config.php` quedaría a la vista. En Apache está resuelto; **en nginx
+hay que añadirlo a mano** a la configuración del sitio:
 
 ```
-https://formspree.io/f/xnpqzyry
+location ^~ /api/ { deny all; }
+location = /api/contact.php { fastcgi_pass ...; }
+location ^~ /api/data/ { deny all; }
 ```
 
-Los envíos se entregan en `info@globaltk.com`. Si se da de alta otro
-formulario en formspree.io hay que cambiar ese id aquí y regenerar las
-páginas: el destinatario no se configura en el código, sino en el panel de
-Formspree.
+Más seguro todavía: mover `config.php` fuera de la raíz pública y apuntar a
+él con la variable de entorno `GTK_FORM_CONFIG`. El script la mira primero.
 
-El captcha del panel debe quedar **apagado**. El envío va en segundo plano,
-sin recargar la página, y no hay dónde mostrar un desafío: con el captcha
-encendido el visitante vería el aviso de error aunque lo hubiera rellenado
-todo bien.
+**La IP no se guarda en claro.** Ni en el contador ni en el registro: se
+guarda su HMAC, que sirve igual para contar y deja de ser un dato legible. En
+el correo sí va la IP completa, para poder rastrear un abuso.
+
+### De qué NO protege
+
+Conviene decirlo con claridad, porque ningún formulario de contacto es
+inexpugnable:
+
+- **Spam escrito a mano.** Una persona que rellene el formulario de verdad
+  pasa todas las comprobaciones. Contra eso solo hay límite de frecuencia,
+  que sí está.
+- **Robots con navegador completo.** Un atacante decidido puede automatizar
+  un navegador de verdad, esperar los segundos y rellenar la trampa
+  correctamente. El límite por IP y el tope global acotan el daño.
+- **Un token reutilizado.** El servidor no lleva registro de tokens gastados,
+  a propósito: guardarlos exigiría estado y un mantenimiento que este sitio no
+  necesita. Un token vale dos horas y se puede usar más de una vez, pero el
+  límite por IP acota cuántos envíos se pueden hacer con él.
+- **Entrega garantizada.** Que `mail()` acepte el mensaje no significa que
+  llegue a la bandeja de entrada. Ver más abajo.
+
+Si el spam llegara a ser un problema, el siguiente paso razonable es un
+captcha que respete la privacidad, no endurecer más estas capas.
+
+### Si los correos acaban en spam
+
+Es lo más probable que falle, y no es culpa del script. Ocurre cuando el
+servidor web no es el servidor de correo del dominio: el mensaje sale sin
+firma DKIM y sin respaldo del SPF, y los buzones lo desconfían.
+
+Por orden:
+
+1. Comprobar que el SPF del dominio autoriza al servidor del hosting.
+2. Comprobar que `from` es una dirección real del dominio, no del visitante.
+   Ya lo es: el visitante va en `Reply-To`, que es su sitio.
+3. Si sigue fallando, enviar por SMTP autenticado con la cuenta real del
+   buzón, usando PHPMailer. Solo hay que cambiar `api/transport.php`; el resto
+   del formulario no se entera.
+
+### Mantenimiento
+
+`api/data/rate.json` se poda solo: las marcas de más de un día se borran en
+cada envío. `api/data/log.txt` rota al llegar a 1 MB. Ninguno de los dos
+guarda el contenido de los mensajes.
+
+Para saber si están atacando el formulario, mirar el registro: cada línea es
+fecha, IP anonimizada y resultado (`enviado`, `trampa`, `rechazado token`,
+`frenado demasiados_seguidos`…).
 
 **Aceptación de los términos.** Junto al botón de envío hay una casilla que
 hay que marcar para poder enviar. Se valida como un campo más (por eso su
@@ -250,9 +411,13 @@ definitivo. Puntos que conviene que confirme:
   pertenecen a sus titulares y se muestran con fines identificativos, sin
   implicar patrocinio. Es la que cubre el uso de esas marcas.
 - La clausula 7, que describe lo que hace hoy el sitio: no instala cookies ni
-  guarda nada en el navegador, el formulario se transmite por un proveedor
-  externo (Formspree) y las tipografias se cargan desde Google Fonts. **Si
-  cambia cualquiera de esas tres cosas, hay que actualizar la clausula.**
+  guarda nada en el navegador, el formulario se procesa en servidor propio
+  sin intervencion de terceros, se registra la IP del remitente durante un
+  tiempo limitado para prevenir abusos, y las tipografias se cargan desde
+  Google Fonts. **Si cambia cualquiera de esas cosas, hay que actualizar la
+  clausula.** Se reescribio al sustituir Formspree por el script propio de
+  `api/`: el abogado tiene que revisar la version nueva, sobre todo la
+  mencion al registro de la IP.
 - Si la empresa necesita ademas una politica de privacidad separada; aqui solo
   hay la mencion minima dentro de los terminos.
 

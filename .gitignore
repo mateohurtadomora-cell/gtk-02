@@ -4,3 +4,9 @@ Thumbs.db
 # Material de versiones anteriores que vive en el disco pero no se publica.
 oldGTK/
 v3/
+
+# El formulario: el secreto y los datos de uso no se versionan.
+api/config.php
+api/data/rate.json
+api/data/log.txt
+api/data/log.txt.1

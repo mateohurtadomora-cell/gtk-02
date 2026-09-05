@@ -1,0 +1,11 @@
+# El contador de envios y el registro no se sirven por web. Esta regla cubre
+# Apache; en nginx hay que anadir la denegacion en la configuracion del sitio
+# (ver README). Lo mas seguro, si el hosting lo permite, es mover este
+# directorio fuera de la raiz publica.
+Require all denied
+
+# Apache 2.2 y anteriores
+<IfModule !mod_authz_core.c>
+  Order allow,deny
+  Deny from all
+</IfModule>

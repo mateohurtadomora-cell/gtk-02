@@ -388,6 +388,10 @@ button.logo__btn:hover,button.logo__btn:focus-visible{filter:grayscale(0);opacit
 /* Envio: la casilla de terminos y el boton comparten fila cuando hay ancho.
    La casilla va antes en el DOM porque es lo que hay que hacer antes de
    pulsar enviar, y en movil cae encima del boton por ese mismo orden. */
+/* La trampa se saca de la pantalla en vez de ocultarla con display:none:
+   hay robots que se saltan lo que esta en display:none, y precisamente lo
+   que se busca es que la rellenen. */
+.form__hp{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
 .form__actions{display:flex;flex-direction:column;align-items:flex-start;gap:16px;margin-top:4px}
 .form__actions .form__submit{align-self:auto;flex:none;margin-top:0}
 .form__consent{gap:6px}
@@ -682,7 +686,7 @@ body.is-modal{overflow:hidden}
   <div class="wrap contact__wrap">
     <h2><span data-i18n="form_title">Escríbanos</span><span class="h2mark" aria-hidden="true"></span></h2>
     <p class="contact__intro lede" data-i18n-html="form_intro"><strong>Toda gran alianza empezó con una primera conversación.</strong> Cuéntenos brevemente acerca de ustedes, sus actividades y necesidades de internacionalización estratégica.</p>
-    <form class="form rv" id="contactForm" action="https://formspree.io/f/xnpqzyry" method="POST" novalidate>
+    <form class="form rv" id="contactForm" action="/api/contact.php" method="POST" novalidate>
       <div class="form__row">
         <label class="form__field">
           <span class="form__label" data-i18n="form_name_label">¿Quién consulta?</span>
@@ -710,6 +714,16 @@ body.is-modal{overflow:hidden}
            su error en el .form__err de abajo. El enlace a los terminos queda
            fuera del <label> a proposito: dentro, pulsarlo marcaria la casilla
            en vez de abrir el modal. -->
+      <!-- Trampa para robots. Esta fuera de la pantalla, no la ve nadie y no
+           entra en el tabulador, asi que si llega rellena quien envia no es una
+           persona: el servidor descarta el envio sin decirlo. El campo _t lleva
+           el token firmado que app.js pide al abrir la pagina. -->
+      <div class="form__hp" aria-hidden="true">
+        <label for="formWebsite">No rellene este campo</label>
+        <input type="text" id="formWebsite" name="website" tabindex="-1" autocomplete="off">
+      </div>
+      <input type="hidden" name="_t" value="">
+
       <div class="form__actions">
         <div class="form__field form__consent">
           <div class="form__consent-row">
@@ -773,7 +787,7 @@ body.is-modal{overflow:hidden}
       <h3 data-i18n="terms_s6_title">6. Enlaces a sitios de terceros</h3>
       <p data-i18n-html="terms_s6_body">Este sitio puede contener enlaces a sitios web de terceros. No controlamos su contenido ni sus prácticas y no asumimos responsabilidad alguna por ellos. El acceso a esos sitios es por su cuenta y riesgo.</p>
       <h3 data-i18n="terms_s7_title">7. Información que nos envía</h3>
-      <p data-i18n-html="terms_s7_body">El formulario de contacto recoge el nombre, la dirección de correo y el mensaje que usted decida facilitar, y los utilizamos únicamente para responder a su consulta. Los envíos se transmiten a través de un proveedor externo de formularios y se entregan en nuestro correo; no los vendemos ni los cedemos a terceros con fines comerciales. Le rogamos que no envíe por este medio información confidencial o sensible. Este sitio no instala cookies ni almacena datos en su navegador; las tipografías se cargan desde Google Fonts, lo que supone una petición a los servidores de Google que revela su dirección IP.</p>
+      <p data-i18n-html="terms_s7_body">El formulario de contacto recoge el nombre, la dirección de correo y el mensaje que usted decida facilitar, y los utilizamos únicamente para responder a su consulta. Los envíos se procesan en un servidor propio bajo nuestro control y se entregan en nuestro correo; no intervienen servicios de terceros, no los vendemos ni los cedemos con fines comerciales. Junto al mensaje registramos la fecha y su dirección IP durante un tiempo limitado, con el único fin de prevenir el uso abusivo del formulario. Le rogamos que no envíe por este medio información confidencial o sensible. Este sitio no instala cookies ni almacena datos en su navegador; las tipografías se cargan desde Google Fonts, lo que supone una petición a los servidores de Google que revela su dirección IP.</p>
       <h3 data-i18n="terms_s8_title">8. Exención de garantías</h3>
       <p data-i18n-html="terms_s8_body">El sitio y su contenido se ofrecen «tal cual» y «según disponibilidad». En la máxima medida permitida por la ley, GTK no otorga garantías de ningún tipo, expresas o implícitas, incluidas las de comerciabilidad, idoneidad para un fin determinado y no infracción, ni garantiza que el sitio esté libre de errores o interrupciones ni que la información esté actualizada en todo momento.</p>
       <h3 data-i18n="terms_s9_title">9. Limitación de responsabilidad</h3>
@@ -921,6 +935,8 @@ body.is-modal{overflow:hidden}
     form_sending: "Enviando…",
     form_success: "Gracias. Hemos recibido su consulta y le responderemos en breve.",
     form_error: "No se ha podido enviar. Inténtelo de nuevo o escríbanos a info@globaltk.com.",
+    form_error_rate: "Ha enviado varias consultas seguidas. Espere unos minutos o escríbanos a info@globaltk.com.",
+    form_error_spam: "Su mensaje contiene demasiados enlaces. Quítelos y vuelva a enviarlo, o escríbanos a info@globaltk.com.",
     form_required: "Este campo es obligatorio.",
     form_email_invalid: "Introduzca un correo válido.",
     footer_claim: "The Leader for International Alliances in Research and Higher Education",
@@ -944,7 +960,7 @@ body.is-modal{overflow:hidden}
     terms_s6_title: "6. Enlaces a sitios de terceros",
     terms_s6_body: "Este sitio puede contener enlaces a sitios web de terceros. No controlamos su contenido ni sus prácticas y no asumimos responsabilidad alguna por ellos. El acceso a esos sitios es por su cuenta y riesgo.",
     terms_s7_title: "7. Información que nos envía",
-    terms_s7_body: "El formulario de contacto recoge el nombre, la dirección de correo y el mensaje que usted decida facilitar, y los utilizamos únicamente para responder a su consulta. Los envíos se transmiten a través de un proveedor externo de formularios y se entregan en nuestro correo; no los vendemos ni los cedemos a terceros con fines comerciales. Le rogamos que no envíe por este medio información confidencial o sensible. Este sitio no instala cookies ni almacena datos en su navegador; las tipografías se cargan desde Google Fonts, lo que supone una petición a los servidores de Google que revela su dirección IP.",
+    terms_s7_body: "El formulario de contacto recoge el nombre, la dirección de correo y el mensaje que usted decida facilitar, y los utilizamos únicamente para responder a su consulta. Los envíos se procesan en un servidor propio bajo nuestro control y se entregan en nuestro correo; no intervienen servicios de terceros, no los vendemos ni los cedemos con fines comerciales. Junto al mensaje registramos la fecha y su dirección IP durante un tiempo limitado, con el único fin de prevenir el uso abusivo del formulario. Le rogamos que no envíe por este medio información confidencial o sensible. Este sitio no instala cookies ni almacena datos en su navegador; las tipografías se cargan desde Google Fonts, lo que supone una petición a los servidores de Google que revela su dirección IP.",
     terms_s8_title: "8. Exención de garantías",
     terms_s8_body: "El sitio y su contenido se ofrecen «tal cual» y «según disponibilidad». En la máxima medida permitida por la ley, GTK no otorga garantías de ningún tipo, expresas o implícitas, incluidas las de comerciabilidad, idoneidad para un fin determinado y no infracción, ni garantiza que el sitio esté libre de errores o interrupciones ni que la información esté actualizada en todo momento.",
     terms_s9_title: "9. Limitación de responsabilidad",
@@ -1079,6 +1095,8 @@ body.is-modal{overflow:hidden}
     form_sending: "Sending…",
     form_success: "Thank you. We have received your enquiry and will reply shortly.",
     form_error: "It could not be sent. Please try again or email us at info@globaltk.com.",
+    form_error_rate: "You have sent several enquiries in a row. Please wait a few minutes or write to us at info@globaltk.com.",
+    form_error_spam: "Your message contains too many links. Please remove them and try again, or write to us at info@globaltk.com.",
     form_required: "This field is required.",
     form_email_invalid: "Please enter a valid email address.",
     footer_claim: "The Leader for International Alliances in Research and Higher Education",
@@ -1102,7 +1120,7 @@ body.is-modal{overflow:hidden}
     terms_s6_title: "6. Third-party links",
     terms_s6_body: "This site may contain links to third-party websites. We do not control their content or their practices and accept no responsibility for them. Access to those sites is at your own risk.",
     terms_s7_title: "7. Information you send us",
-    terms_s7_body: "The contact form collects the name, email address and message you choose to provide, and we use them solely to answer your enquiry. Submissions are transmitted through a third-party form provider and delivered to our email; we do not sell them or share them with third parties for commercial purposes. Please do not send confidential or sensitive information through this channel. This site sets no cookies and stores no data in your browser; typefaces are loaded from Google Fonts, which involves a request to Google’s servers that discloses your IP address.",
+    terms_s7_body: "The contact form collects the name, email address and message you choose to provide, and we use them solely to answer your enquiry. Submissions are processed on our own server and delivered to our email; no third-party service is involved, and we neither sell them nor share them for commercial purposes. Alongside the message we record the date and your IP address for a limited period, for the sole purpose of preventing abuse of the form. Please do not send confidential or sensitive information through this channel. This site sets no cookies and stores no data in your browser; typefaces are loaded from Google Fonts, which involves a request to Google servers that discloses your IP address.",
     terms_s8_title: "8. Disclaimer of warranties",
     terms_s8_body: "The site and its content are provided “as is” and “as available”. To the fullest extent permitted by law, GTK makes no warranties of any kind, express or implied, including merchantability, fitness for a particular purpose and non-infringement, and does not warrant that the site will be error-free or uninterrupted, or that the information is current at all times.",
     terms_s9_title: "9. Limitation of liability",
@@ -1601,9 +1619,9 @@ body.is-modal{overflow:hidden}
     });
   }
 
-  /* Contact form: in-page validation, then AJAX submit to Formspree so the
-     visitor never leaves the page. Falls back to a normal POST navigation
-     if fetch is unavailable. */
+  /* Contact form: in-page validation, then AJAX submit to our own PHP
+     handler so the visitor never leaves the page. The handler issues a
+     signed token on GET and accepts the enquiry on POST; see api/. */
   var contactForm = document.getElementById('contactForm');
   if(contactForm){
     var statusEl = contactForm.querySelector('.form__status');
@@ -1649,7 +1667,9 @@ body.is-modal{overflow:hidden}
       return true;
     }
 
-    var fields = contactForm.querySelectorAll('input, textarea');
+    /* Ni el campo oculto del token ni la trampa se validan: el primero no
+       lo rellena el visitante y la segunda tiene que llegar vacia. */
+    var fields = contactForm.querySelectorAll('input:not([type=hidden]):not([name=website]), textarea');
     for(var fi=0; fi<fields.length; fi++){
       (function(input){
         /* La casilla se revisa solo al marcarla o desmarcarla: hacerlo al
@@ -1671,7 +1691,66 @@ body.is-modal{overflow:hidden}
       statusEl.className = 'form__status' + (kind ? ' is-' + kind : '');
     }
 
+    /* El token se pide al abrir la pagina, no al pulsar enviar. Asi el
+       servidor puede exigir que entre una cosa y otra hayan pasado unos
+       segundos: una persona rellenando cuatro campos tarda mucho mas, un
+       robot que dispara al instante no pasa. */
+    var formToken = '';
+
+    function pedirToken(){
+      if(!window.fetch){ return null; }
+      return window.fetch(contactForm.action, {
+        method: 'GET',
+        headers: { 'Accept': 'application/json' },
+        credentials: 'omit'
+      }).then(function(res){
+        return res.ok ? res.json() : null;
+      }).then(function(json){
+        formToken = (json && json.t) ? json.t : '';
+        return formToken;
+      })['catch'](function(){
+        formToken = '';
+        return '';
+      });
+    }
+    pedirToken();
+
+    /* Cada rechazo del servidor tiene su explicacion. Al visitante hay que
+       decirle que puede hacer, no que ha fallado por dentro. */
+    function mensajeDeError(status){
+      if(status === 429){ return t('form_error_rate'); }
+      if(status === 422){ return t('form_error_spam'); }
+      return t('form_error');
+    }
+
+    function enviar(reintento){
+      var datos = new FormData(contactForm);
+      datos.set('_t', formToken);
+      datos.set('idioma', CURRENT_LANG);
+
+      return window.fetch(contactForm.action, {
+        method: 'POST',
+        body: datos,
+        headers: { 'Accept': 'application/json' },
+        credentials: 'omit'
+      }).then(function(res){
+        /* 409 es el token caducado de quien dejo la pestana abierta un rato
+           largo. Se pide otro y se reintenta una sola vez, en silencio. */
+        if(res.status === 409 && !reintento){
+          var p = pedirToken();
+          if(!p){ throw { status: res.status }; }
+          return p.then(function(){ return enviar(true); });
+        }
+        if(!res.ok){ throw { status: res.status }; }
+        contactForm.reset();
+        setStatus(t('form_success'), 'ok');
+        pedirToken();
+      });
+    }
+
     contactForm.addEventListener('submit', function(e){
+      e.preventDefault();
+
       var valid = true;
       var firstBad = null;
       for(var i=0;i<fields.length;i++){
@@ -1681,27 +1760,24 @@ body.is-modal{overflow:hidden}
         }
       }
       if(!valid){
-        e.preventDefault();
         setStatus('', '');
         if(firstBad){ firstBad.focus(); }
         return;
       }
-      if(!window.fetch){ return; } /* let the browser POST normally */
 
-      e.preventDefault();
+      /* Sin fetch no hay manera de traer el token ni de enviar sin recargar.
+         Se le remite al correo del pie en vez de dejarle enviar algo que el
+         servidor va a rechazar. */
+      if(!window.fetch){ setStatus(t('form_error'), 'err'); return; }
+
       submitBtn.disabled = true;
       setStatus(t('form_sending'), '');
 
-      window.fetch(contactForm.action, {
-        method: 'POST',
-        body: new FormData(contactForm),
-        headers: { 'Accept': 'application/json' }
-      }).then(function(res){
-        if(!res.ok){ throw new Error('bad status'); }
-        contactForm.reset();
-        setStatus(t('form_success'), 'ok');
-      }).catch(function(){
-        setStatus(t('form_error'), 'err');
+      var listo = formToken ? Promise.resolve(formToken) : pedirToken();
+      listo.then(function(){
+        return enviar(false);
+      })['catch'](function(err){
+        setStatus(mensajeDeError(err && err.status ? err.status : 0), 'err');
       }).then(function(){
         submitBtn.disabled = false;
       });
