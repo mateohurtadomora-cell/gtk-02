@@ -208,20 +208,67 @@ inexpugnable:
 Si el spam llegara a ser un problema, el siguiente paso razonable es un
 captcha que respete la privacidad, no endurecer más estas capas.
 
-### Si los correos acaban en spam
+### Como sale el correo
 
-Es lo más probable que falle, y no es culpa del script. Ocurre cuando el
-servidor web no es el servidor de correo del dominio: el mensaje sale sin
-firma DKIM y sin respaldo del SPF, y los buzones lo desconfían.
+`config.php` elige el modo con la clave `transport`:
 
-Por orden:
+**`mail`** usa la función `mail()` de PHP, que necesita un servidor de correo
+instalado en la propia máquina. **En el VPS de globaltk.com no lo hay**: se
+probó y devuelve `false` sin enviar nada. Queda como opción por si el sitio
+se mueve a un hosting compartido, donde sí suele estar.
 
-1. Comprobar que el SPF del dominio autoriza al servidor del hosting.
-2. Comprobar que `from` es una dirección real del dominio, no del visitante.
-   Ya lo es: el visitante va en `Reply-To`, que es su sitio.
-3. Si sigue fallando, enviar por SMTP autenticado con la cuenta real del
-   buzón, usando PHPMailer. Solo hay que cambiar `api/transport.php`; el resto
-   del formulario no se entera.
+**`smtp`** se conecta al servidor de correo del dominio y se autentica con la
+cuenta real del buzón. Es el modo en uso y el recomendado, por dos motivos:
+funciona sin MTA local, y el mensaje sale del servidor que el SPF del dominio
+autoriza, con la firma DKIM que ese servidor ponga. Enviar desde la IP pelada
+de un VPS, sin SPF ni DKIM, es la receta seguro para acabar en spam.
+
+Los datos van en `config.php`: `smtp_host`, `smtp_port`, `smtp_secure`
+(`tls` para el 587, `ssl` para el 465), `smtp_user` y `smtp_pass`.
+
+El cliente SMTP está en `api/transport.php`, escrito a mano para no arrastrar
+dependencias: conecta, sube a TLS con STARTTLS, se autentica con AUTH LOGIN y
+entrega. Verifica el certificado del servidor (`verify_peer`). La contraseña
+no aparece en el registro pase lo que pase: cuando un paso falla se anota el
+paso y la respuesta del servidor, nunca la orden enviada.
+
+Si un envío falla, el motivo queda en `api/data/log.txt` con la forma
+`fallo envio: contrasena: 535 ...`. El visitante solo ve el mensaje genérico.
+
+### El servidor es nginx: el .htaccess no hace nada
+
+globaltk.com corre sobre **nginx**, y nginx ignora los `.htaccess`. Los dos
+que hay en `api/` son para un Apache futuro; hoy no protegen nada.
+
+Mientras no estén las reglas de nginx, la defensa que sí actúa es que PHP
+ejecuta los ficheros en vez de servirlos: pedir `api/config.php` devuelve una
+página vacía, no el código. Es suficiente **hasta el día en que PHP falle o se
+desactive**, y ese día el secreto quedaría a la vista. Por eso hay dos medidas
+más, por orden de preferencia:
+
+**1. Sacar la configuración de la raíz pública.** `contact.php` busca
+`gtk-form-config.php` un nivel por encima del `DOCUMENT_ROOT` antes que el
+`config.php` de `api/`. En este servidor eso es
+`/srv/hosting/www_globaltk_com/gtk-form-config.php`, fuera del alcance del
+servidor web. Es mover un fichero y renombrarlo.
+
+**2. Añadir las reglas al sitio de nginx**, si hay acceso a su
+configuración:
+
+```
+location ^~ /api/     { deny all; }
+location ^~ /api/data/ { deny all; }
+location = /api/contact.php {
+  include fastcgi_params;
+  fastcgi_pass unix:/run/php/php-fpm.sock;   # ajustar al socket real
+}
+```
+
+Además, `mailer.php` y `transport.php` se niegan a ejecutarse si se piden por
+la URL: comprueban la constante `GTK_FORM`, que solo define `contact.php`.
+
+**`selftest.php` hay que borrarlo del servidor** después de usarlo. Mientras
+esté ahí es público y enseña el detalle de las comprobaciones.
 
 ### Mantenimiento
 
@@ -254,9 +301,15 @@ declaran solo el correo.
 ## Dominio
 
 El `canonical`, `hreflang`, Open Graph, JSON-LD, `sitemap.xml` y `robots.txt`
-usan `https://www.globaltk.com` como dominio de referencia. Si el dominio real
-es otro, actualízalo en `build/content.json` / `build/build.ps1` y en
-`sitemap.xml` / `robots.txt`, y vuelve a generar las páginas.
+usan `https://globaltk.com`, **sin `www`**, porque es lo que sirve el servidor:
+`www.globaltk.com` responde con un 301 hacia el dominio pelado. Declarar el
+`www` como canónico, como estaba antes, apuntaba a una URL que redirige, y eso
+reparte la señal entre dos direcciones y hace trabajar de mas al buscador.
+
+Si algún día se invierte la redirección, hay que cambiarlo en `$domain` de
+`build/build.ps1`, en `sitemap.xml` y en `robots.txt`, y regenerar las
+páginas. También en `allowed_origins` de `api/config.php`, que hoy admite las
+dos formas para que el formulario funcione se entre por donde se entre.
 
 ## Navegacion y nomenclatura
 

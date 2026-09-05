@@ -10,3 +10,8 @@ api/config.php
 api/data/rate.json
 api/data/log.txt
 api/data/log.txt.1
+
+# Paquetes de subida generados para el hosting.
+gtk-web-hosting/
+gtk-web-hosting.zip
+gtk-api-smtp.zip

@@ -32,6 +32,34 @@ return array(
      salir despues de activarlo, ponlo en false. */
   'envelope_sender' => true,
 
+  /* -- Como se envia ----------------------------------------------- */
+
+  /* "mail"  usa la funcion mail() de PHP. Necesita un servidor de correo
+           instalado en la maquina. En un VPS recien montado NO lo hay y los
+           envios fallan con "fallo envio: mail() devolvio false".
+
+     "smtp"  se conecta al servidor de correo del dominio con la cuenta real
+           del buzon. Es lo recomendado: el mensaje sale del servidor que el
+           SPF autoriza, lleva la firma DKIM del proveedor y no acaba en la
+           carpeta de spam. */
+  'transport' => 'smtp',
+
+  /* Datos de la cuenta de correo. Los da el proveedor del buzon en su
+     apartado de configuracion de clientes de correo. */
+  'smtp_host'   => 'mail.globaltk.com',
+  'smtp_port'   => 587,
+
+  /* "tls" para el puerto 587 (empieza en claro y sube a cifrado con
+     STARTTLS). "ssl" para el 465 (cifrado desde el primer byte). */
+  'smtp_secure' => 'tls',
+
+  /* Usuario: casi siempre la direccion completa. */
+  'smtp_user'   => 'web@globaltk.com',
+  'smtp_pass'   => 'AQUI-LA-CONTRASENA-DEL-BUZON',
+
+  /* Segundos de espera de la conexion. */
+  'smtp_timeout' => 20,
+
   /* -- Secreto -------------------------------------------------------- */
 
   /* Cadena larga y aleatoria. Firma los tokens del formulario y anonimiza

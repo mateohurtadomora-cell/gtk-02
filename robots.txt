@@ -7,4 +7,4 @@ Disallow: /build/
 # El punto de entrada del formulario no es una pagina.
 Disallow: /api/
 
-Sitemap: https://www.globaltk.com/sitemap.xml
+Sitemap: https://globaltk.com/sitemap.xml

@@ -1,4 +1,8 @@
 <?php
+/* No se ejecuta por su cuenta: solo lo incluye contact.php (o selftest.php
+   al probarlo). Pedirlo por la URL no devuelve nada. */
+if (!defined("GTK_FORM")) { http_response_code(404); exit; }
+
 /**
  * Logica del formulario de contacto: tokens, validacion, limite de uso y
  * composicion del mensaje.

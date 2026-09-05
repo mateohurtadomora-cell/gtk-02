@@ -35,7 +35,24 @@ $dir = __DIR__;
    llegue y se apunta aqui con la variable de entorno GTK_FORM_CONFIG. Si no
    se define, se usa el config.php de esta carpeta, que protege el .htaccess. */
 $configPath = getenv('GTK_FORM_CONFIG');
+
+/* Segunda opcion, sin necesidad de variables de entorno: un nivel por encima
+   de la raiz publica. Ahi el servidor web no llega ni sirviendo ficheros
+   estaticos, asi que el secreto queda a salvo aunque PHP deje de funcionar.
+   Es la colocacion recomendada en servidores nginx, donde el .htaccess de
+   esta carpeta no hace nada. */
+if (!$configPath || !is_file($configPath)) {
+  if (!empty($_SERVER['DOCUMENT_ROOT'])) {
+    $fuera = dirname($_SERVER['DOCUMENT_ROOT']) . '/gtk-form-config.php';
+    if (is_file($fuera)) { $configPath = $fuera; }
+  }
+}
+
 if (!$configPath || !is_file($configPath)) { $configPath = $dir . '/config.php'; }
+
+/* Marca que los ficheros incluidos comprueban para negarse a ejecutarse si
+   alguien los pide directamente por la URL. */
+define('GTK_FORM', true);
 
 if (!is_file($configPath)) {
   http_response_code(500);
@@ -205,7 +222,9 @@ $cabeceras = gtk_build_headers($d, $cfg);
 $enviado = gtk_send_mail($cfg['to'], $asunto, $cuerpo, $cabeceras, $cfg);
 
 if (!$enviado) {
-  gtk_registrar($cfg, $dataDir, $ipHash, 'fallo envio');
+  /* El motivo va al registro, no a la respuesta: al visitante no le sirve y
+     al que sondea el formulario le diria como esta montado el correo. */
+  gtk_registrar($cfg, $dataDir, $ipHash, 'fallo envio: ' . gtk_mail_error());
   gtk_out(502, false, 'envio');
 }
 

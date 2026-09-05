@@ -12,6 +12,7 @@
  * termines: no expone nada, pero no pinta nada en produccion.
  */
 
+define('GTK_FORM', true);
 require_once __DIR__ . '/mailer.php';
 
 $esWeb = PHP_SAPI !== 'cli';

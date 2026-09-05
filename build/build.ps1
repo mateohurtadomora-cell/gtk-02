@@ -4,7 +4,7 @@ $root = Split-Path -Parent $MyInvocation.MyCommand.Path
 # aqui y nunca de una ruta absoluta, para que el repositorio se pueda clonar
 # en cualquier maquina y generar exactamente lo mismo.
 $site = Split-Path -Parent $root
-$domain = 'https://www.globaltk.com'
+$domain = 'https://globaltk.com'
 # Endpoint of the contact form. It is our own PHP handler, served from the
 # same domain as the site: GET issues the signed token, POST sends the
 # enquiry. See api/ and the README. A relative path keeps it working on any
